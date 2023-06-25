@@ -1,0 +1,32 @@
+{
+  "NeaktivneNarodneInicijative": [
+    {
+      "idInicijative": 19,
+      "nazivInicijative": "Забрана геолошких истраживања, експлоатације и прераде руда бора и литијума",
+      "imePrezimeInicijatora": "Саво Манојловић",
+      "tipInicijative": "Конкретан предлог измене закона",
+      "nivoVlasti": "Репубика",
+      "opstina": "",
+      "brInicijatora": 5,
+      "fazaObrade": "Покренута (скупљено довољно потписа)",
+      "datumAktiviranja": "2022-02-14",
+      "brPotpisa": 37450,
+      "datumPokretanja": "2022-05-06",
+      "privacena": ""
+    },
+    {
+      "idInicijative": 27,
+      "nazivInicijative": "Забрана саобраћаја приватних моторних возила у центру Београда",
+      "imePrezimeInicijatora": "Јован Јовановић",
+      "tipInicijative": "Конкретан предлог измене закона",
+      "nivoVlasti": "Општина",
+      "opstina": "Стари Град",
+      "brInicijatora": 5,
+      "fazaObrade": "Неуспешна (није скупљено довољно потписа)",
+      "datumAktiviranja": "2023-01-10",
+      "brPotpisa": 2476,
+      "datumPokretanja": "",
+      "privacena": ""
+    }
+  ]
+}

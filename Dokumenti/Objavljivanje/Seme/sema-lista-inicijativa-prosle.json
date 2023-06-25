@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "NeaktivneNarodneInicijative": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "idInicijative": {
+                  "type": "integer"
+                },
+                "nazivInicijative": {
+                  "type": "string"
+                },
+                "imePrezimeInicijatora": {
+                  "type": "string"
+                },
+                "tipInicijative": {
+                  "type": "string"
+                },
+                "nivoVlasti": {
+                  "type": "string"
+                },
+                "opstina": {
+                  "type": "string"
+                },
+                "brInicijatora": {
+                  "type": "integer"
+                },
+                "fazaObrade": {
+                  "type": "string"
+                },
+                "datumAktiviranja": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "brPotpisa": {
+                  "type": "integer"
+                },
+                "datumPokretanja": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "privacena": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "NeaktivneNarodneInicijative"
+      ]
+    }
+  ]
+}

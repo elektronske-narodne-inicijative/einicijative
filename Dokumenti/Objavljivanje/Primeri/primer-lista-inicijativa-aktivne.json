@@ -1,0 +1,28 @@
+{
+  "AtivneNarodneInicijative": [
+    {
+      "idInicijative": 35,
+      "nazivInicijative": "29. новембар поново државни празник",
+      "imePrezimeInicijatora": "Пеко Дапчевић",
+      "tipInicijative": "Општи предлог измене закона",
+      "nivoVlasti": "Репубика",
+      "opstina": "",
+      "brInicijatora": 5,
+      "datumAktiviranja": "2023-06-20",
+      "brDanaDoZavrsetka": 85,
+      "brPotpisa": 1253
+    },
+    {
+      "idInicijative": 43,
+      "nazivInicijative": "Србија поново краљевина",
+      "imePrezimeInicijatora": "Драгољуб Михаиловић",
+      "tipInicijative": "Општи предлог измене закона",
+      "nivoVlasti": "Репубика",
+      "opstina": "",
+      "brInicijatora": 5,
+      "datumAktiviranja": "2023-06-15",
+      "brDanaDoZavrsetka": 80,
+      "brPotpisa": 4679
+    }
+  ]
+}
