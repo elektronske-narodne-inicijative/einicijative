@@ -62,5 +62,15 @@ Iz OpenAPI specifikacije se lako može generisati kod za niz programskih jezika 
 ![image](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/e63c1c6d-b65d-4be6-866d-37cf4b3fb396)
 
 ### Model dokumenata koji se objavljuju
-(radovi u toku)
+U ovoj sekciji su povezane JSON šeme i primeri dokumenata koje bi proizvodila komponenta za objavljivanje. Ovi dokumenti se nalaze u ovom repou, na putanji *Dokumenti/Objavljivanje*.
+
+| Tip dokumenta | Šema | Primer |
+| --- | --- | --- |
+| Nivoi vlasti | [Šema](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Seme/sema-nivoi-vlasti.json) | [Primer](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Primeri/primer-nivoi-vlasti.json) |
+| Tipovi inicijativa | [Šema](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Seme/sema-tipovi-inicijativa.json) | [Primer](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Primeri/primer-tipovi-inicijativa.json) |
+| Faze obrade | [Šema](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Seme/sema-faze-obrade.json) | [Primer](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Primeri/primer-faze-obrade.json) |
+| Opštine | [Šema](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Seme/sema-opstine.json) | [Primer](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Primeri/primer-opstine.json) |
+| Upravni okruzi | [Šema](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Seme/sema-upravni-okruzi.json) | [Primer](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Primeri/primer-upravni-okruzi.json) |
+
+(*radovi u toku*)
 
