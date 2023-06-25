@@ -1,0 +1,12 @@
+{
+  "FazeObrade": [
+    {"idFazeObrade": "У","opis": "У припреми","sortiranje": 1,"dozvoljeneSledeceFaze":"В"},
+    {"idFazeObrade": "В","opis": "Поднета на верификацију скупштини","sortiranje": 2,"dozvoljeneSledeceFaze":"АБ"},
+    {"idFazeObrade": "А","opis": "Активна (прикупљање потписа у току)","sortiranje": 3,"dozvoljeneSledeceFaze":"ПНО"},
+    {"idFazeObrade": "П","opis": "Покренута (скупљено довољно потписа)","sortiranje": 4,"dozvoljeneSledeceFaze":"К"},
+    {"idFazeObrade": "К","opis": "Комплетирана (скупштина одлучивала)","sortiranje": 5,"dozvoljeneSledeceFaze":""},
+    {"idFazeObrade": "Н","opis": "Неуспешна (није скупљено довољно потписа)","sortiranje": 6,"dozvoljeneSledeceFaze":""},
+    {"idFazeObrade": "Б","opis": "Одбијена на верификацији","sortiranje": 7,"dozvoljeneSledeceFaze":""},
+    {"idFazeObrade": "О","opis": "Повучена (иницијативни одбор одустао)","sortiranje": 8,"dozvoljeneSledeceFaze":""}
+  ]
+}

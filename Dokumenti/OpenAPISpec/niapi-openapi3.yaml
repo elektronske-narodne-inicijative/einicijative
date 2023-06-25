@@ -1,0 +1,1444 @@
+openapi: 3.0.1
+info:
+  version: 0.0.1
+  title: niapi
+  description: Specifikacija APIja koje implementira API servis narodnih inicijativa Srbije
+
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/elektronske-narodne-inicijative/niapi/0.0.1
+  - url: https://einicijative.gov.rs/niapi/v1
+
+paths:
+
+  /status:
+    get:
+      description: status zdravlja niapi servisa
+      security: [ ]   # No security
+      responses:
+        '200':
+          description: Servis zdrav
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: fixed text "OK"
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  #  -------------------------------------------------------
+  # Salterski API, /salteri/ putanja posebno konfigurisana na 
+  # web serveru uz ogranicenja liste IP adresa koje mogu 
+  #  pristupiti
+  #  -------------------------------------------------------
+
+  /salteri/inicijativa/{idInicijative}:
+    get:
+      description: Upit detalja za inicijativu
+      security:
+        - basicAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Detalji o inicijativi
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalterskiUpitInicijativeOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /salteri/potpisnik/{jmbg}/potpis:
+    post:
+      description: Potpisnik potpisuje narodnu inicijativu na salteru
+      security:
+        - basicAuth: []
+      parameters:
+        - name: jmbg
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/jmbg'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SalterskiPotpisZahtev'
+      responses:
+        '200':
+          description: Uspesno potpisana inicijativa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalterskiPotpisOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /salteri/potpisnik/{jmbg}/inicijativa/{idInicijative}:
+    get:
+      description: Provera detalja potpisa za inicijativu
+      security:
+        - basicAuth: []
+      parameters:
+        - name: jmbg
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/jmbg'
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Detalji o potpisanoj inicijativi
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalterskiUpitPotpisaInicijativeOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /salteri/potpisnik/{jmbg}/potpisi:
+    get:
+      description: Provera detalja potpisa za inicijativu
+      security:
+        - basicAuth: []
+      parameters:
+        - name: jmbg
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/jmbg'
+      responses:
+        '200':
+          description: Lista potpisa za zadatog potpisnika
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalterskiUpitListePotpisaOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  #  ---------------------------------------
+  # Metodi namenjeni potpisnicima, javni API
+  #  ---------------------------------------
+
+  /potpisnik/profil:
+    get:
+      description: Upit detalja profila potpisnika
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Detalji profila potpisnika
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PotpisnikProfilOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /potpisnik/inicijativa/{idInicijative}/potpis:
+    post:
+      description: Potpisnik potpisuje narodnu inicijativu online
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json: {}
+      responses:
+        '200':
+          description: Detalji o potpisanoj inicijativi sa overom aplikacije (digitalnim potpisom)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PotpisnikPotpisOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /potpisnik/inicijativa/{idInicijative}:
+    get:
+      description: Provera detalja potpisa za inicijativu
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Detalji o potpisanoj inicijativi
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PotpisnikUpitPotpisaInicijativeOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /potpisnik/potpisi:
+    get:
+      description: Provera detalja potpisa za inicijativu
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista potpisa za zadatog potpisnika
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PotpisnikUpitListePotpisaOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  #  --------------------------------------------
+  # Metodi namenjeni ovlašćenim licima, javni API
+  #  --------------------------------------------
+
+  /ovlice/profil:
+    get:
+      description: Upit detalja profila ovlašćenog lica
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Detalji profila ovlašćenog lica
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OvliceProfilOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /ovlice/inicijative/zaodobrenje:
+    get:
+      description: Lista inicijativa koje čekaju odobrenje na odgovarajućem nivou 
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista inicijativa koje čekaju odobrenje
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OvliceListaZaOdobrenjeOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /ovlice/inicijative/zaishod:
+    get:
+      description: Lista inicijativa koje čekaju ishod rasprave u skupštini na odgovarajućem nivou 
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Lista inicijativa koje čekaju ishod
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OvliceListaZaIshodOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /ovlice/inicijativa/{idInicijative}:
+    get:
+      description: Detalji inicijative
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Detalji inicijative
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OvliceInicijativaOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /ovlice/inicijativa/{idInicijative}/odbij:
+    put:
+      description: Ovlašćeno lice odbija zahtev za narodnu inicijativu uz obrazloženje
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Obrazlozenje'
+      responses:
+        '200':
+          description: Uspeh
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /ovlice/inicijativa/{idInicijative}/odobri:
+    put:
+      description: Ovlašćeno lice odobrava zahtev za narodnu inicijativu uz opciono obrazloženje
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Obrazlozenje'
+      responses:
+        '200':
+          description: Uspeh
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /ovlice/inicijativa/{idInicijative}/prihvacena:
+    put:
+      description: Ovlašćeno lice obeležava da je pokrenuta narodna inicijativa prihvaćena, uz opciono obrazloženje (beleške sa skupštine)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Obrazlozenje'
+      responses:
+        '200':
+          description: Uspeh
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /ovlice/inicijativa/{idInicijative}/odbacena:
+    put:
+      description: Ovlašćeno lice obeležava da je pokrenuta narodna inicijativa odbačena od strane skupštine, uz opciono obrazloženje (beleške sa skupštine)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Obrazlozenje'
+      responses:
+        '200':
+          description: Uspeh
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  #  ----------------------------------------------------------
+  # Metodi namenjeni članovima inicijativnih odbora, javni API
+  #  ----------------------------------------------------------
+
+  /inicijator/profil:
+    get:
+      description: Upit detalja profila inicijatora 
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Detalji profila inicijatora 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InicijatorProfilOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /inicijator/email:
+    put:
+      description: Inicijator podešava svoju email adresu za kontakt
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InicijatorProfilEmailZahtev'
+      responses:
+        '200':
+          description: Uspeh
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /inicijator/biografija:
+    put:
+      description: Inicijator postavlja svoju biografiju
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InicijatorProfilBiografijaZahtev'
+      responses:
+        '200':
+          description: Uspeh
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /inicijator/inicijativa:
+    post:
+      description: Inicijator kreira novu inicijativu
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InicijatorInicijativaZahtev'
+      responses:
+        '200':
+          description: Uspešno kreirana inicijativa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InicijatorNovaInicijativaOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /inicijator/inicijativa/{idInicijative}:
+    get:
+      description: Detalji inicijative
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Detalji inicijative
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InicijatorInicijativaOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+    put:
+      description: Inicijator menja postojeću inicijativu (glavni deo)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InicijatorInicijativaZahtev'
+      responses:
+        '200':
+          description: Uspešno promenjena inicijativa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /inicijator/inicijativa/pofaziobrade/{idFazeObrade}:
+    get:
+      description: Lista inicijativa koje čekaju odobrenje na odgovarajućem nivou 
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idFazeObrade
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista inicijativa u čijim je inicijativnim odborima inicijator za zadatu fazu obrade
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InicijatorListaInicijativaOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /inicijator/inicijativa/{idInicijative}/prilog:
+    post:
+      description: Inicijator kreira novi prilog inicijative
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InicijatorPrilogInicijativeZahtev'
+      responses:
+        '200':
+          description: Uspešno kreiran prilog inicijative
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InicijatorPrilogInicijativeOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /inicijator/inicijativa/{idInicijative}/prilog/{idPriloga}:
+    put:
+      description: Inicijator menja postojeći prilog inicijative
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idPriloga
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InicijatorPrilogInicijativeZahtev'
+      responses:
+        '200':
+          description: Uspešno kreiran prilog inicijative
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InicijatorPrilogInicijativeOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+    delete:
+      description: Inicijator briše postojeći prilog inicijative
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idPriloga
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Uspešno kreiran prilog inicijative
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /inicijator/inicijativa/{idInicijative}/pozivnica:
+    post:
+      description: Inicijator kreira novu pozivnicu budućem članu inicijativnog odboara
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Uspešno kreirana pozivnica
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InicijatorPozivnicaOdgovor'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+    put:
+      description: Pozvani građanin upotrebljava pozivnicu i postaje član inicijativnog odbora
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InicijatorPozivnicaZahtev'
+      responses:
+        '200':
+          description: Uspešno kreiran prilog inicijative
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+    delete:
+      description: Inicijator briše pozivnicu
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Uspešno kreiran prilog inicijative
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /inicijator/inicijativa/{idInicijative}/podnesi:
+    put:
+      description: Član inicijativnog odbora podnosi inicijativu na formalnu proveru predsedniku skupštine
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Uspeh
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /inicijator/inicijativa/{idInicijative}/napusti:
+    put:
+      description: Član inicijativnog odbora obeležava inicijativu kao napuštenu (pre podnošenja)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Uspeh
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+  /inicijator/inicijativa/{idInicijative}/pokreni:
+    put:
+      description: Član inicijativnog odbora pokreće inicijativu koja je skupila dovoljan broj potpisa
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idInicijative
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Uspeh
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Uspeh'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+components:
+
+  securitySchemes:
+
+    basicAuth:
+      type: http
+      scheme: basic
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+
+  #  -------------------------------------------------------
+  #  Definicije struktura podataka
+  #  -------------------------------------------------------
+  schemas:
+
+    #
+    #  Deljene strukture
+    #
+
+    jmbg:
+      type: string
+      pattern: '^[0-9]{13}$'
+      minLength: 13
+      maxLength: 13
+
+    Uspeh:
+      type: object
+      properties:
+        poruka:
+          type: string
+
+    Obrazlozenje:
+      type: object
+      properties:
+        obrazlozenje:
+          type: string
+
+    PotpisInicijative:
+      type: object
+      required:
+        - idInicijative
+        - nazivInicijative
+        - idPotpisa
+        - trnZavodjenjaPotpisa
+      properties:
+        idInicijative:
+          type: integer
+        nazivInicijative:
+          type: string
+        idPotpisa:
+          type: string
+          format: uuid
+        trnZavodjenjaPotpisa:
+          type: string
+          format: date-time
+
+    OsnovnoOInicijativi: # za tabelarni prikaz
+      type: object
+      required:
+        - idInicijative
+        - nazivInicijative
+        - tipInicijative
+        - trnZahteva
+        - brInicijatora
+      properties:
+        idInicijative:
+          type: integer
+        nazivInicijative:
+          type: string
+        tipInicijative:
+          type: string
+        trnZahteva:
+          type: string
+          format: date-time
+        trnPodnosenja:
+          type: string
+          format: date-time
+        brInicijatora:
+          type: integer
+        datumPokretanja:
+          type: string
+          format: date
+        brPotpisa:
+          type: integer
+
+    InicijativaDetalji:  # za detaljni prikaz
+      type: object
+      required:
+        - idInicijative
+        - tipInicijative
+        - inicijator
+        - nazivInicijative
+        - tekstInicijative
+        - trnZahteva
+        - fazaObrade
+        - emailZaKontakt
+        - nivoVlasti
+      properties:
+        idInicijative:
+          type: integer
+        tipInicijative:
+          type: string
+        inicijator:
+          type: string
+        nazivInicijative:
+          type: string
+        tekstInicijative:
+          type: string
+        fazaObrade:
+          type: string
+        emailZaKontakt:
+          type: string
+        nivoVlasti:
+          type: string
+        jedinicaVlasti:
+          type: string
+        trnZahteva:
+          type: string
+          format: date-time
+        trnOdbijanjaZahteva:
+          type: string
+          format: date-time
+        razlogOdbijanjaZahteva:
+          type: string
+        trnPodnosenja:
+          type: string
+          format: date-time
+        datumPokretanja:
+          type: string
+          format: date
+        datumOdluke:
+          type: string
+          format: date
+        prihvacena:
+          type: boolean
+        beleskaSaSednice:
+          type: string
+        clanoviInicijativnogOdbora:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClanInicijativnogOdbora'
+        prilozi:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrilogInicijative'
+        promene:
+          type: array
+          items:
+            $ref: '#/components/schemas/DnevnikPromena'
+
+    ClanInicijativnogOdbora:
+      type: object
+      required:
+        - aktivan
+        - imePrezime
+        - pol
+        - godinaRodjenja
+      properties:
+        aktivan:
+          type: boolean
+        imePrezime:
+          type: string
+        pol:
+          type: string
+        godinaRodjenja:
+          type: integer
+        emailZaKontakt:
+          type: string
+        biografija:
+          type: string
+        trnPrihvatanjaClanstva:
+          type: string
+          format: date-time
+        trnOdustajanjaOdClanstva:
+          type: string
+          format: date-time
+
+    PrilogInicijative:
+      type: object
+      required:
+        - nazivPriloga
+        - urlPriloga
+        - sortiranje
+        - obrisan
+      properties:
+        nazivPriloga:
+          type: string
+        urlPriloga:
+          type: string
+        sortiranje:
+          type: integer
+        obrisan:
+          type: boolean
+
+    DnevnikPromena:
+      type: object
+      required:
+        - trnPromene
+        - fazaObrade
+        - detaljiPromene
+      properties:
+        trnPromene:
+          type: string
+          format: date-time
+        fazaObrade:
+          type: string
+        detaljiPromene:
+          type: string
+
+    #
+    #  Strukture za salterske transakcije
+    #
+
+    SalterskiUpitInicijativeOdgovor:
+      type: object
+      required:
+        - idInicijative
+        - nazivInicijative
+        - tipInicijative
+        - nivoVlasti
+        - datumAktiviranja
+      properties:
+        idInicijative:
+          type: integer
+        nazivInicijative:
+          type: string
+        tipInicijative:
+          type: string
+        nivoVlasti:
+          type: string
+        datumAktiviranja:
+          type: string
+          format: date
+
+    SalterskiPotpisZahtev:
+      type: object
+      required:
+        - idInicijative
+        - podaciSaSalteraPotpisa
+        - imeKljucaZaOveru
+        - overaAplikacije
+      properties:
+        idInicijative:
+          type: integer
+        podaciSaSalteraPotpisa:
+          type: string
+        imeKljucaZaOveru:
+          type: string
+        overaAplikacije:
+          type: string
+
+    SalterskiPotpisOdgovor:
+      type: object
+      required:
+        - idInicijative
+        - idPotpisa
+        - trnZavodjenjaPotpisa
+      properties:
+        idInicijative:
+          type: integer
+        idPotpisa:
+          type: string
+          format: uuid
+        trnZavodjenjaPotpisa:
+          type: string
+          format: date-time
+
+    SalterskiUpitPotpisaInicijativeOdgovor:
+      type: object
+      properties:
+        potpis:
+            $ref: '#/components/schemas/PotpisInicijative'
+
+    SalterskiUpitListePotpisaOdgovor:
+      type: object
+      properties:
+        potpisi:
+          type: array
+          items:
+            $ref: '#/components/schemas/PotpisInicijative'
+
+    #
+    #  Strukture za transakcije potpisnika
+    #
+
+    PotpisnikProfilOdgovor:
+      type: object
+      required:
+        - idGradjanina
+        - idPola
+        - nazivOpstine
+        - godinaRodjenja
+      properties:
+        idGradjanina:
+          type: string
+          format: uuid
+        idPola:
+          type: string
+          enum: [М,Ж]
+        nazivOpstine:
+          type: string
+        godinaRodjenja:
+          type: integer
+
+    PotpisnikPotpisOdgovor:
+      type: object
+      required:
+        - idInicijative
+        - idPotpisa
+        - trnZavodjenjaPotpisa
+        - imeKljucaZaOveru
+        - overaAplikacije
+      properties:
+        idInicijative:
+          type: integer
+        idPotpisa:
+          type: string
+          format: uuid
+        trnZavodjenjaPotpisa:
+          type: string
+          format: date-time
+        imeKljucaZaOveru:
+          type: string
+        overaAplikacije:
+          type: string
+
+    PotpisnikUpitPotpisaInicijativeOdgovor:
+      type: object
+      properties:
+        potpis:
+            $ref: '#/components/schemas/PotpisInicijative'
+
+    PotpisnikUpitListePotpisaOdgovor:
+      type: object
+      properties:
+        potpisi:
+          type: array
+          items:
+            $ref: '#/components/schemas/PotpisInicijative'
+
+    #
+    #  Strukture za transakcije ovlašćenih lica
+    #
+
+    OvliceProfilOdgovor:
+      type: object
+      required:
+        - imePrezime
+        - emailAdresa
+        - nivoUprave
+      properties:
+        imePrezime:
+          type: string
+        emailAdresa:
+          type: string
+        nivoUprave:
+          type: string
+        opisJediniceUprave:
+          type: string
+    OvliceListaZaOdobrenjeOdgovor:
+      type: object
+      properties:
+        inicijativeZaOdobrenje:
+          type: array
+          items:
+            $ref: '#/components/schemas/OsnovnoOInicijativi'
+    OvliceListaZaIshodOdgovor:
+      type: object
+      properties:
+        inicijativeZaIshod:
+          type: array
+          items:
+            $ref: '#/components/schemas/OsnovnoOInicijativi'
+    OvliceInicijativaOdgovor:
+      type: object
+      properties:
+        detaljiInicijative:
+            $ref: '#/components/schemas/InicijativaDetalji'
+
+    #
+    #  Strukture za transakcije inicijatora i članova inicijativnih odbora
+    #
+    InicijatorProfilOdgovor:
+      type: object
+      required:
+        - idGradjanina
+        - idPola
+        - nazivOpstine
+        - godinaRodjenja
+      properties:
+        idGradjanina:
+          type: string
+          format: uuid
+        idPola:
+          type: string
+          enum: [М,Ж]
+        nazivOpstine:
+          type: string
+        godinaRodjenja:
+          type: integer
+        imePrezime:
+          type: string
+        emailAdresa:
+          type: string
+        biografija:
+          type: string
+
+    InicijatorProfilEmailZahtev:
+      type: object
+      properties:
+        emailAdresa:
+          type: string
+
+    InicijatorProfilBiografijaZahtev:
+      type: object
+      properties:
+        biografija:
+          type: string
+
+    InicijatorInicijativaZahtev:
+      type: object
+      required:
+        - tipInicijative
+        - nazivInicijative
+        - tekstInicijative
+        - emailZaKontakt
+        - nivoVlasti
+      properties:
+        tipInicijative:
+          type: string
+        nazivInicijative:
+          type: string
+        tekstInicijative:
+          type: string
+        emailZaKontakt:
+          type: string
+        nivoVlasti:
+          type: string
+        jedinicaVlasti:
+          type: string
+
+    InicijatorNovaInicijativaOdgovor:
+      type: object
+      properties:
+        detaljiInicijative:
+            $ref: '#/components/schemas/InicijativaDetalji'
+
+    InicijatorInicijativaOdgovor:
+      type: object
+      properties:
+        detaljiInicijative:
+            $ref: '#/components/schemas/InicijativaDetalji'
+
+    InicijatorListaInicijativaOdgovor:
+      type: object
+      properties:
+        inicijativeZaFazuObrade:
+          type: array
+          items:
+            $ref: '#/components/schemas/OsnovnoOInicijativi'
+
+    InicijatorPrilogInicijativeZahtev:
+      type: object
+      required:
+        - nazivPriloga
+        - sadrzajPriloga
+        - sortiranje
+      properties:
+        nazivPriloga:
+          type: string
+        sadrzajPriloga:
+          type: string  #base64 kodiran
+        sortiranje:
+          type: integer
+
+    InicijatorPrilogInicijativeOdgovor:
+      type: object
+      properties:
+        detaljiInicijative:
+            $ref: '#/components/schemas/InicijativaDetalji'
+
+
+    InicijatorPozivnicaOdgovor:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+
+    InicijatorPozivnicaZahtev:
+      type: object
+      properties:
+        url:
+          type: string
+
+
+  #  -------------------------------------------------------
+  responses:
+    400Error:
+      description: Aplikativne greske (pogresan sadrzaj)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              resultType:
+                type: string
+                enum:
+                  - PogresanZahtev
+                  - PogresniPodaciUZahtevu
+                  - NepoznatPotpisnik
+                  - NepoznatInicijator
+                  - NepoznatoOvlascenoLice
+              resultCode:
+                type: string
+    401Error:
+      description: Neispravna ili istekla sesija
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              resultType:
+                type: string
+                enum:
+                  - NeispravnaSesija
+                  - IsteklaSesija
+              resultCode:
+                type: string
+    500Error:
+      description: Neocekivane programske greske
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              resultType:
+                type: string
+                enum:
+                  - ProblemUObradi
+              resultCode:
+                type: string

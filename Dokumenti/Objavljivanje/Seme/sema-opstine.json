@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "Opstine": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "idOpstine": {
+                  "type": "string"
+                },
+                "opis": {
+                  "type": "string"
+                },
+                "sortiranje": {
+                  "type": "number"
+                },
+                "brojRegistrovanihGlasaca": {
+                  "type": "number"
+                },
+                "idUpravnogOkruga": {
+                  "type": "string"
+                },
+                "idPokrajine": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "Opstine"
+      ]
+    }
+  ]
+}

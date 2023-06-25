@@ -1,0 +1,203 @@
+openapi: 3.0.1
+info:
+  version: 0.0.1
+  title: niapi
+  description: Specifikacija APIja koje implementira eUprava za potrebe eInicijativa servisa
+servers:
+  - url: https://euprava.gov.rs/u4niapi/v1
+paths:
+  /status:
+    get:
+      description: status zdravlja niapi servisa
+      security: [ ]   # No security
+      responses:
+        '200':
+          description: Servis zdrav
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: fixed text "OK"
+        '500':
+          $ref: '#/components/responses/500Error'
+  /narodneinicijative/potpisnik:
+    get:
+      description: Licni podaci potrebni za potpisnike narodnih inicijativa
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Detalji o potpisniku
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetaljiOGradjaninu'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+  /narodneinicijative/potpisnik/{jmbg}/salter:
+    get:
+      description: Licni podaci potrebni za potpisnike narodnih inicijativa
+      security:
+        - basicAuth: []
+      parameters:
+        - name: jmbg
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/jmbg'
+      responses:
+        '200':
+          description: Detalji o potpisniku
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetaljiOGradjaninu'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+  /narodneinicijative/inicijator:
+    get:
+      description: Licni podaci potrebni za potpisnike narodnih inicijativa
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Detalji o inicijatoru
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetaljiOGradjaninu'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+  /narodneinicijative/ovlice:
+    get:
+      description: podaci o ovlascenom licu drzavnih organa
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Detalji o ovlascenom licu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetaljiOOvlascenomLicu'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+  #  -------------------------------------------------------
+  #  Definicije struktura podataka
+  #  -------------------------------------------------------
+  schemas:
+    jmbg:
+      type: string
+      pattern: '^[0-9]{13}$'
+      minLength: 13
+      maxLength: 13
+    DetaljiOGradjaninu:
+      type: object
+      required:
+        - idKorisnika
+        - idPola
+        - idOpstine
+        - godinaRodjenja
+      properties:
+        idKorisnika:
+          type: string
+          format: uuid
+        idPola:
+          type: string
+          enum: [М,Ж]
+        idOpstine:
+          type: string
+        godinaRodjenja:
+          type: integer
+        imePrezime:
+          type: string
+
+    DetaljiOOvlascenomLicu:
+      type: object
+      required:
+        - idKorisnika
+        - imePrezime
+        - idNivoaUprave
+      properties:
+        idKorisnika:
+          type: string
+          format: uuid
+        imePrezime:
+          type: string
+        idNivoaUprave:
+          type: string
+          enum: [R,P,O] # Republika, Pokrajina, Opstina
+        idOpstine:
+          type: string
+        godinaRodjenja:
+          type: integer
+  #  -------------------------------------------------------
+  responses:
+    400Error:
+      description: Aplikativne greske (pogresan sadrzaj)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              resultType:
+                type: string
+                enum:
+                  - PogresniPodaciUZahtevu
+                  - NepoznatPotpisnik
+                  - NepoznatInicijator
+                  - NepoznatoOvlascenoLice
+              resultCode:
+                type: string
+    401Error:
+      description: Neispravna ili istekla sesija
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              resultType:
+                type: string
+                enum:
+                  - NeispravnaSesija
+                  - IsteklaSesija
+              resultCode:
+                type: string
+    500Error:
+      description: Neocekivane programske greske
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              resultType:
+                type: string
+                enum:
+                  - ProblemUObradi
+              resultCode:
+                type: string

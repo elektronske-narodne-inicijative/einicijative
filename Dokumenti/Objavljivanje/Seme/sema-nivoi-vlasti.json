@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "NivoiVlasti": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "idNivoaVlasti": {
+                  "type": "string"
+                },
+                "opis": {
+                  "type": "string"
+                },
+                "sortiranje": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "NivoiVlasti"
+      ]
+    }
+  ]
+}

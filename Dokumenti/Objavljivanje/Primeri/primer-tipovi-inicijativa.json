@@ -1,0 +1,12 @@
+{
+  "TipoviInicijativa": [
+    {"idTipaInicijative": "ОД","opis": "Општи предлог доношења закона","sortiranje": 1},
+    {"idTipaInicijative": "ОИ","opis": "Општи предлог измене закона","sortiranje": 2},
+    {"idTipaInicijative": "ОУ","opis": "Општи предлог укидања закона","sortiranje": 3},
+    {"idTipaInicijative": "ОР","opis": "Општи предлог расписивања референдума","sortiranje": 4},
+    {"idTipaInicijative": "КД","opis": "Конкретан предлог доношења закона","sortiranje": 5},
+    {"idTipaInicijative": "КИ","opis": "Конкретан предлог измене закона","sortiranje": 6},
+    {"idTipaInicijative": "КУ","opis": "Конкретан предлог укидања закона","sortiranje": 7},
+    {"idTipaInicijative": "КР","opis": "Конкретан предлог расписивања референдума","sortiranje": 8}
+  ]
+}

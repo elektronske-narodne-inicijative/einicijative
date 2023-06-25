@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "FazeObrade": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "idFazeObrade": {
+                  "type": "string"
+                },
+                "opis": {
+                  "type": "string"
+                },
+                "sortiranje": {
+                  "type": "number"
+                },
+                "dozvoljeneSledeceFaze": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "FazeObrade"
+      ]
+    }
+  ]
+}

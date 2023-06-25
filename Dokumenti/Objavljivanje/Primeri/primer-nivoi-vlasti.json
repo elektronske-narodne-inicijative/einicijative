@@ -1,0 +1,7 @@
+{
+  "NivoiVlasti": [
+    {"idNivoaVlasti": "Р","opis": "Република","sortiranje": 1},
+    {"idNivoaVlasti": "О","opis": "Општина","sortiranje": 2},
+    {"idNivoaVlasti": "П","opis": "Покрајина","sortiranje": 3}
+  ]
+}

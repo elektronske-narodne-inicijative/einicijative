@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "TipoviInicijativa": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "idTipaIncijative": {
+                  "type": "string"
+                },
+                "opis": {
+                  "type": "string"
+                },
+                "sortiranje": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "TipoviInicijativa"
+      ]
+    }
+  ]
+}
