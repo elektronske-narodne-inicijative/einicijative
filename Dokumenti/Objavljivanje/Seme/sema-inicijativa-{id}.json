@@ -1,0 +1,147 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "idInicijative": {
+          "type": "integer"
+        },
+        "tipInicijative": {
+          "type": "string"
+        },
+        "imePrezimeInicijatora": {
+          "type": "string"
+        },
+        "nazivInicijative": {
+          "type": "string"
+        },
+        "tekstInicijative": {
+          "type": "string"
+        },
+        "fazaObrade": {
+          "type": "string"
+        },
+        "emailZaKontakt": {
+          "type": "string"
+        },
+        "nivoVlasti": {
+          "type": "string"
+        },
+        "jedinicaVlasti": {
+          "type": "string"
+        },
+        "datumAktiviranja": {
+          "type": "string",
+          "format": "date"
+        },
+        "datumPokretanja": {
+          "type": "string",
+          "format": "date"
+        },
+        "datumOdluke": {
+          "type": "string",
+          "format": "date"
+        },
+        "prihvacena": {
+          "type": "string"
+        },
+        "beleskaSaSednice": {
+          "type": "string"
+        },
+        "clanoviInicijativnogOdbora": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "imePrezime": {
+                  "type": "string"
+                },
+                "pol": {
+                  "type": "string"
+                },
+                "godinaRodjenja": {
+                  "type": "integer"
+                },
+                "emailZaKontakt": {
+                  "type": "string"
+                },
+                "biografija": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "prilozi": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "nazivPriloga": {
+                  "type": "string"
+                },
+                "urlPriloga": {
+                  "type": "string"
+                },
+                "sortiranje": {
+                  "type": "integer"
+                }
+              }
+            }
+          ]
+        },
+        "potpisiGeografija": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "idOpstine": {
+                  "type": "string"
+                },
+                "brojPotpisa": {
+                  "type": "integer"
+                }
+              }
+            }
+          ]
+        },
+        "potpisiDemografija": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "idPola": {
+                  "type": "string"
+                },
+                "opsegGodina": {
+                  "type": "string"
+                },
+                "brojPotpisa": {
+                  "type": "integer"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "idInicijative",
+        "tipInicijative",
+        "imePrezimeInicijatora",
+        "nazivInicijative",
+        "tekstInicijative",
+        "fazaObrade",
+        "emailZaKontakt",
+        "nivoVlasti",
+        "datumAktiviranja",
+        "clanoviInicijativnogOdbora"
+      ]
+    }
+  ]
+}
