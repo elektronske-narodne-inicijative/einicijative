@@ -1,10 +1,10 @@
 # Elektronske Narodne Inicijative
 ## Cilj, namena, istorija
-U nadi da će Ministarstvo za državnu upravu i lokalnu samoupravu, Vladina kancelarija za informacione tehnologije i budući podugovarač, koji na tenderu za javne nabavke dobije da radi rešenje za Elektronske Narodne Inicijative, videti neku upotrebnu vrednost od ove ideje i materijala, u ovom github repou i na Swagger hub-u ostavljamo sadržaj koji svako ko to poželi može koristiti u skladu sa [Apache 2.0 licencom](https://www.apache.org/licenses/LICENSE-2.0).
+U nadi da će Ministarstvo za državnu upravu i lokalnu samoupravu, Vladina kancelarija za informacione tehnologije i budući podugovarač, koji na tenderu za javne nabavke dobije da radi rešenje za Elektronske Narodne Inicijative, videti neku upotrebnu vrednost od priloženih ideja i tehničkog sadržaja, u ovom github repou i na Swagger hub-u ostavljamo sadržaj koji svako ko to poželi može koristiti u skladu sa [Apache 2.0 licencom](https://www.apache.org/licenses/LICENSE-2.0).
 
-Materijal koji vidite ovde je spremljen u saradnji između Ivana Grujića i Gorana Vučkovića počevši od maja 2023. godine, a ključni elementi ideje su dostavljeni u formi dopisa Ministarstvu za državnu upravu i lokalnu samoupravu 12. juna 2023. od strane organizacije Transparentnost Srbija.
+Ideje za sadržaj koji vidite ovde su razvijene u saradnji između Ivana Grujića i Gorana Vučkovića počevši od maja 2023. godine i dostavljene u formi dopisa Ministarstvu za državnu upravu i lokalnu samoupravu 12. juna 2023. od strane organizacije Transparentnost Srbija.
 
-U paraleli je ideja tehnički razvijana, što je kao rezultat proizvelo materijale koji su dostupni kroz ovaj repo.
+U paraleli su ideje tehnički razvijane, što je kao rezultat proizvelo tehničke sadržaje (tehničke specifikacije i izvorni kod) koji su dostupni kroz ovaj repo.
 ## Ciljevi
 Imajući u vidu kako domaća iskustva - "papirno" izvođene narodne inicijative, kao i strana, pre svega sajt [petitions.parliament.uk](https://petition.parliament.uk/), tako i tekst Zakona o referendumu i narodnoj inicijativi od 10. decembra 2021, ovo tehničko rešenje je projektovano tako da se ostvari nekoliko ključnih ciljeva:
 - Omogući građanima da koriste svoje ustavno pravo pokretanja i učestvovanja u narodnim inicijativama na racionalan i efikasan način, koristeći postojeće resurse digitalne infrastrukture državnih organa Srbije
@@ -13,7 +13,7 @@ Imajući u vidu kako domaća iskustva - "papirno" izvođene narodne inicijative,
 - Minimizuje verovatnoću tehničkih napada na sistem i povezane sisteme, kako elementima "zaštite u dubinu", tako i minimizovanjem vrednosti koju bi napadač dobio u slučaju uspešnog upada u sistem
 ## Ključne ideje
 Ključne ideje na kojima je zasnovan ovaj predlog tehničkog rešenja su:
-- Ako se identitet građanina verifikuje od strane sistema državnih organa u trenutku potpisivanja, prikupljanje uobičajenih podataka o ličnosti (ime, prezime, adresa stanovanja, JMBG) nije više svrsishodno, te ga ne treba ni raditi
+- Ako se identitet građanina verifikuje od strane sistema državnih organa u trenutku potpisivanja, prikupljanje uobičajenih podataka o ličnosti (ime, prezime, adresa stanovanja, JMBG) i njihovo dostavljanje inicijativnom odboru nije više svrsishodno, te ga ne treba ni raditi, u skladu sa principom srazmernosti iz članova 14 i 54 Zakon o zaštiti podataka o ličnosti
 - Nema očiglednog razloga da se proces izvođenja narodnih inicijativa, počevši od pripreme zahteva i uključenja članova inicijativnog odbora, preko podnošenja i verifikacije zahteva od strane predsednika nadležne skupštine, prikupljanja potpisa - i na kraju pokretanja inicijative pred skupštinom i registracije odluke skupštine, *ne digitalizuje u celini* - i da se ono što bi bio tok papirnih dokumenata kroz institucije ne pretvori u prostu promenu stanja (faze obrade) elektronske narodne inicijative u sistemu.
 - Građani koji nemaju tehničkih uslova da elektronske narodne inicijative potpišu elektronski treba da dobiju mogućnost da to urade identifikacijom ličnim dokumentom na šalterima pošta i opštinskih uprava - ovo se očekuje da bude efikasnije, jeftinije i skalabilnije nego postojeći ručni proces, koji zahteva verifikaciju od strane notara (uz sve ostale elemente rukovanja fizičkim dokumentom)
 - Građani treba da dobiju mogućnost da u elektronskoj formi (ili u papirnoj formi, na šalterima pošta i opštinske uprave) dobiju listu svih narodnih inicijativa koje su potpisali - i na taj način jednostavno kontrolišu da li je bilo koji učesnik u procesu zloupotrebio sistem
@@ -27,6 +27,9 @@ Podnošenjem zahteva za narodnu incijativu članovi inicijativnog odbora gube mo
 
 ![ein-fazeobrade](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/75959deb-39e9-4e9e-8d60-907ab4f3fc0f)
 
+## Korisničke priče
+Opis budućeg tehničkog rešenja kroz opis pretpostavljenih zahteva ključnih tipova korisnika i razloga za te zahteve, koristeći pristup zvani "korisničke priče", dat je u [ovoj prezentaciji](https://docs.google.com/presentation/d/1cnEa4gFjD85ZG449C_NlCCojxXWHUtky/edit?usp=drive_link&ouid=100806157112222708210&rtpof=true&sd=true).
+
 ## Tehnička arhitektura
 Sistem za elektronske narodne inicijative (u daljem tekstu eInicijativa/eInicijative ili einicijative.gov.rs) je zamišljen kao zasebna, "slabo spregnuta" (loosely coupled) elektronska usluga državnih organa koja se oslanja, što se tiče autentikacije korisnika (ovlašćenih lica organa javne uprave, članova inicijativnih odbora i potpisnika), na sistem eid.gov.rs, koristeći *JWT* koncept (Javascript Web Token), a što se tiče dostupnosti verifikovanih ličnih podataka na sistem euprava.gov.rs (konzumirajući namenski novi API nazvan *u4niapi*). Kontekst eInicijativa sistema je prikazan na dijagramu ispod.
 
@@ -36,7 +39,7 @@ eInicijativa daje uslugu šalterskim sistemima pošta i opštinskih uprava kroz 
 
 ![ein-arhitektura](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/db958f85-b2fd-4bd6-853b-92cbf18a45c5)
 
-Trajanje važnosti JWT bi zavisilo od namene tokena - za potpisivanje bi građanin dobijao token kratkog trajanja (npr. minut), dok bi za rad na unosu i podnošenju inicijative, kao inicijator / član inicijativnog odbora, dobijao dugotrajniji JWT. Svrha ovakvog pristupa je da se minimizuje opasnost od krađe/zloupotrebe izdatog tokena za potpisivanje inicijativa.
+Trajanje važnosti JWT bi zavisilo od namene tokena - za potpisivanje bi građanin dobijao token kratkog trajanja (npr. minut), dok bi za rad na unosu i podnošenju inicijative, kao inicijator / član inicijativnog odbora, dobijao dugotrajniji JWT. Cilj ovakvog pristupa je da se minimizuje opasnost od krađe/zloupotrebe izdatog tokena za potpisivanje inicijativa.
 
 ## Model domena (visokog nivoa)
 Ključni koncepti / strukture podataka eInicijativa su prikazani na dijagramu ispod. 
@@ -51,14 +54,6 @@ Zamišljeno je da korisnici (građani i ovlašćena lica organa javne uprave) ka
 
 Šalterski sistem bi u API-ju građane identifikovao JMBG-om (pročitanim sa lične karte ili ručno unetim), što bi eInicijativa "konvertovala" u UUID konsultaciom servisa eUprava. 
 ## Detaljni tehnički dizajn
-### Model podataka
-Dijagram tabela ispod je proizvod [Toad Data Modeler](https://www.quest.com/products/toad-data-modeler/) alata za modeliranje baza podataka. Model u ovom formatu, zajedno sa generisanim SQL skriptom je sastavni deo izvornog koda rešenja. 
-
-![ModelPodatakaNarodneInicijative](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/f3a004ec-62ae-411b-a1ff-b05b0c170bae)
-
-Tekući model je konfigurisan da generiše kod za besplatnu/open source PostgreSQL bazu, ali se relativno jednostavno može promeniti za druge podržane baze (Oracle, SQL Server, DB2, itd.).
-
-Sekcija ovog repoa sa izvornim kodom ("Implementacija") sadrži niz SQL skripti kojima se baza može instalirati koristeći alat za automatizaciju instalacija baza [Liquibase](https://www.liquibase.org/). XML dokument *index_changelog.xml* je indeks koji definiše redosled primene SQL skripti. Skripte očekuju da je na PostgreSQL instanci kreirana baza sa imenom "ni" u koju se instaliraju strukture podataka i inicijalno punjenje. Instalacija kreira korisnike *niapi* i *nipub* koje bi koristili odgovarajući servisi (opisani u sekciji *Tehnička ahitektura* iznad).
 ### Model APIja
 Na višem nivou detalja model API-ja je prikazan u Excel dokumentu dostupnom [ovde](https://docs.google.com/spreadsheets/d/1WypwdFRFTNrLOcRWk6TYy7qS2GphD4Ox/edit?usp=sharing&ouid=100806157112222708210&rtpof=true&sd=true). 
 
@@ -83,3 +78,11 @@ U ovoj sekciji su povezane JSON šeme i primeri dokumenata koje bi proizvodila k
 | Lista inicijativa (aktivne) | [Šema](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Seme/sema-lista-inicijativa-aktivne.json) | [Primer](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Primeri/primer-lista-inicijativa-aktivne.json) |
 | Lista inicijativa (neaktivne) | [Šema](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Seme/sema-lista-inicijativa-neaktivne.json) | [Primer](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Primeri/primer-lista-inicijativa-neaktivne.json) |
 | Detalji inicijative | [Šema](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Seme/sema-inicijativa-{id}.json) | [Primer](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Primeri/primer-inicijativa-{id}.json) |
+### Model podataka
+Dijagram tabela ispod je proizvod [Toad Data Modeler](https://www.quest.com/products/toad-data-modeler/) alata za modeliranje baza podataka. Model u ovom formatu, zajedno sa generisanim SQL skriptom, je sastavni deo izvornog koda rešenja. 
+
+![ModelPodatakaNarodneInicijative](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/f3a004ec-62ae-411b-a1ff-b05b0c170bae)
+
+Tekući model je konfigurisan da generiše kod za besplatnu/open source PostgreSQL bazu, ali se relativno jednostavno može promeniti za druge podržane baze (Oracle, SQL Server, DB2, itd.). 
+
+Sekcija ovog repoa sa izvornim kodom ("Implementacija") sadrži niz SQL skripti (jedna od njih je generisana iz alata za modeliranje) kojima se baza može instalirati koristeći alat za automatizaciju instalacija baza [Liquibase](https://www.liquibase.org/). XML dokument *index_changelog.xml* je indeks koji definiše redosled primene SQL skripti. Skripte očekuju da je na PostgreSQL instanci kreirana baza sa imenom "ni" u koju se instaliraju strukture podataka i inicijalno punjenje. Instalacija kreira korisnike *niapi* i *nipub* koje bi koristili odgovarajući servisi (opisani u sekciji *Tehnička ahitektura* iznad).
