@@ -1,6 +1,6 @@
 ﻿/*
 Created: 17/06/2023
-Modified: 25/06/2023
+Modified: 30/06/2023
 Model: ModelPodatakaNarodneInicijative
 Database: PostgreSQL 12
 */
@@ -472,6 +472,7 @@ CREATE TABLE NIPotpisInicijative
 (
   IDNIInicijativa Integer NOT NULL,
   IDNIGradjanin UUID NOT NULL,
+  Potpis UUID NOT NULL,
   TrnPotpisa Timestamp with time zone NOT NULL,
   PotpisNaSalteru Boolean NOT NULL,
   PodaciSaSalteraPotpisa Text
@@ -480,6 +481,8 @@ WITH (
   autovacuum_enabled=true)
 ;
 COMMENT ON TABLE NIPotpisInicijative IS 'Potpis narodne inicijative od strane građanina'
+;
+COMMENT ON COLUMN NIPotpisInicijative.Potpis IS 'Jedinstveni identifikator potpisa - slučajni UUID'
 ;
 COMMENT ON COLUMN NIPotpisInicijative.TrnPotpisa IS 'Trenutak kada je građanin potpisao inicijativu'
 ;
