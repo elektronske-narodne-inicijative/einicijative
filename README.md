@@ -58,7 +58,7 @@ Zamišljeno je da korisnici (građani i ovlašćena lica organa javne uprave) ka
 Na višem nivou detalja model API-ja je prikazan u Excel dokumentu dostupnom [ovde](https://docs.google.com/spreadsheets/d/1WypwdFRFTNrLOcRWk6TYy7qS2GphD4Ox/edit?usp=sharing&ouid=100806157112222708210&rtpof=true&sd=true). 
 
 Detalji API-ja su pripremljeni u mašinski čitljivom OpenAPI 3.0 formatu i objavljeni na Swagger portalu u dva dela:
-- API koji eUprava daje eInicijativi: [u4niAPI](https://app.swaggerhub.com/apis/elektronske-narodne-inicijative/u4niapi/0.0.1#/)
+- API koji eUprava daje eInicijativi: [u4niapi](https://app.swaggerhub.com/apis/elektronske-narodne-inicijative/u4niapi/0.0.1#/)
 - API koji eUPrava daje šalterima (deo) ili javno: [niapi](https://app.swaggerhub.com/apis/elektronske-narodne-inicijative/niapi/0.0.1#/)
 
 Iz OpenAPI specifikacije se lako može generisati kod za niz programskih jezika / alata, kao što se može videti na slici ispod.
@@ -81,8 +81,22 @@ U ovoj sekciji su povezane JSON šeme i primeri dokumenata koje bi proizvodila k
 ### Model podataka
 Dijagram tabela ispod je proizvod [Toad Data Modeler](https://www.quest.com/products/toad-data-modeler/) alata za modeliranje baza podataka. Model u ovom formatu, zajedno sa generisanim SQL skriptom, je sastavni deo izvornog koda rešenja. 
 
-![ModelPodatakaNarodneInicijative](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/f3a004ec-62ae-411b-a1ff-b05b0c170bae)
+![ModelPodatakaNarodneInicijative](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/82b4ff20-a884-4ec5-a5a9-8450a9e36ff4)
 
 Tekući model je konfigurisan da generiše kod za besplatnu/open source PostgreSQL bazu, ali se relativno jednostavno može promeniti za druge podržane baze (Oracle, SQL Server, DB2, itd.). 
 
 Sekcija ovog repoa sa izvornim kodom ("Implementacija") sadrži niz SQL skripti (jedna od njih je generisana iz alata za modeliranje) kojima se baza može instalirati koristeći alat za automatizaciju instalacija baza [Liquibase](https://www.liquibase.org/). XML dokument *index_changelog.xml* je indeks koji definiše redosled primene SQL skripti. Skripte očekuju da je na PostgreSQL instanci kreirana baza sa imenom "ni" u koju se instaliraju strukture podataka i inicijalno punjenje. Instalacija kreira korisnike *niapi* i *nipub* koje bi koristili odgovarajući servisi (opisani u sekciji *Tehnička ahitektura* iznad).
+### Testno punjenje podacima
+Na testnim okruženjima tipično je potrebno stvoriti određenu količinu sintetičkih podataka koji bi obezbedili da se baza podataka ponaša onako kako će se ponašati posle izvesnog vremena upotrebe na produkciji. Za ovu namenu je pripremljena nekolicina procedura i funkcija u bazi, sa procedurom <code>NITestPunjenjeBaze</code> koja objedinjuje proces i poziva ostale. 
+
+Ova procedura se poziva sa dva parametra. Prvi parametar određuje koliko sintetičkih profila građana treba ubaciti, izraženo kroz procenat od ukupnog broja birača na opštini upisa u birački spisak. Drugi parametar kaže koliko "paketa" od 1000 narodnih inicijativa kreirati, pri čemu svaki "paket" sadrži sledeću strukturu potpisivanja:
+- Prvih 700 narodnih inicijativa će imati između 0 i 299 potpisa (slučajno određen broj za svaku)
+- Sledećih 200 narodnih inicijativa će imati između 300 i 999 potpisa
+- SLedećih 70 će imati 1.000-2.999
+- Sledećih 20 će imati 3.000-9.999
+- Sledećih 7 će imati 10.000-29.999
+- Konačno poslednjih 3 će imati 30.000-59.999
+
+Sledeći poziv će kreirati nešto ispod milion građana i 10 hiljada inicijativa sa oko 7.7 miliona potpisa:
+
+<code>call ni.NITestPunjenjeBaze(15,10);</code>
