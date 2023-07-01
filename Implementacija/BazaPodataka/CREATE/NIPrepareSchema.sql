@@ -4,9 +4,9 @@
 
 create schema ni;
 
-create role niapi with password 'ChangeMeToARandomGUID';
+create role niapi with login password 'ChangeMeToARandomGUID';
 
-create role nipub with password 'ChangeMeToARandomGUID';
+create role nipub with login password 'ChangeMeToARandomGUID';
 
 grant usage on schema ni to niapi;
 

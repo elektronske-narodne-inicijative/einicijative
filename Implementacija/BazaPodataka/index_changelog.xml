@@ -9,11 +9,18 @@
 
   <include file="CREATE/NIPrepareSchema.sql" relativeToChangelogFile="true" />
   <include file="CREATE/CrNIObjects.sql" relativeToChangelogFile="true" />
-  <include file="CREATE/CrNIMWGrants.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NIDocListaNivoaVlasti.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NIDocListaTipovaInicijativa.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NIDocListaFazaObrade.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NIDocListaOpstina.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NIDocListaUpravnihOkruga.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NIDocListaAktivnihInicijativa.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NIDocListaNeaktivnihInicijativa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestMuskoIme.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestZenskoIme.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestPrezime.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestInicijativa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestPunjenjeBaze.sql" relativeToChangelogFile="true" />
+  <include file="CREATE/CrNIMWGrants.sql" relativeToChangelogFile="true" />
   <include file="CONFIG/NIInitialLoad.sql" relativeToChangelogFile="true" />
 </databaseChangeLog>
