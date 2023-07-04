@@ -1,7 +1,3 @@
--- liquibase formatted sql
-
--- changeset liquibase:rseni-code-NiTestInicijativa
-
 CREATE OR REPLACE PROCEDURE ni.NiTestInicijativa(OUT idInicijative INT)
 LANGUAGE plpgsql
 AS $$

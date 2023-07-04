@@ -1,7 +1,3 @@
--- liquibase formatted sql
-
--- changeset liquibase:rseni-code-NIDocListaNeaktivnihInicijativa
-
 CREATE OR REPLACE FUNCTION ni.NIDocListaNeaktivnihInicijativa()
 RETURNS json AS
 $$

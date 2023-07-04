@@ -1,7 +1,3 @@
--- liquibase formatted sql
-
--- changeset liquibase:rseni-code-NIDocListaFazaObrade
-
 CREATE OR REPLACE FUNCTION ni.NIDocListaFazaObrade()
 RETURNS json AS
 $$

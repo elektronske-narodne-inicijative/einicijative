@@ -1,7 +1,3 @@
--- liquibase formatted sql
-
--- changeset liquibase:rseni-code-NITestMuskoIme
-
 CREATE OR REPLACE FUNCTION ni.NITestMuskoIme() returns text
 AS $$
 DECLARE

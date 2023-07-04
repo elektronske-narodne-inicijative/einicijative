@@ -1,7 +1,3 @@
--- liquibase formatted sql
-
--- changeset liquibase:rseni-code-NIDocListaNivoaVlasti
-
 CREATE OR REPLACE FUNCTION ni.NIDocListaNivoaVlasti()
 RETURNS json AS
 $$

@@ -1,7 +1,3 @@
--- liquibase formatted sql
-
--- changeset liquibase:rseni-code-NIDocListaOpstina
-
 CREATE OR REPLACE FUNCTION ni.NIDocListaOpstina()
 RETURNS json AS
 $$

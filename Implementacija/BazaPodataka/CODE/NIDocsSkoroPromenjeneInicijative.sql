@@ -1,7 +1,3 @@
--- liquibase formatted sql
-
--- changeset liquibase:rseni-code-NIDocsSkoroPromenjeneInicijative
-
 CREATE OR REPLACE FUNCTION ni.NIDocsSkoroPromenjeneInicijative(IN pBrojPoslednjihMinuta INT)
   RETURNS TABLE (idInicijative INTEGER, jsonDokument JSONB)
 AS

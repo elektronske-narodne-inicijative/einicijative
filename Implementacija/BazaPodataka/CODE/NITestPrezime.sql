@@ -1,7 +1,3 @@
--- liquibase formatted sql
-
--- changeset liquibase:rseni-code-NITestPrezime
-
 CREATE OR REPLACE FUNCTION ni.NITestPrezime () returns text
 AS $$
 DECLARE

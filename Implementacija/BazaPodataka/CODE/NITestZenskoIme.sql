@@ -1,7 +1,3 @@
--- liquibase formatted sql
-
--- changeset liquibase:rseni-code-NITestZenskoIme
-
 CREATE OR REPLACE FUNCTION ni.NITestZenskoIme() returns text
 AS $$
 DECLARE
