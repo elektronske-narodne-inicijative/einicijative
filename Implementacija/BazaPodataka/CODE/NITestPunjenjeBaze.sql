@@ -1,3 +1,7 @@
+-- liquibase formatted sql
+
+-- changeset liquibase:rseni-code-NITestPunjenjeBaze
+
 CREATE OR REPLACE PROCEDURE ni.NITestPunjenjeBaze(IN pctbiraca int, IN jedinicaInicijativa int)
 LANGUAGE plpgsql
 AS $$

@@ -1,3 +1,7 @@
+-- liquibase formatted sql
+
+-- changeset liquibase:rseni-code-NIDocListaTipovaInicijativa
+
 CREATE OR REPLACE FUNCTION ni.NIDocListaTipovaInicijativa()
 RETURNS json AS
 $$

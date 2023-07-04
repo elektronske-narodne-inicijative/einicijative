@@ -16,6 +16,7 @@
   <include file="CODE/NIDocListaUpravnihOkruga.sql" relativeToChangelogFile="true" />
   <include file="CODE/NIDocListaAktivnihInicijativa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NIDocListaNeaktivnihInicijativa.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NIDocsSkoroPromenjeneInicijative.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestMuskoIme.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestZenskoIme.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestPrezime.sql" relativeToChangelogFile="true" />

@@ -1,3 +1,7 @@
+-- liquibase formatted sql
+
+-- changeset liquibase:rseni-code-NIDocListaUpravnihOkruga
+
 CREATE OR REPLACE FUNCTION ni.NIDocListaUpravnihOkruga()
 RETURNS json AS
 $$
