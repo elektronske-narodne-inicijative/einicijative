@@ -1,14 +1,17 @@
 openapi: 3.0.1
 info:
   version: 0.0.1
-  title: niapi
+  title: u4niapi
   description: Specifikacija APIja koje implementira eUprava za potrebe eInicijativa servisa
 servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/elektronske-narodne-inicijative/u4niapi/0.0.1
   - url: https://euprava.gov.rs/u4niapi/v1
 paths:
   /status:
     get:
-      description: status zdravlja niapi servisa
+      description: status zdravlja u4niapi servisa
       security: [ ]   # No security
       responses:
         '200':
@@ -151,11 +154,9 @@ components:
           type: string
         idNivoaUprave:
           type: string
-          enum: [R,P,O] # Republika, Pokrajina, Opstina
+          enum: [Р,П,О] # Република, Покрајина, Општина
         idOpstine:
           type: string
-        godinaRodjenja:
-          type: integer
   #  -------------------------------------------------------
   responses:
     400Error:
