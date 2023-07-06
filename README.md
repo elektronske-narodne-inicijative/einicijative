@@ -57,7 +57,7 @@ Zamišljeno je da korisnici (građani i ovlašćena lica organa javne uprave) ka
 ### Model APIja
 Na višem nivou detalja model API-ja je prikazan u Excel dokumentu dostupnom [ovde](https://docs.google.com/spreadsheets/d/1WypwdFRFTNrLOcRWk6TYy7qS2GphD4Ox/edit?usp=sharing&ouid=100806157112222708210&rtpof=true&sd=true). 
 
-Opis logike koju se očekuje da implementiraju API metodi (opis visokog nivoa - po nekoliko glavnih koraka obrade po metodu), očekivanih tipova poruka za centralizovani nadzorni trag (pretpostavka je da se poruke za nadzorni trag dostavljaju syslog protokolom, u realnom vremenu, u SIEM sistem SOC državnih organa) i za sistem praćenja zdravlja usluge (health monitoring) se može naći [ovde](https://docs.google.com/spreadsheets/d/1xj-5adpQqYLbymp3qwKYa9Tunia3UFrd/edit?usp=sharing&ouid=100806157112222708210&rtpof=true&sd=true). 
+Opis logike koju se očekuje da implementiraju API metodi, očekivanih tipova poruka za centralizovani nadzorni trag i za sistem praćenja zdravlja usluge (health monitoring) se može naći [ovde](https://docs.google.com/spreadsheets/d/1xj-5adpQqYLbymp3qwKYa9Tunia3UFrd/edit?usp=sharing&ouid=100806157112222708210&rtpof=true&sd=true). Cilj ovog dokumenta je da ukaže na ključne korake obrade i njihovu "projekciju" na nadzorni dnevnik i sistem za praćenje zdravlja aplikacija i tako pomogne dizajnu nižeg nivoa i implementaciji. Pretpostavka je da se poruke za nadzorni trag dostavljaju syslog protokolom, u realnom vremenu, u SIEM sistem SOC-a državnih organa.
 
 Detalji API-ja su pripremljeni u mašinski čitljivom OpenAPI 3.0 formatu i objavljeni na Swagger portalu u dva dela:
 - API koji eUprava daje eInicijativi: [u4niapi](https://app.swaggerhub.com/apis/elektronske-narodne-inicijative/u4niapi/0.0.1#/)
@@ -80,14 +80,21 @@ U ovoj sekciji su povezane JSON šeme i primeri dokumenata koje bi proizvodila k
 | Lista inicijativa (aktivne) | [Šema](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Seme/sema-lista-inicijativa-aktivne.json) | [Primer](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Primeri/primer-lista-inicijativa-aktivne.json) |
 | Lista inicijativa (neaktivne) | [Šema](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Seme/sema-lista-inicijativa-neaktivne.json) | [Primer](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Primeri/primer-lista-inicijativa-neaktivne.json) |
 | Detalji inicijative | [Šema](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Seme/sema-inicijativa-{id}.json) | [Primer](https://raw.githubusercontent.com/elektronske-narodne-inicijative/einicijative/main/Dokumenti/Objavljivanje/Primeri/primer-inicijativa-{id}.json) |
+### Podela odgovornosti između servisa srednjeg sloja i baze
+U cilju povećanja kako efikasnosti, tako i bezbednosti (tkzv. odbrana u dubinu), u rešenju otvorenog koda na ovom repou će sprega srednjeg sloja i baze biti izvedena tako da srednji sloj komunicira sa bazom koristeći pozive procedura i funkcija u bazi na koje je dobio pristup, kao što je prikazano na dijagramu ispod.
+
+![image](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/17429c58-ecc9-4a98-9d38-3dc2c941275d)
+
+Ovo se može videti u implementaciji koda u bazi [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/BazaPodataka/CODE), kao i u skripti za dodelu prava pristupa rolama/korisnicima [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/blob/main/Implementacija/BazaPodataka/CREATE/CrNIMWGrants.sql).
 ### Model podataka
 Dijagram tabela ispod je proizvod [Toad Data Modeler](https://www.quest.com/products/toad-data-modeler/) alata za modeliranje baza podataka. Model u ovom formatu, zajedno sa generisanim SQL skriptom, je sastavni deo izvornog koda rešenja. 
 
-![ModelPodatakaNarodneInicijative](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/82b4ff20-a884-4ec5-a5a9-8450a9e36ff4)
+![ModelPodatakaNarodneInicijative](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/5244c5e0-74b3-496e-8f19-0022783d104d)
 
 Tekući model je konfigurisan da generiše kod za besplatnu/open source PostgreSQL bazu, ali se relativno jednostavno može promeniti za druge podržane baze (Oracle, SQL Server, DB2, itd.). 
 
 Sekcija ovog repoa sa izvornim kodom ("Implementacija") sadrži niz SQL skripti (jedna od njih je generisana iz alata za modeliranje) kojima se baza može instalirati koristeći alat za automatizaciju instalacija baza [Liquibase](https://www.liquibase.org/). XML dokument *index_changelog.xml* je indeks koji definiše redosled primene SQL skripti. Skripte očekuju da je na PostgreSQL instanci kreirana baza sa imenom "ni" u koju se instaliraju strukture podataka i inicijalno punjenje. Instalacija kreira korisnike *niapi* i *nipub* koje bi koristili odgovarajući servisi (opisani u sekciji *Tehnička ahitektura* iznad).
+
 ### Testno punjenje podacima
 Na testnim okruženjima tipično je potrebno stvoriti određenu količinu sintetičkih podataka koji bi obezbedili da se baza podataka ponaša onako kako će se ponašati posle izvesnog vremena upotrebe na produkciji. Za ovu namenu je pripremljena nekolicina procedura i funkcija u bazi, sa procedurom <code>NITestPunjenjeBaze</code> koja objedinjuje proces i poziva ostale. 
 
@@ -102,11 +109,3 @@ Ova procedura se poziva sa dva parametra. Prvi parametar određuje koliko sintet
 Sledeći poziv će kreirati nešto ispod milion građana i 10 hiljada inicijativa sa oko 7.7 miliona potpisa:
 
 <code>call ni.NITestPunjenjeBaze(15,10);</code>
-
-### Podela odgovornosti između servisa srednjeg sloja i baze
-U cilju povećanja kako efikasnosti, tako i bezbednosti (tkzv. odbrana u dubinu), imajući u vidu da je za potrebe ovakvog rešenja dovoljna relativno skromna infrastruktura (u smislu broja procesora, veličine memorije i prostora na disku), kao i činjenicu da se za korišćeni tip baze (PostgreSQL) ne plaća licenca po kapacitetu obrade implementacija, u rešenju otvorenog koda na ovom repou će sprega srednjeg sloja i baze biti izvedena tako da srednji sloj komunicira sa bazom koristeći pozive procedura i funkcija u bazi na koje je dobio pristup, kao što je prikazano na dijagramu ispod.
-
-![image](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/17429c58-ecc9-4a98-9d38-3dc2c941275d)
-
-Ovo se može videti u implementaciji koda u bazi [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/BazaPodataka/CODE), kao i u skripti za dodelu prava pristupa rolama/korisnicima [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/blob/main/Implementacija/BazaPodataka/CREATE/CrNIMWGrants.sql).
-
