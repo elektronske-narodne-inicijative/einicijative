@@ -1,6 +1,6 @@
 ﻿/*
 Created: 17/06/2023
-Modified: 30/06/2023
+Modified: 06/07/2023
 Model: ModelPodatakaNarodneInicijative
 Database: PostgreSQL 12
 */
@@ -320,7 +320,7 @@ CREATE TABLE NISesija
   IDNIKorisnik UUID NOT NULL,
   JWT Json NOT NULL,
   TrnPocetka Timestamp with time zone NOT NULL,
-  TrnPoslAPIZahteva Timestamp with time zone NOT NULL
+  TrnIsteka Timestamp with time zone NOT NULL
 )
 WITH (
   autovacuum_enabled=true)
@@ -333,7 +333,7 @@ COMMENT ON COLUMN NISesija.JWT IS 'JWT (Javascript Web Token) dodeljen od eID se
 ;
 COMMENT ON COLUMN NISesija.TrnPocetka IS 'Trenutak početka / validacije sesije'
 ;
-COMMENT ON COLUMN NISesija.TrnPoslAPIZahteva IS 'Trenutak poslednjeg API zahteva - u početku isto što i trenutak početka, menja se sa svakim API zahtevom'
+COMMENT ON COLUMN NISesija.TrnIsteka IS 'Trenutak isteka sesije sa ovim JWT - trenutak API poziva + vreme isteka ili trenutak odjave (kad se implementira)'
 ;
 
 CREATE INDEX IX_KorisnikSesije ON NISesija (IDNIKorisnik)
@@ -365,9 +365,7 @@ CREATE TABLE NIInicijativa
   DatumPokretanja Date,
   DatumOdluke Date,
   Prihvacena Boolean,
-  BeleskaSaSednice Text,
-  NajsvezijeSstatistike Json,
-  TrnStatistike Timestamp with time zone
+  BeleskaSaSednice Text
 )
 WITH (
   autovacuum_enabled=true)
@@ -408,10 +406,6 @@ COMMENT ON COLUMN NIInicijativa.Prihvacena IS 'Da li je inicijativa prihvaćena 
 ;
 COMMENT ON COLUMN NIInicijativa.BeleskaSaSednice IS 'Beleška o odlučivanju o pokrenutoj inicijativi na sednici skupštine (neobavezna)'
 ;
-COMMENT ON COLUMN NIInicijativa.NajsvezijeSstatistike IS 'Najsvežije javne statistike potpisivanja za ovu inicijativu. Statistike se računaju dok je inicijativa aktivna i upisuju u zapis inicijative da bi se onda objavile. Posle zatvaranja se statistike još jednom urade da uključe sve potpise.'
-;
-COMMENT ON COLUMN NIInicijativa.TrnStatistike IS 'Trenutak početka računanja poslednjih statistika '
-;
 
 CREATE INDEX IX_NivoVlastiInicijative ON NIInicijativa (IDNINivoVlasti)
 ;
@@ -440,27 +434,12 @@ CREATE TABLE NIClanInicijativnogOdbora
 (
   IDNIGradjanin UUID NOT NULL,
   IDNIInicijativa Integer NOT NULL,
-  IDNIGradjanin_KojiJePozvao UUID,
-  Aktivan Boolean NOT NULL,
-  TrnSlanjaPoziva Timestamp with time zone,
-  TrnPrihvatanjaClanstva Timestamp with time zone,
-  TrnOdustajanjaOdClanstva Timestamp with time zone
+  TrnPrihvatanjaClanstva Timestamp with time zone NOT NULL
 )
 WITH (
   autovacuum_enabled=true)
 ;
-COMMENT ON COLUMN NIClanInicijativnogOdbora.IDNIGradjanin_KojiJePozvao IS 'Član inicijativnog odbora koji je uputio ovom članu poziv da se ukljiuči u inicijativni odbor'
-;
-COMMENT ON COLUMN NIClanInicijativnogOdbora.Aktivan IS 'Da li je građanin i dalje aktivan član inicijativnog odbora narodne inicijative'
-;
-COMMENT ON COLUMN NIClanInicijativnogOdbora.TrnSlanjaPoziva IS 'Trenutak kada je drugi član inicijativnog odbora pozvao ovog člana da se uključi (prazno za inicijatora)'
-;
 COMMENT ON COLUMN NIClanInicijativnogOdbora.TrnPrihvatanjaClanstva IS 'Trenutak kada je građanin prihvatio poziv da bude član inicijativnog odbora'
-;
-COMMENT ON COLUMN NIClanInicijativnogOdbora.TrnOdustajanjaOdClanstva IS 'Trenutak kada je građanin odlučio da se isključi iz inicijativnog odbora'
-;
-
-CREATE INDEX IX_GradjaninKojiJePozvao ON NIClanInicijativnogOdbora (IDNIGradjanin_KojiJePozvao)
 ;
 
 ALTER TABLE NIClanInicijativnogOdbora ADD CONSTRAINT PK_NIClanInicijativnogOdbora PRIMARY KEY (IDNIGradjanin,IDNIInicijativa)
@@ -533,7 +512,7 @@ CREATE TABLE NIDnevnikPromena
 (
   IDNIDnevnikPromena Integer NOT NULL,
   TrnPromene Timestamp with time zone NOT NULL,
-  DetaljiPromene Bigint NOT NULL,
+  DetaljiPromene Text NOT NULL,
   IDNIInicijativa Integer,
   IDNIFazaObrade Character(1),
   IDNISesija Text
@@ -581,6 +560,32 @@ COMMENT ON COLUMN NITipInicijative.Sortiranje IS 'Redosled sortiranja tipova ini
 ;
 
 ALTER TABLE NITipInicijative ADD CONSTRAINT PK_NITipInicijative PRIMARY KEY (IDNITipInicijative)
+;
+
+-- Table NIParametar
+
+CREATE TABLE NIParametar
+(
+  IDNIParametar Text NOT NULL,
+  VrednostParametra Text,
+  niapi Boolean NOT NULL,
+  nipub Boolean NOT NULL
+)
+WITH (
+  autovacuum_enabled=true)
+;
+COMMENT ON TABLE NIParametar IS 'Parametri koje koriste baza i/ili servisi. U zavisnosti od oznake (niapi, nipub) parametar se dostavlja servisu kroz odgovarajuću funkciju.'
+;
+COMMENT ON COLUMN NIParametar.IDNIParametar IS 'Ime/kod parametra'
+;
+COMMENT ON COLUMN NIParametar.VrednostParametra IS 'Vrednost parametra. Može biti i prazna'
+;
+COMMENT ON COLUMN NIParametar.niapi IS 'Da li je parametar potreban API servisu?'
+;
+COMMENT ON COLUMN NIParametar.nipub IS 'Da li je parametar potreban servisu za objavljivanje?'
+;
+
+ALTER TABLE NIParametar ADD CONSTRAINT PK_NIParametar PRIMARY KEY (IDNIParametar)
 ;
 
 -- Create foreign keys (relationships) section -------------------------------------------------
@@ -717,14 +722,6 @@ ALTER TABLE NIClanInicijativnogOdbora
   ADD CONSTRAINT FK_ClanOdboraInicijative
     FOREIGN KEY (IDNIInicijativa)
     REFERENCES NIInicijativa (IDNIInicijativa)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
-;
-
-ALTER TABLE NIClanInicijativnogOdbora
-  ADD CONSTRAINT FK_GradjaninKojiJePozvao
-    FOREIGN KEY (IDNIGradjanin_KojiJePozvao)
-    REFERENCES NIGradjanin (IDNIGradjanin)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
 ;

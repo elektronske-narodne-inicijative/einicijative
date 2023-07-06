@@ -38,7 +38,6 @@ SELECT i.IDNIINicijativa, JSONB_STRIP_NULLS(
               FROM ni.NIClanInicijativnogOdbora c, ni.NIGradjanin g
              WHERE c.IDNIInicijativa = i.IDNIInicijativa
                AND c.IDNIGradjanin = g.IDNIGradjanin
-               AND c.TrnOdustajanjaOdClanstva is null
              ORDER BY c.trnPrihvatanjaClanstva
       ) a ),
   'prilozi', (
