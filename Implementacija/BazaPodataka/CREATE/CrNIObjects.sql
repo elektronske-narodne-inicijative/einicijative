@@ -1,6 +1,6 @@
 ﻿/*
 Created: 17/06/2023
-Modified: 06/07/2023
+Modified: 07/07/2023
 Model: ModelPodatakaNarodneInicijative
 Database: PostgreSQL 12
 */
@@ -317,10 +317,12 @@ ALTER TABLE NIGradjanin ADD CONSTRAINT PK_NIGradjanin PRIMARY KEY (IDNIGradjanin
 CREATE TABLE NISesija
 (
   IDNISesija Text NOT NULL,
+  IDNITipSesije Character(1),
   IDNIKorisnik UUID NOT NULL,
   JWT Json NOT NULL,
   TrnPocetka Timestamp with time zone NOT NULL,
-  TrnIsteka Timestamp with time zone NOT NULL
+  TrnIstekaJWT Timestamp with time zone NOT NULL,
+  TrnIstekaSesije Timestamp with time zone NOT NULL
 )
 WITH (
   autovacuum_enabled=true)
@@ -333,10 +335,15 @@ COMMENT ON COLUMN NISesija.JWT IS 'JWT (Javascript Web Token) dodeljen od eID se
 ;
 COMMENT ON COLUMN NISesija.TrnPocetka IS 'Trenutak početka / validacije sesije'
 ;
-COMMENT ON COLUMN NISesija.TrnIsteka IS 'Trenutak isteka sesije sa ovim JWT - trenutak API poziva + vreme isteka ili trenutak odjave (kad se implementira)'
+COMMENT ON COLUMN NISesija.TrnIstekaJWT IS 'Trenutak isteka JWT (iz potpisanog sadržaja JWT - exp claim)'
+;
+COMMENT ON COLUMN NISesija.TrnIstekaSesije IS 'Trenutak isteka sesije sa ovim JWT - trenutak API poziva + vreme isteka ili trenutak odjave (kad se implementira)'
 ;
 
 CREATE INDEX IX_KorisnikSesije ON NISesija (IDNIKorisnik)
+;
+
+CREATE INDEX IX_TipSesije ON NISesija (IDNITipSesije)
 ;
 
 ALTER TABLE NISesija ADD CONSTRAINT PK_NISesija PRIMARY KEY (IDNISesija)
@@ -346,8 +353,8 @@ ALTER TABLE NISesija ADD CONSTRAINT PK_NISesija PRIMARY KEY (IDNISesija)
 
 CREATE TABLE NIInicijativa
 (
-  IDNIGradjanin UUID NOT NULL,
   IDNIInicijativa Integer NOT NULL,
+  IDNIGradjanin UUID NOT NULL,
   IDNITipInicijative Character(2) NOT NULL,
   NazivInicijative Text NOT NULL,
   TekstInicijative Text NOT NULL,
@@ -372,9 +379,9 @@ WITH (
 ;
 COMMENT ON TABLE NIInicijativa IS 'Narodna inicijativa'
 ;
-COMMENT ON COLUMN NIInicijativa.IDNIGradjanin IS 'Građanin koji je uneo zahtev za narodnu inicijativu i koji prvi počinje da poziva članove inicijativnog odbora (koji onda mogu sami da pozivaju dodatne članove'
-;
 COMMENT ON COLUMN NIInicijativa.IDNIInicijativa IS 'Redni broj inicijative'
+;
+COMMENT ON COLUMN NIInicijativa.IDNIGradjanin IS 'Građanin koji je uneo zahtev za narodnu inicijativu i koji prvi počinje da poziva članove inicijativnog odbora (koji onda mogu sami da pozivaju dodatne članove'
 ;
 COMMENT ON COLUMN NIInicijativa.NazivInicijative IS 'Tema (kratko ime) inicijative'
 ;
@@ -588,6 +595,29 @@ COMMENT ON COLUMN NIParametar.nipub IS 'Da li je parametar potreban servisu za o
 ALTER TABLE NIParametar ADD CONSTRAINT PK_NIParametar PRIMARY KEY (IDNIParametar)
 ;
 
+-- Table NITipSesije
+
+CREATE TABLE NITipSesije
+(
+  IDNITipSesije Character(1) NOT NULL,
+  Opis Text NOT NULL,
+  Sortiranje Numeric NOT NULL
+)
+WITH (
+  autovacuum_enabled=true)
+;
+COMMENT ON TABLE NITipSesije IS 'Tip seslije - potpisnik, inicijator, ovlašćeno lice'
+;
+COMMENT ON COLUMN NITipSesije.IDNITipSesije IS 'Šifra tipa sesije'
+;
+COMMENT ON COLUMN NITipSesije.Opis IS 'Opis tipa sesije'
+;
+COMMENT ON COLUMN NITipSesije.Sortiranje IS 'Težina za sortiranje liste'
+;
+
+ALTER TABLE NITipSesije ADD CONSTRAINT PK_NITipSesije PRIMARY KEY (IDNITipSesije)
+;
+
 -- Create foreign keys (relationships) section -------------------------------------------------
 
 ALTER TABLE NIOpstina
@@ -790,6 +820,14 @@ ALTER TABLE NIInicijativa
   ADD CONSTRAINT FK_TipIncijative
     FOREIGN KEY (IDNITipInicijative)
     REFERENCES NITipInicijative (IDNITipInicijative)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
+;
+
+ALTER TABLE NISesija
+  ADD CONSTRAINT FK_TipSesije
+    FOREIGN KEY (IDNITipSesije)
+    REFERENCES NITipSesije (IDNITipSesije)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
 ;

@@ -22,6 +22,11 @@
   <include file="CODE/NITestPrezime.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestInicijativa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestPunjenjeBaze.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxBaciGresku.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxDajNumerickiParametar.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxDajStringParametar.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxDajSesijuPoHash.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxPtpNovaSesija.sql" relativeToChangelogFile="true" />
   <include file="CREATE/CrNIMWGrants.sql" relativeToChangelogFile="true" />
   <include file="CONFIG/NIInitialLoad.sql" relativeToChangelogFile="true" />
 </databaseChangeLog>
