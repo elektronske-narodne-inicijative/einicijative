@@ -6,16 +6,16 @@ Ideje za sadržaj koji vidite ovde su razvijene u saradnji između Ivana Grujić
 
 U paraleli su ideje tehnički razvijane, što je kao rezultat proizvelo tehničke sadržaje (tehničke specifikacije i izvorni kod) koji su dostupni kroz ovaj repo.
 ## Ciljevi
-Imajući u vidu kako domaća iskustva - "papirno" izvođene narodne inicijative, kao i strana, pre svega sajt [petitions.parliament.uk](https://petition.parliament.uk/), tako i tekst Zakona o referendumu i narodnoj inicijativi od 10. decembra 2021, ovo tehničko rešenje je projektovano tako da se ostvari nekoliko ključnih ciljeva:
-- Omogući građanima da koriste svoje ustavno pravo pokretanja i učestvovanja u narodnim inicijativama na racionalan i efikasan način, koristeći postojeće resurse digitalne infrastrukture državnih organa Srbije
+Imajući u vidu kako domaća iskustva - "papirno" izvođene narodne inicijative, kao i strana, pre svega sajt [petition.parliament.uk](https://petition.parliament.uk/), tako i tekst Zakona o referendumu i narodnoj inicijativi od 10. decembra 2021, ovo tehničko rešenje je projektovano tako da se ostvari nekoliko ključnih ciljeva:
+- Omogući građanima da koriste svoje ustavno pravo pokretanja i učestvovanja u narodnim inicijativama na racionalan i efikasan način, oslanjajući se na postojeće resurse digitalne infrastrukture državnih organa Srbije
 - Omogući da građani mogu jednostavno da kontrolišu svoje učešće u narodnim inicijativama
 - Minimizuje rizike koji trenutno nastaju prikupljanjem podataka o ličnosti neophodnih za provere ne-elektronskih narodnih inicijativa
 - Minimizuje verovatnoću tehničkih napada na sistem i povezane sisteme, kako elementima "zaštite u dubinu", tako i minimizovanjem vrednosti koju bi napadač dobio u slučaju uspešnog upada u sistem
 ## Ključne ideje
 Ključne ideje na kojima je zasnovan ovaj predlog tehničkog rešenja su:
-- Ako se identitet građanina verifikuje od strane sistema državnih organa u trenutku potpisivanja, prikupljanje uobičajenih podataka o ličnosti (ime, prezime, adresa stanovanja, JMBG) i njihovo dostavljanje inicijativnom odboru nije više svrsishodno, te ga ne treba ni raditi, u skladu sa principom srazmernosti iz članova 14 i 54 Zakon o zaštiti podataka o ličnosti
+- Ako se identitet građanina verifikuje od strane sistema državnih organa u trenutku potpisivanja, prikupljanje uobičajenih podataka o ličnosti (ime, prezime, adresa stanovanja, JMBG) i njihovo dostavljanje inicijativnom odboru nije više svrsishodno, te ga ne treba ni raditi, u skladu sa principom srazmernosti iz članova 14 i 54 Zakona o zaštiti podataka o ličnosti
 - Nema očiglednog razloga da se proces izvođenja narodnih inicijativa, počevši od pripreme zahteva i uključenja članova inicijativnog odbora, preko podnošenja i verifikacije zahteva od strane predsednika nadležne skupštine, prikupljanja potpisa - i na kraju pokretanja inicijative pred skupštinom i registracije odluke skupštine, *ne digitalizuje u celini* - i da se ono što bi bio tok papirnih dokumenata kroz institucije ne pretvori u prostu promenu stanja (faze obrade) elektronske narodne inicijative u sistemu.
-- Građani koji nemaju tehničkih uslova da elektronske narodne inicijative potpišu elektronski treba da dobiju mogućnost da to urade identifikacijom ličnim dokumentom na šalterima pošta i opštinskih uprava - ovo se očekuje da bude efikasnije, jeftinije i skalabilnije nego postojeći ručni proces, koji zahteva verifikaciju od strane notara (uz sve ostale elemente rukovanja fizičkim dokumentom)
+- Građani koji nemaju tehničkih uslova da elektronske narodne inicijative potpišu elektronski treba da dobiju mogućnost da to urade identifikacijom ličnim dokumentom na šalterima pošta i opštinskih uprava - ovo se očekuje da bude efikasnije, jeftinije i skalabilnije nego postojeći ručni proces, koji zahteva verifikaciju od strane notara (uz sve ostale elemente rukovanja fizičkim dokumentom) - *prikupljanje, transport i konsolidacija bukvalno desetina hiljada pojedinačnih obrazaca, popunjenih od strane građana i overenih od strane ovlašćenih notara!*
 - Građani treba da dobiju mogućnost da u elektronskoj formi (ili u papirnoj formi, na šalterima pošta i opštinske uprave) dobiju listu svih narodnih inicijativa koje su potpisali - i na taj način jednostavno kontrolišu da li je bilo koji učesnik u procesu zloupotrebio sistem
 - Podaci o verifikovanim inicijativama treba da budu javno dostupni i lako pretraživi, uz efikasan prikaz geografskih (opština upisa u birački spisak) i demografskih (opseg starosti, pol) statistika potpisivanja.
 ## Faze obrade elektronske narodne inicijative
@@ -85,11 +85,11 @@ U cilju povećanja kako efikasnosti, tako i bezbednosti (tkzv. odbrana u dubinu)
 
 ![image](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/17429c58-ecc9-4a98-9d38-3dc2c941275d)
 
-Ovo se može videti u implementaciji koda u bazi [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/BazaPodataka/CODE), kao i u skripti za dodelu prava pristupa rolama/korisnicima [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/blob/main/Implementacija/BazaPodataka/CREATE/CrNIMWGrants.sql).
+Ovo se može videti u implementaciji koda u bazi [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/BazaPodataka/CODE), kao i u skripti za dodelu prava pristupa rolama/korisnicima [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/blob/main/Implementacija/BazaPodataka/CREATE/CrNIMWGrants.sql). Dokumentacija aplikativnih tipova grešaka (sqlcode) koje kod u bazi baca u izuzecima (RAISE EXCEPTION USING ERRORCODE ...) za ovaj projekat je [ovde](https://docs.google.com/spreadsheets/d/175thkJxzXbu9-bqGMlJKHblg7lWoGy1b/edit?usp=sharing&ouid=100806157112222708210&rtpof=true&sd=true).
 ### Model podataka
 Dijagram tabela ispod je proizvod [Toad Data Modeler](https://www.quest.com/products/toad-data-modeler/) alata za modeliranje baza podataka. Model u ovom formatu, zajedno sa generisanim SQL skriptom, je sastavni deo izvornog koda rešenja. 
 
-![ModelPodatakaNarodneInicijative](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/5244c5e0-74b3-496e-8f19-0022783d104d)
+![ModelPodatakaNarodneInicijative](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/0a53b93c-b4c8-4c82-b69f-0430200bfe1c)
 
 Tekući model je konfigurisan da generiše kod za besplatnu/open source PostgreSQL bazu, ali se relativno jednostavno može promeniti za druge podržane baze (Oracle, SQL Server, DB2, itd.). 
 
