@@ -26,7 +26,10 @@
   <include file="CODE/NITxDajNumerickiParametar.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajStringParametar.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajSesijuPoHash.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIntGradjaninNovaSesija.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxPtpNovaSesija.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIncNovaSesija.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxOvlNovaSesija.sql" relativeToChangelogFile="true" />
   <include file="CREATE/CrNIMWGrants.sql" relativeToChangelogFile="true" />
   <include file="CONFIG/NIInitialLoad.sql" relativeToChangelogFile="true" />
 </databaseChangeLog>

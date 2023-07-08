@@ -18,3 +18,5 @@ GRANT EXECUTE ON FUNCTION ni.NIDocsSkoroPromenjeneInicijative(int) TO nipub;
 
 GRANT EXECUTE ON PROCEDURE ni.NITxDajSesijuPoHash(text, boolean, boolean, boolean, char, char) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxPtpNovaSesija(text, json, timestamp, uuid, text, integer, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncNovaSesija(text, json, timestamp, uuid, text, integer, text, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxOvlNovaSesija(text, json, timestamp, uuid, text, text, text, text, text) TO niapi;
