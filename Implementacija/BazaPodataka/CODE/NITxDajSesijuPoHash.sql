@@ -12,7 +12,7 @@ DECLARE
     sesija RECORD;
 BEGIN
     SELECT *
-      INTO sesija
+      INTO STRICT sesija
       FROM ni.NISesija s
      WHERE s.IDNISesija = jwtHash;
     prisutna = true;

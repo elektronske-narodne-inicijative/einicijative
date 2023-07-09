@@ -9,6 +9,7 @@
 
   <include file="CREATE/NIPrepareSchema.sql" relativeToChangelogFile="true" />
   <include file="CREATE/CrNIObjects.sql" relativeToChangelogFile="true" />
+
   <include file="CODE/NIDocListaNivoaVlasti.sql" relativeToChangelogFile="true" />
   <include file="CODE/NIDocListaTipovaInicijativa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NIDocListaFazaObrade.sql" relativeToChangelogFile="true" />
@@ -25,11 +26,21 @@
   <include file="CODE/NITxBaciGresku.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajNumerickiParametar.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajStringParametar.sql" relativeToChangelogFile="true" />
-  <include file="CODE/NITxDajSesijuPoHash.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntGradjaninNovaSesija.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIntDajSesiju.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIntDajInicijativu.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIntDajGradjanina.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIntDajOpstinu.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxDajSesijuPoHash.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxPtpNovaSesija.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxPtpDajProfil.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxPtpPotpisiInicijativu.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxPtpDetaljiPotpisa.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxPtpListaPotpisa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIncNovaSesija.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxOvlNovaSesija.sql" relativeToChangelogFile="true" />
+
   <include file="CREATE/CrNIMWGrants.sql" relativeToChangelogFile="true" />
+
   <include file="CONFIG/NIInitialLoad.sql" relativeToChangelogFile="true" />
 </databaseChangeLog>
