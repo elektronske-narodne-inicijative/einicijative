@@ -18,11 +18,6 @@
   <include file="CODE/NIDocListaAktivnihInicijativa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NIDocListaNeaktivnihInicijativa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NIDocsSkoroPromenjeneInicijative.sql" relativeToChangelogFile="true" />
-  <include file="CODE/NITestMuskoIme.sql" relativeToChangelogFile="true" />
-  <include file="CODE/NITestZenskoIme.sql" relativeToChangelogFile="true" />
-  <include file="CODE/NITestPrezime.sql" relativeToChangelogFile="true" />
-  <include file="CODE/NITestInicijativa.sql" relativeToChangelogFile="true" />
-  <include file="CODE/NITestPunjenjeBaze.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxBaciGresku.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajNumerickiParametar.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajStringParametar.sql" relativeToChangelogFile="true" />
@@ -39,6 +34,13 @@
   <include file="CODE/NITxPtpListaPotpisa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIncNovaSesija.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxOvlNovaSesija.sql" relativeToChangelogFile="true" />
+
+  <include file="CODE/NITestMuskoIme.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITestZenskoIme.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITestPrezime.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITestInicijativa.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITestPunjenjeBaze.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITestTxPtpMethods.sql" relativeToChangelogFile="true" />
 
   <include file="CREATE/CrNIMWGrants.sql" relativeToChangelogFile="true" />
 
