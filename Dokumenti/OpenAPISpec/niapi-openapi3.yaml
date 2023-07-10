@@ -375,12 +375,6 @@ paths:
           schema:
             type: integer
             format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Obrazlozenje'
       responses:
         '200':
           description: Uspeh
@@ -397,7 +391,7 @@ paths:
 
   /ovlice/inicijativa/{idInicijative}/prihvacena:
     put:
-      description: Ovlašćeno lice obeležava da je pokrenuta narodna inicijativa prihvaćena, uz opciono obrazloženje (beleške sa skupštine)
+      description: Ovlašćeno lice obeležava da je pokrenuta narodna inicijativa prihvaćena, uz opciono obrazloženje (beleške sa sednice skupštine)
       security:
         - bearerAuth: []
       parameters:
@@ -412,7 +406,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Obrazlozenje'
+              $ref: '#/components/schemas/ObrazlozenjeSaSednice'
       responses:
         '200':
           description: Uspeh
@@ -429,7 +423,7 @@ paths:
 
   /ovlice/inicijativa/{idInicijative}/odbacena:
     put:
-      description: Ovlašćeno lice obeležava da je pokrenuta narodna inicijativa odbačena od strane skupštine, uz opciono obrazloženje (beleške sa skupštine)
+      description: Ovlašćeno lice obeležava da je pokrenuta narodna inicijativa odbačena od strane skupštine, uz opciono obrazloženje (beleške sa sednice skupštine)
       security:
         - bearerAuth: []
       parameters:
@@ -444,7 +438,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Obrazlozenje'
+              $ref: '#/components/schemas/ObrazlozenjeSaSednice'
       responses:
         '200':
           description: Uspeh
@@ -933,6 +927,17 @@ components:
     Obrazlozenje:
       type: object
       properties:
+        obrazlozenje:
+          type: string
+
+    ObrazlozenjeSaSednice:
+      type: object
+      required:
+        - datumSednice
+      properties:
+        datumSednice:
+          type: string
+          format: date
         obrazlozenje:
           type: string
 

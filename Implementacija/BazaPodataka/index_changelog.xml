@@ -18,22 +18,37 @@
   <include file="CODE/NIDocListaAktivnihInicijativa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NIDocListaNeaktivnihInicijativa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NIDocsSkoroPromenjeneInicijative.sql" relativeToChangelogFile="true" />
+
   <include file="CODE/NITxBaciGresku.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajNumerickiParametar.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajStringParametar.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntGradjaninNovaSesija.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIntInicijaitivaZaOvlAkciju.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIntUpisiUDnevnikPromena.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntDajSesiju.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntDajInicijativu.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntDajGradjanina.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIntDajOvlascenoLice.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntDajOpstinu.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajSesijuPoHash.sql" relativeToChangelogFile="true" />
+
   <include file="CODE/NITxPtpNovaSesija.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxPtpDajProfil.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxPtpPotpisiInicijativu.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxPtpDetaljiPotpisa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxPtpListaPotpisa.sql" relativeToChangelogFile="true" />
-  <include file="CODE/NITxIncNovaSesija.sql" relativeToChangelogFile="true" />
+
   <include file="CODE/NITxOvlNovaSesija.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxOvlDajProfil.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxOvlListaZaOdobrenje.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxOvlListaZaIshod.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxOvlDetaljiInicijative.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxOvlOdbijInicijativu.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxOvlOdobriInicijativu.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxOvlRegistrujOdbacenuInicijativu.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxOvlRegistrujPrihvacenuInicijativu.sql" relativeToChangelogFile="true" />
+
+  <include file="CODE/NITxIncNovaSesija.sql" relativeToChangelogFile="true" />
 
   <include file="CODE/NITestMuskoIme.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestZenskoIme.sql" relativeToChangelogFile="true" />
@@ -41,6 +56,7 @@
   <include file="CODE/NITestInicijativa.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestPunjenjeBaze.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestTxPtpMethods.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITestTxOvlMethods.sql" relativeToChangelogFile="true" />
 
   <include file="CREATE/CrNIMWGrants.sql" relativeToChangelogFile="true" />
 
