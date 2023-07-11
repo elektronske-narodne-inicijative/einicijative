@@ -6,14 +6,14 @@ Ideje za sadržaj koji vidite ovde su razvijene u saradnji između Ivana Grujić
 
 U paraleli su ideje tehnički razvijane, što je kao rezultat proizvelo tehničke sadržaje (tehničke specifikacije i izvorni kod) koji su dostupni kroz ovaj repo.
 ## Ciljevi
-Imajući u vidu kako domaća iskustva - "papirno" izvođene narodne inicijative, kao i strana, pre svega sajt [petition.parliament.uk](https://petition.parliament.uk/), tako i tekst Zakona o referendumu i narodnoj inicijativi od 10. decembra 2021, ovo tehničko rešenje je projektovano tako da se ostvari nekoliko ključnih ciljeva:
+Imajući u vidu kako domaća iskustva - "papirno" izvođene narodne inicijative, kao i strana, pre svega sajt [petition.parliament.uk](https://petition.parliament.uk/), tako i tekst [Zakona o referendumu i narodnoj inicijativi](https://www.paragraf.rs/propisi/zakon_o_referendumu_i_narodnoj_inicijativi.html) od 10. decembra 2021, ovo tehničko rešenje je projektovano tako da se ostvari nekoliko ključnih ciljeva:
 - Omogući građanima da koriste svoje ustavno pravo pokretanja i učestvovanja u narodnim inicijativama na racionalan i efikasan način, oslanjajući se na postojeće resurse digitalne infrastrukture državnih organa Srbije
 - Omogući da građani mogu jednostavno da kontrolišu svoje učešće u narodnim inicijativama
 - Minimizuje rizike koji trenutno nastaju prikupljanjem podataka o ličnosti neophodnih za provere ne-elektronskih narodnih inicijativa
 - Minimizuje verovatnoću tehničkih napada na sistem i povezane sisteme, kako elementima "zaštite u dubinu", tako i minimizovanjem vrednosti koju bi napadač dobio u slučaju uspešnog upada u sistem
 ## Ključne ideje
 Ključne ideje na kojima je zasnovan ovaj predlog tehničkog rešenja su:
-- Ako se identitet građanina verifikuje od strane sistema državnih organa u trenutku potpisivanja, prikupljanje uobičajenih podataka o ličnosti (ime, prezime, adresa stanovanja, JMBG) i njihovo dostavljanje inicijativnom odboru nije više svrsishodno, te ga ne treba ni raditi, u skladu sa principom srazmernosti iz članova 14 i 54 Zakona o zaštiti podataka o ličnosti
+- Ako se identitet građanina verifikuje od strane sistema državnih organa u trenutku potpisivanja, prikupljanje uobičajenih podataka o ličnosti (ime, prezime, adresa stanovanja, JMBG) i njihovo dostavljanje inicijativnom odboru nije više svrsishodno, te ga ne treba ni raditi, u skladu sa principom srazmernosti iz članova 14 i 54 [Zakona o zaštiti podataka o ličnosti](https://www.paragraf.rs/propisi/zakon_o_zastiti_podataka_o_licnosti.html)
 - Nema očiglednog razloga da se proces izvođenja narodnih inicijativa, počevši od pripreme zahteva i uključenja članova inicijativnog odbora, preko podnošenja i verifikacije zahteva od strane predsednika nadležne skupštine, prikupljanja potpisa - i na kraju pokretanja inicijative pred skupštinom i registracije odluke skupštine, *ne digitalizuje u celini* - i da se ono što bi bio tok papirnih dokumenata kroz institucije ne pretvori u prostu promenu stanja (faze obrade) elektronske narodne inicijative u sistemu.
 - Građani koji nemaju tehničkih uslova da elektronske narodne inicijative potpišu elektronski treba da dobiju mogućnost da to urade identifikacijom ličnim dokumentom na šalterima pošta i opštinskih uprava - ovo se očekuje da bude efikasnije, jeftinije i skalabilnije nego postojeći ručni proces, koji zahteva verifikaciju od strane notara (uz sve ostale elemente rukovanja fizičkim dokumentom) - *prikupljanje, transport i konsolidacija bukvalno desetina hiljada pojedinačnih obrazaca, popunjenih od strane građana i overenih od strane ovlašćenih notara!*
 - Građani treba da dobiju mogućnost da u elektronskoj formi (ili u papirnoj formi, na šalterima pošta i opštinske uprave) dobiju listu svih narodnih inicijativa koje su potpisali - i na taj način jednostavno kontrolišu da li je bilo koji učesnik u procesu zloupotrebio sistem
@@ -31,7 +31,7 @@ Podnošenjem zahteva za narodnu incijativu članovi inicijativnog odbora gube mo
 Opis budućeg tehničkog rešenja kroz opis pretpostavljenih zahteva ključnih tipova korisnika i razloga za te zahteve, koristeći pristup zvani "korisničke priče", dat je u [ovoj prezentaciji](https://docs.google.com/presentation/d/1cnEa4gFjD85ZG449C_NlCCojxXWHUtky/edit?usp=drive_link&ouid=100806157112222708210&rtpof=true&sd=true).
 
 ## Tehnička arhitektura
-Sistem za elektronske narodne inicijative (u daljem tekstu eInicijativa/eInicijative ili einicijative.gov.rs) je zamišljen kao zasebna, "slabo spregnuta" (loosely coupled) elektronska usluga državnih organa koja se oslanja, što se tiče autentikacije korisnika (ovlašćenih lica organa javne uprave, članova inicijativnih odbora i potpisnika), na sistem eid.gov.rs, koristeći *JWT* koncept (Javascript Web Token), a što se tiče dostupnosti verifikovanih ličnih podataka na sistem euprava.gov.rs (konzumirajući namenski novi API nazvan *u4niapi*). Kontekst eInicijativa sistema je prikazan na dijagramu ispod.
+Sistem za elektronske narodne inicijative (u daljem tekstu eInicijativa/eInicijative ili einicijative.gov.rs) je zamišljen kao zasebna, "slabo spregnuta" (loosely coupled) elektronska usluga državnih organa koja se oslanja, što se tiče autentikacije korisnika (ovlašćenih lica organa javne uprave, članova inicijativnih odbora i potpisnika), na sistem [eid.gov.rs](https://eid.gov.rs/sr-Cyrl-RS/pocetna), koristeći *JWT* koncept ([JSON Web Token](https://jwt.io/)), a što se tiče dostupnosti verifikovanih ličnih podataka na sistem [euprava.gov.rs](https://euprava.gov.rs/) (konzumirajući namenski novi API nazvan *u4niapi*). Kontekst eInicijativa sistema je prikazan na dijagramu ispod.
 
 ![ein-korisniciisistemi](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/03af8413-8c50-4d83-b988-a72a445a63bf)
 
@@ -50,7 +50,7 @@ Prilog inicijative je mogućnost da se jedan ili više PDF dokumenata prilože u
 
 Zapis o promeni inicijative registruje ključne akcije nad inicijativom i korisnike koji su ih uradili.
 
-Zamišljeno je da korisnici (građani i ovlašćena lica organa javne uprave) kao primarni identifikator dodeljen od portala eUprava za ovu namenu dobiju pseudonim visokog nivoa slučajnosti - konkretno UUID verzije 4. Identifikatori potpisa inicijative koje generiše eInicijativa bi mogli biti istog tipa, dok bi identifikatori samih inicijativa, zbog ručnog unosa na šalterima, bili numerički identifikatori (sa ili bez kontrolne cifre). Gde kod je moguće (opštine, upravni okruzi, itd.) koristili bi se postojeći šifarski sistemi državnih organa / Republičkog zavoda za statistku.
+Zamišljeno je da korisnici (građani i ovlašćena lica organa javne uprave) kao primarni identifikator dodeljen od portala eUprava za ovu namenu dobiju pseudonim visokog nivoa slučajnosti - konkretno [UUID verzije 4](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_4_(random)). Identifikatori potpisa inicijative koje generiše eInicijativa bi mogli biti istog tipa, dok bi identifikatori samih inicijativa, zbog ručnog unosa na šalterima, bili numerički identifikatori (sa ili bez kontrolne cifre). Gde kod je moguće (opštine, upravni okruzi, itd.) koristili bi se postojeći šifarski sistemi državnih organa / Republičkog zavoda za statistku.
 
 Šalterski sistem bi u API-ju građane identifikovao JMBG-om (pročitanim sa lične karte ili ručno unetim), što bi eInicijativa "konvertovala" u UUID konsultaciom servisa eUprava. 
 ## Detaljni tehnički dizajn
@@ -91,7 +91,7 @@ Dijagram tabela ispod je proizvod [Toad Data Modeler](https://www.quest.com/prod
 
 ![ModelPodatakaNarodneInicijative](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/0a53b93c-b4c8-4c82-b69f-0430200bfe1c)
 
-Tekući model je konfigurisan da generiše kod za besplatnu/open source PostgreSQL bazu, ali se relativno jednostavno može promeniti za druge podržane baze (Oracle, SQL Server, DB2, itd.). 
+Tekući model je konfigurisan da generiše kod za besplatnu/open source [PostgreSQL](https://www.postgresql.org/) bazu, ali se relativno jednostavno može promeniti za druge podržane baze (Oracle, SQL Server, DB2, itd.). 
 
 Sekcija ovog repoa sa izvornim kodom ("Implementacija") sadrži niz SQL skripti (jedna od njih je generisana iz alata za modeliranje) kojima se baza može instalirati koristeći alat za automatizaciju instalacija baza [Liquibase](https://www.liquibase.org/). XML dokument *index_changelog.xml* je indeks koji definiše redosled primene SQL skripti. Skripte očekuju da je na PostgreSQL instanci kreirana baza sa imenom "ni" u koju se instaliraju strukture podataka i inicijalno punjenje. Instalacija kreira korisnike *niapi* i *nipub* koje bi koristili odgovarajući servisi (opisani u sekciji *Tehnička ahitektura* iznad).
 
@@ -109,3 +109,22 @@ Ova procedura se poziva sa dva parametra. Prvi parametar određuje koliko sintet
 Sledeći poziv će kreirati nešto ispod milion građana i 10 hiljada inicijativa sa oko 7.7 miliona potpisa:
 
 <code>call ni.NITestPunjenjeBaze(15,10);</code>
+## Tekuće stanje implementacije rešenja, planovi
+##### Poslednji put ažurirano: 11.07.2023
+### Urađeno
+U ovom trenutku je tehnička dokumentacija uglavnom kompletirana i sastoji se od ove stranice i povezanih dokumenata - ono što još planiram da dodam je dokumentacija o tipovima poruka za nadzorni dnevnik (audit log events) i sistem za nadzor zdravlja usluga - to ču početi kada krenem da radim komponente srednjeg sloja.
+
+Što se tiče implementacije, najveći deo implementacije baze je sada kompletan - ostale su još procedure koje podržavaju API metode za inicijatore, kojih doduše ima najviše, ali je sada napravljen dovoljan broj sličnih procedura drugih namena, tako da očekujem da će implementacija ići dosta brže nego kod ovih početnih. Značaj implementacije ovih procedura u bazi je što se kroz njih još jednom prolazi kroz odnos REST API-ja i strukture baze - i već sam u više navrata korigovao jednu ili drugu stranu u ovom procesu.
+### Planovi
+Kada baza bude kompletirana, sledeći korak je implementacija servisa za objavljivanje (nipub). Servis za objavljivanje ide prvi jer em je vrlo jednostavan (svu obradu podataka rade već postojeće procedure u bazi), em se pomoću njega stvaraju podaci nad kojima bi mogla da se napravi prototipska aplikacija, koja bi mogla da pokrije korisničke priče sa slajda 3 ("Bilo ko, na bazi javnog pristupa") u [ovoj prezentaciji](https://docs.google.com/presentation/d/1cnEa4gFjD85ZG449C_NlCCojxXWHUtky/edit?usp=drive_link&ouid=100806157112222708210&rtpof=true&sd=true). Ovaj servis će biti urađen koristeći [Spring Boot 3.x](https://start.spring.io/) / Java 17 sa Spring Batch i PostgreSQL driverom. 
+
+Iza ovoga ide "prototipska" (tj. faza 1) web aplikacija koja pokriva korisničke priče za javni pristup, koja će biti urađena u [Vue.js](https://vuejs.org/). Ovakva aplikacija, kombinovana sa testnim podacima kreiranim postojećim testnim procedurama u bazi i budućim servisom za objavljivanje, može da se distribuira/objavi (web sajt) kao statički sadržaj, koji bi vizuelizovao buduće rešenje (sa obeleženim mestima gde će u budućnosti biti stranice koje zahtevaju prijavu preko <code>eid.gov.rs</code> servisa).
+
+Konačno bi se u paraleli razvijao niapi servis i odgovarajući delovi (sledeće faze) web aplikacije. I ovaj servis će biti urađen koristeći Spring Boot 3.x / Java 17, uz PostgreSQL driver i odgovarajuću biblioteku za implementaciju RESTful API (Jersey ili Spring Web), rukovanje JWT, PDF fajlovima, itd.
+### Tajming
+###### *Ovo je naravno sve hobi, koji radim uz dosta intenzivan glavni posao, tako da su datumi/periodi dole pre svega moja želja i lako mogu proklizati. Sve bi se naravno moglo ubrzati ako bi uskočilo još akcijaša ;)
+
+- Pokušaću da do kraja jula imam kompletnu implementaciju baze.
+- Idealno bi nipub bio gotov u toku avgusta, ako ne budem previše zauzet regularnim poslom.
+- Septembar i oktobar bi možda bili dovoljno da složim prvu skicu javne web aplikacije, verovatno bez toplotnih mapa za početak, osim ako se ne pokaže kao vrlo jednostavno.
+- Februar ili mart sledeće godine bi možda bili trenutak kada sve što je opisano u korisničkim pričama i API specifikacijama bude raspoloživo.
