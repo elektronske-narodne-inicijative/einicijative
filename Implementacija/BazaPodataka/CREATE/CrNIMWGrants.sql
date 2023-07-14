@@ -34,3 +34,13 @@ GRANT EXECUTE ON PROCEDURE ni.NITxOvlRegistrujOdbacenuInicijativu(text, integer,
 GRANT EXECUTE ON PROCEDURE ni.NITxOvlRegistrujPrihvacenuInicijativu(text, integer, date, text) TO niapi;
 
 GRANT EXECUTE ON PROCEDURE ni.NITxIncNovaSesija(text, json, timestamp, uuid, text, integer, text, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncDajProfil(text, text, integer, text, text, text, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncPodesiBiografiju(text, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncPodesiEmail(text, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncDetaljiInicijative(text, integer, json) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncListaPoFaziObrade(text, text, json) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncDodajInicijativu(text, text, text, text, text, text, text, integer) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncIzmeniInicijativu(text, integer, text, text, text, text, text, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncDodajPrilogInicijative(text, integer, text, text, integer, integer) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncIzmeniPrilogInicijative(text, integer, text, text, integer) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncObrisiPrilogInicijative(text, integer) TO niapi;

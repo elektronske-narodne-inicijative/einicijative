@@ -51,9 +51,9 @@ BEGIN
              WHERE g.IDNIGradjanin = idKorisnika;
         END IF;
         IF imePrezime is not null and (gradjanin.InicijatorovoIme is null or gradjanin.InicijatorovoIme != imePrezime) THEN
-            UPDATE ni.NIGradjanin g 
-               SET g.InicijatorovoIme = imePrezime
-             WHERE g.IDNIGradjanin = idKorisnika;
+            UPDATE ni.NIGradjanin 
+               SET InicijatorovoIme = imePrezime
+             WHERE IDNIGradjanin = idKorisnika;
         END IF;
     EXCEPTION
         WHEN no_data_found THEN

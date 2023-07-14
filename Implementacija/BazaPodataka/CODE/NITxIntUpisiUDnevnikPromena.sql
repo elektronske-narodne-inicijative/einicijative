@@ -12,8 +12,19 @@ DECLARE
   detPromene text;
 BEGIN
     CASE
+        WHEN tipAkcije = 'DI' THEN 
+            detPromene = CAST(JSONB_BUILD_OBJECT(
+                'тип', 'Нова иницијатива',
+                'типИницијативе',   cast(iPosle.IDNITipInicijative as text),
+                'називИницијативе', cast(iPosle.NazivInicijative as text),
+                'текстИницијативе', cast(iPosle.TekstInicijative as text),
+                'емаилЗаКонтакт',   cast(iPosle.EmailZaKontakt as text),
+                'нивоВласти',       cast(iPosle.IDNINivoVlasti as text),
+                'општина',          cast(iPosle.IDNIOpstina as text),
+                'покрајина',        cast(iPosle.IDNIPokrajina as text)
+            ) as text);
         WHEN tipAkcije = 'PI' THEN 
-            detPromene = CAST(ЈSON_STRIP_NULLS(JSONB_BUILD_OBJECT(
+            detPromene = CAST(JSONB_BUILD_OBJECT(
                 'тип', 'Промена иницијативе',
                 'типИницијативе',    CASE
                                          WHEN iPre.IDNITipInicijative != iPosle.IDNITipInicijative THEN JSONB_BUILD_OBJECT('пре', iPre.IDNITipInicijative, 'после', iPosle.IDNITipInicijative)
@@ -43,9 +54,17 @@ BEGIN
                                          WHEN iPre.IDNIPokrajina is distinct from iPosle.IDNIPokrajina THEN JSONB_BUILD_OBJECT('пре', iPre.IDNIPokrajina, 'после', iPosle.IDNIPokrajina)
                                          ELSE JSONB_BUILD_OBJECT('промена', 'без')
                                      END
-            )) as text);
+            ) as text);
+        WHEN tipAkcije = 'DP' THEN 
+            detPromene = CAST(JSONB_BUILD_OBJECT(
+                'тип', 'Нови прилог',
+                'иДприлога',    cast(pPosle.IDNIPrilogInicijative as text),
+                'сортирање',    cast(pPosle.Sortiranje as text),
+                'називПрилога', pPosle.NazivPriloga,
+                'урлПрилога',   pPosle.UrlPriloga
+            ) as text);
         WHEN tipAkcije = 'PP' THEN 
-            detPromene = CAST(ЈSON_STRIP_NULLS(JSONB_BUILD_OBJECT(
+            detPromene = CAST(JSONB_BUILD_OBJECT(
                 'тип', 'Промена прилога',
                 'иДприлога', cast(pPosle.IDNIPrilogInicijative as text),
                 'сортирање',         CASE
@@ -60,7 +79,12 @@ BEGIN
                                          WHEN pPre.UrlPriloga != pPosle.UrlPriloga THEN JSONB_BUILD_OBJECT('пре', pPre.UrlPriloga, 'после', pPosle.UrlPriloga)
                                          ELSE JSONB_BUILD_OBJECT('промена', 'без')
                                      END
-            )) as text);
+            ) as text);
+        WHEN tipAkcije = 'OP' THEN 
+            detPromene = CAST(JSONB_BUILD_OBJECT(
+                'тип', 'Обрисан прилог',
+                'иДприлога',    cast(pPosle.IDNIPrilogInicijative as text)
+            ) as text);
         WHEN tipAkcije = 'ZP' THEN
             detPromene = '{"тип":"Припремљена позивница"}';
         WHEN tipAkcije = 'ZI' THEN 

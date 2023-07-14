@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE ni.NITxOvlDetaljiInicijative(
+CREATE OR REPLACE PROCEDURE ni.NITxIncDetaljiInicijative(
     IN  jwtHash Text,
     IN  idInicijative integer,
     OUT detaljiInicijative JSON
@@ -7,17 +7,10 @@ LANGUAGE plpgsql SECURITY DEFINER
 AS $$
 DECLARE
     sesija RECORD;
-    ovlice RECORD;
+    gradjanin RECORD;
+    inicijativa RECORD;
 BEGIN
-    call ni.NITxIntDajSesiju(
-        jwtHash, 
-        sesija,
-        'О', -- potreban tip sesije
-        'Непознат хеш сесије у упиту листе за унос исхода покренутих иницијатива!',
-        'Неодговарајући тип сесије - очекује се сесија за овлашћено лице!',
-        'Истекао је период важења пријаве - молимо пријавите се поново!'
-    );
-    call ni.NITxIntDajOvlascenoLice(sesija, ovlice,'Недостају подаци о овлашћеном лицу за ИД корисника из сесије!');
+    call ni.NITxIntPristupClanaOdbora(jwtHash, idInicijative, sesija, gradjanin, inicijativa);
     SELECT JSONB_STRIP_NULLS(
       JSONB_BUILD_OBJECT(
       'idInicijative',              i.IDNIInicijativa,
@@ -78,12 +71,6 @@ BEGIN
       )) as detalji
   INTO detaljiInicijative
   FROM ni.NIInicijativa i
- WHERE i.IDNIInicijativa = idInicijative
-   AND i.IDNIFazaObrade NOT IN ('У') -- ovlašćena lica ne vide inicijative dok se ne podnesu na odobrenje
-   AND i.IDNINivoVlasti = ovlice.IDNINivoVlasti
-   AND (    i.IDNINivoVlasti = 'Р'
-        OR (i.IDNINivoVlasti = 'О' AND i.IDNIOpstina = ovlice.IDNIOpstina)
-        OR (i.IDNINivoVlasti = 'П' AND i.IDNIPokrajina = ovlice.IDNIPokrajina)
-       );
+ WHERE i.IDNIInicijativa = idInicijative;
 END;
 $$;

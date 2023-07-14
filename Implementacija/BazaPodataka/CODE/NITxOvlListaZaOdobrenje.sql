@@ -1,6 +1,6 @@
 CREATE OR REPLACE PROCEDURE ni.NITxOvlListaZaOdobrenje(
     IN  jwtHash Text,
-    OUT listaPotpisa JSON
+    OUT listaInicijativa JSON
 )
 LANGUAGE plpgsql SECURITY DEFINER
 AS $$
@@ -18,7 +18,7 @@ BEGIN
     );
     call ni.NITxIntDajOvlascenoLice(sesija, ovlice,'Недостају подаци о овлашћеном лицу за ИД корисника из сесије!');
     SELECT json_agg(a)
-      INTO listaPotpisa
+      INTO listaInicijativa
       FROM (SELECT i.IDNIInicijativa as "idInicijative", 
                    i.NazivInicijative as  "nazivInicijative",
                    (SELECT s.Opis FROM ni.NITipInicijative s WHERE s.IDNITipInicijative = i.IDNITipInicijative) as "tipInicijative",

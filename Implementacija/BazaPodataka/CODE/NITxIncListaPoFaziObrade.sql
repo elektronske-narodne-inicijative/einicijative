@@ -1,22 +1,23 @@
-CREATE OR REPLACE PROCEDURE ni.NITxOvlListaZaIshod(
+CREATE OR REPLACE PROCEDURE ni.NITxIncListaPoFaziObrade(
     IN  jwtHash Text,
+    IN  idFazeObrade Text,
     OUT listaInicijativa JSON
 )
 LANGUAGE plpgsql SECURITY DEFINER
 AS $$
 DECLARE
     sesija RECORD;
-    ovlice RECORD;
+    gradjanin RECORD;
 BEGIN
     call ni.NITxIntDajSesiju(
         jwtHash, 
         sesija,
-        'О', -- potreban tip sesije
-        'Непознат хеш сесије у упиту листе за унос исхода покренутих иницијатива!',
-        'Неодговарајући тип сесије - очекује се сесија за овлашћено лице!',
+        'И', -- potreban tip sesije
+        'Непознат хеш сесије!',
+        'Неодговарајући тип сесије - очекује се сесија за члана иницијативног одбора!',
         'Истекао је период важења пријаве - молимо пријавите се поново!'
     );
-    call ni.NITxIntDajOvlascenoLice(sesija, ovlice,'Недостају подаци о овлашћеном лицу за ИД корисника из сесије!');
+    call ni.NITxIntDajGradjanina(sesija, gradjanin,'Недостају подаци о грађанину за ИД корисника из сесије!');
     SELECT json_agg(a)
       INTO listaInicijativa
       FROM (SELECT i.IDNIInicijativa as "idInicijative", 
@@ -25,16 +26,15 @@ BEGIN
                    i.trnZahteva as  "trnZahteva",
                    i.trnPodnosenja as  "trnPodnosenja",
                    (SELECT count(*) FROM ni.NIClanInicijativnogOdbora s WHERE s.IDNIInicijativa = i.IDNIInicijativa) as "brInicijatora",
-                   i.DatumPokretanja as "datumPokretanja",
+                   null as "datumPokretanja",
                    (SELECT count(*) FROM ni.NIPotpisInicijative s WHERE s.IDNIInicijativa = i.IDNIInicijativa) as  "brPotpisa"
               FROM ni.NIINicijativa i
-             WHERE i.IDNIFazaObrade = 'П'
-               AND i.IDNINivoVlasti = ovlice.IDNINivoVlasti
-               AND (    i.IDNINivoVlasti = 'Р'
-                    OR (i.IDNINivoVlasti = 'О' AND i.IDNIOpstina = ovlice.IDNIOpstina)
-                    OR (i.IDNINivoVlasti = 'П' AND i.IDNIPokrajina = ovlice.IDNIPokrajina)
-                   )
-             ORDER BY i.TrnPodnosenja asc
+             WHERE i.IDNIFazaObrade = idFazeObrade
+               AND i.IDNIInicijativa IN 
+                   (SELECT i2.IDNIInicijativa FROM ni.NIINicijativa i2 WHERE i2.IDNIGradjanin = gradjanin.IDNIGradjanin
+                    UNION ALL 
+                    SELECT cio.IDNIInicijativa FROM ni.NIClanInicijativnogOdbora cio WHERE cio.IDNIGradjanin = gradjanin.IDNIGradjanin)
+             ORDER BY i.TrnZahteva desc
       ) a;
 END;
 $$;

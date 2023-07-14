@@ -11,7 +11,6 @@ DECLARE
     sesija RECORD;
     inicijativa RECORD;
     gradjanin RECORD;
-    opstina RECORD;
     slogPotpisa RECORD;
     potpis UUID;
 BEGIN
