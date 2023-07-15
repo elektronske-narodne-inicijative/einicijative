@@ -6,7 +6,6 @@ LANGUAGE plpgsql SECURITY DEFINER
 AS $$
 DECLARE
     sesija RECORD;
-    inicijativa RECORD;
     gradjanin RECORD;
 BEGIN
     call ni.NITxIntDajSesiju(

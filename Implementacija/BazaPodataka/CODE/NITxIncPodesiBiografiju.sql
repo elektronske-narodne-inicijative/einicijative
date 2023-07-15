@@ -6,6 +6,7 @@ LANGUAGE plpgsql SECURITY DEFINER
 AS $$
 DECLARE
     sesija RECORD;
+    gradjanin RECORD;
 BEGIN
     call ni.NITxIntDajSesiju(
         jwtHash, 
@@ -18,7 +19,7 @@ BEGIN
     call ni.NITxIntDajGradjanina(sesija, gradjanin,'Недостају подаци о грађанину за ИД корисника из сесије!');
     --
     UPDATE ni.NIGradjanin
-       SET biografija = bio
+       SET inicijatorovaBiografija = bio
      WHERE IDNIGradjanin = sesija.IDNIKorisnik;
 END;
 $$;

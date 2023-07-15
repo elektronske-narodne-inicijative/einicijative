@@ -1,10 +1,14 @@
 CREATE OR REPLACE PROCEDURE ni.NITestTxIncMethods(
-    IN  idKorisnikaSavo uuid,
     IN  jwtTimeoutSec integer
 )
 LANGUAGE plpgsql
 AS $$
 DECLARE
+    idKorisnikaSavo uuid;
+    idKorisnikaZlatko uuid;
+    idKorisnikaLjiljana uuid;
+    idKorisnikaMarina uuid;
+    idKorisnikaKristina uuid;
     gradjanin RECORD;
     inicijativa RECORD;
     jwtHash text;
@@ -28,22 +32,25 @@ DECLARE
     idInicijative integer;
     idPrilogaInicijative integer;
     rezultatJSON json;
+    jwtHash2 text;
+    jwtVrednost2 json;
+    trnIstekaJWT2 timestamp;
+    gradjanin2 RECORD;
+    pozivnica text;
 BEGIN
-    SELECT *
-      INTO STRICT gradjanin
-      FROM ni.NIGradjanin g
-     WHERE g.IDNIGradjanin = idKorisnikaSavo;
+
+    idKorisnikaSavo = gen_random_uuid ();
     jwtVrednost = cast('{"a":"'|| cast(gen_random_uuid () as text) ||'"}' as json);
     jwtHash = cast(digest(cast(jwtVrednost as text), 'sha256') as text);
     trnIstekaJWT = cast (current_timestamp + interval '1 second' * jwtTimeoutSec as timestamp);
     -- inicijalizuj
-    call ni.NITxIncNovaSesija(jwtHash, jwtVrednost, trnIstekaJWT, gradjanin.IDNIGradjanin, gradjanin.IDNIPol, gradjanin.GodinaRodjenja, gradjanin.IDNIOpstina, 'Саво Манојловић');
+    call ni.NITxIncNovaSesija(jwtHash, jwtVrednost, trnIstekaJWT, idKorisnikaSavo, 'М', 1986, '70106', 'Саво Манојловић');
     commit;
     call ni.NITxDajSesijuPoHash(jwtHash, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
     call ni.NITxIncDajProfil(jwtHash, idPola, godinaRodjenja, nazivOpstine, imePrezime, emailAdresa, biografija);
     call ni.NITxIncPodesiEmail(jwtHash,'savo@kreni-promeni.org');
     commit;
-    call ni.NITxIncPodesiEmail(jwtHash,'Председник удружења Крени-Промени');
+    call ni.NITxIncPodesiBiografiju(jwtHash,'Председник удружења Крени-Промени');
     commit;
     call ni.NITxIncDodajInicijativu(jwtHash, 'ОИ',
       'Забрана геолошких истраживања, експлоатације и прераде руде литијума',
@@ -69,6 +76,87 @@ BEGIN
        1);
     commit;
     call ni.NITxIncObrisiPrilogInicijative(jwtHash, idPrilogaInicijative);
+    commit;
+    --
+    call ni.NITxIncPripremiPozivnicu(jwtHash, idInicijative, pozivnica);
+    commit;
+    call ni.NITxIncPonistiPozivnicu(jwtHash, idInicijative);
+    commit;
+    --
+    -- Uključi Zlatka
+    call ni.NITxIncPripremiPozivnicu(jwtHash, idInicijative, pozivnica);
+    commit;
+    idKorisnikaZlatko = gen_random_uuid ();
+    jwtVrednost2 = cast('{"a":"'|| cast(gen_random_uuid () as text) ||'"}' as json);
+    jwtHash2 = cast(digest(cast(jwtVrednost2 as text), 'sha256') as text);
+    trnIstekaJWT2 = cast (current_timestamp + interval '1 second' * jwtTimeoutSec as timestamp);
+    -- inicijalizuj
+    call ni.NITxIncNovaSesija(jwtHash2, jwtVrednost2, trnIstekaJWT2, idKorisnikaZlatko, 'М', 1965, '70106', 'Златко Кокановић');
+    commit;
+    call ni.NITxDajSesijuPoHash(jwtHash2, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
+    call ni.NITxIncDajProfil(jwtHash2, idPola, godinaRodjenja, nazivOpstine, imePrezime, emailAdresa, biografija);
+    call ni.NITxIncPodesiEmail(jwtHash2,'jadarnedamo@gmail.com');
+    commit;
+    call ni.NITxIncPodesiBiografiju(jwtHash2,'потпредседник удружења Не Дамо Јадар');
+    commit;
+    call ni.NITxIncIskoristiPozivnicu(jwtHash2, idInicijative, pozivnica);
+    commit;
+    --
+    -- Uključi Ljiljanu
+    call ni.NITxIncPripremiPozivnicu(jwtHash, idInicijative, pozivnica);
+    commit;
+    idKorisnikaLjiljana = gen_random_uuid ();
+    jwtVrednost2 = cast('{"a":"'|| cast(gen_random_uuid () as text) ||'"}' as json);
+    jwtHash2 = cast(digest(cast(jwtVrednost2 as text), 'sha256') as text);
+    trnIstekaJWT2 = cast (current_timestamp + interval '1 second' * jwtTimeoutSec as timestamp);
+    -- inicijalizuj
+    call ni.NITxIncNovaSesija(jwtHash2, jwtVrednost2, trnIstekaJWT2, idKorisnikaLjiljana, 'Ж', 1975, '70106', 'Љиљана Браловић');
+    commit;
+    call ni.NITxDajSesijuPoHash(jwtHash2, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
+    call ni.NITxIncDajProfil(jwtHash2, idPola, godinaRodjenja, nazivOpstine, imePrezime, emailAdresa, biografija);
+    call ni.NITxIncPodesiEmail(jwtHash2,'suvoborskagreda@gmail.com');
+    commit;
+    call ni.NITxIncPodesiBiografiju(jwtHash2,'председница удружења Сувоборска Греда');
+    commit;
+    call ni.NITxIncIskoristiPozivnicu(jwtHash2, idInicijative, pozivnica);
+    commit;
+    --
+    -- Uključi Marinu
+    call ni.NITxIncPripremiPozivnicu(jwtHash, idInicijative, pozivnica);
+    commit;
+    idKorisnikaMarina = gen_random_uuid ();
+    jwtVrednost2 = cast('{"a":"'|| cast(gen_random_uuid () as text) ||'"}' as json);
+    jwtHash2 = cast(digest(cast(jwtVrednost2 as text), 'sha256') as text);
+    trnIstekaJWT2 = cast (current_timestamp + interval '1 second' * jwtTimeoutSec as timestamp);
+    -- inicijalizuj
+    call ni.NITxIncNovaSesija(jwtHash2, jwtVrednost2, trnIstekaJWT2, idKorisnikaMarina, 'Ж', 1985, '70106', 'Марина Павлић');
+    commit;
+    call ni.NITxDajSesijuPoHash(jwtHash2, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
+    call ni.NITxIncDajProfil(jwtHash2, idPola, godinaRodjenja, nazivOpstine, imePrezime, emailAdresa, biografija);
+    call ni.NITxIncPodesiEmail(jwtHash2,'marina@kreni-promeni.org');
+    commit;
+    call ni.NITxIncPodesiBiografiju(jwtHash2,'Чланица Крени Промени');
+    commit;
+    call ni.NITxIncIskoristiPozivnicu(jwtHash2, idInicijative, pozivnica);
+    commit;
+    --
+    -- Uključi Kristinu
+    call ni.NITxIncPripremiPozivnicu(jwtHash, idInicijative, pozivnica);
+    commit;
+    idKorisnikaKristina = gen_random_uuid ();
+    jwtVrednost2 = cast('{"a":"'|| cast(gen_random_uuid () as text) ||'"}' as json);
+    jwtHash2 = cast(digest(cast(jwtVrednost2 as text), 'sha256') as text);
+    trnIstekaJWT2 = cast (current_timestamp + interval '1 second' * jwtTimeoutSec as timestamp);
+    -- inicijalizuj
+    call ni.NITxIncNovaSesija(jwtHash2, jwtVrednost2, trnIstekaJWT2, idKorisnikaKristina, 'Ж', 1996, '70106', 'Кристина Урошевић');
+    commit;
+    call ni.NITxDajSesijuPoHash(jwtHash2, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
+    call ni.NITxIncDajProfil(jwtHash2, idPola, godinaRodjenja, nazivOpstine, imePrezime, emailAdresa, biografija);
+    call ni.NITxIncPodesiEmail(jwtHash2,'kristina@kreni-promeni.org');
+    commit;
+    call ni.NITxIncPodesiBiografiju(jwtHash2,'Чланица Крени Промени');
+    commit;
+    call ni.NITxIncIskoristiPozivnicu(jwtHash2, idInicijative, pozivnica);
     commit;
     --
     call ni.NITxIncDetaljiInicijative(jwtHash, idInicijative, rezultatJSON);
