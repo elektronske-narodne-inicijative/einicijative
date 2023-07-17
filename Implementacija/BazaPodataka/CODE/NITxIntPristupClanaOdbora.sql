@@ -33,8 +33,5 @@ BEGIN
                 call ni.NITxBaciGresku('NIRNO',sesija.IDNIKorisnik,'Нисте члан иницијативног одбора - не можете мењати ову иницијативу!');
         END;
     END IF;
-    IF inicijativa.IDNIFazaObrade != 'У' THEN
-        call ni.NITxBaciGresku('NIFPR',sesija.IDNIKorisnik,'Иницијатива више није у фази припреме - не можете је мењати!');
-    END IF;
 END;
 $$;

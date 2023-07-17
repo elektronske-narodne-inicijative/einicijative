@@ -9,7 +9,7 @@ DECLARE
     gradjanin RECORD;
     inicijativa RECORD;
 BEGIN
-    call ni.NITxIntPristupClanaOdbora(jwtHash, idInicijative, sesija, gradjanin, inicijativa);
+    call ni.NITxIntPristupClanaOdboraZaIzmenu(jwtHash, idInicijative, sesija, gradjanin, inicijativa);
     IF inicijativa.PozivnicaSHA256 is null THEN
         call ni.NITxBaciGresku('NIPBN',sesija.IDNIKorisnik,'Текућа позивница не постоји - не можете је поништити');
     END IF;

@@ -35,11 +35,11 @@ insert into NINivoVlasti(IDNINivoVlasti, Opis, Sortiranje) values ('П','Пок�
 insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('ОД','Општи предлог доношења закона',1);
 insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('ОИ','Општи предлог измене закона',2);
 insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('ОУ','Општи предлог укидања закона',3);
-insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('ОР','Општи предлог расписивања референдума',4);
-insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('КД','Конкретан предлог доношења закона',5);
-insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('КИ','Конкретан предлог измене закона',6);
-insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('КУ','Конкретан предлог укидања закона',7);
-insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('КР','Конкретан предлог расписивања референдума',8);
+insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('КД','Конкретан предлог доношења закона',4);
+insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('КИ','Конкретан предлог измене закона',5);
+insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('КУ','Конкретан предлог укидања закона',6);
+insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('РФ','Захтев за расписивања референдума',7);
+insert into NITipInicijative(IDNITipInicijative, Opis, Sortiranje) values ('ПУ','Захтев за промену Устава',8);
 
 -- ---------------------------------
 --  Faza obrade narodne inicijative
@@ -297,6 +297,12 @@ insert into NIOpstina(IDNIOpstina, Opis, Sortiranje, BrojRegistrovanihGlasaca, I
 -- ---------------------------------
 --  Parametri aplikacija
 -- --------------------------------
+insert into NIParametar(IDNIParametar, niapi, nipub, VrednostParametra) values ('НајмањеЧлановаИницијативногОдбора',false, false, '5');
+insert into NIParametar(IDNIParametar, niapi, nipub, VrednostParametra) values ('БројПотписаЗаЗахтевЗаПроменуУстава',false, false, '150000');
+insert into NIParametar(IDNIParametar, niapi, nipub, VrednostParametra) values ('БројПотписаЗаРепубличкиРеферендум',false, false, '100000');
+insert into NIParametar(IDNIParametar, niapi, nipub, VrednostParametra) values ('БројПотписаЗаПокрајинскиРеферендум',false, false, '30000');
+insert into NIParametar(IDNIParametar, niapi, nipub, VrednostParametra) values ('ПроценатГласачаЗаОпштинскиРеферендум',false, false, '10');
+insert into NIParametar(IDNIParametar, niapi, nipub, VrednostParametra) values ('БројПотписаЗаИницијативуЗаПроменуЗакона',false, false, '30000');
 insert into NIParametar(IDNIParametar, niapi, nipub, VrednostParametra) values ('ИстекСесијеОвлЛице',false, false, '600');
 insert into NIParametar(IDNIParametar, niapi, nipub, VrednostParametra) values ('ИстекСесијеИницијатор',false, false, '600');
 insert into NIParametar(IDNIParametar, niapi, nipub, VrednostParametra) values ('ИстекСесијеПотписник',false, false, '60');

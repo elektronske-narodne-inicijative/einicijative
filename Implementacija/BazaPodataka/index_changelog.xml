@@ -64,6 +64,9 @@
   <include file="CODE/NITxIncPripremiPozivnicu.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIncPonistiPozivnicu.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIncIskoristiPozivnicu.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIncPodnesiZahtev.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIncPovuciInicijativu.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIncPokreniInicijativu.sql" relativeToChangelogFile="true" />
 
   <include file="CODE/NITestMuskoIme.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestZenskoIme.sql" relativeToChangelogFile="true" />

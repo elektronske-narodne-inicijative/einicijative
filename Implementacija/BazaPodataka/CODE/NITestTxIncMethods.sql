@@ -159,7 +159,9 @@ BEGIN
     call ni.NITxIncIskoristiPozivnicu(jwtHash2, idInicijative, pozivnica);
     commit;
     --
+    call ni.NITxIncPodnesiZahtev(jwtHash2, idInicijative);
+    commit;
     call ni.NITxIncDetaljiInicijative(jwtHash, idInicijative, rezultatJSON);
-    call ni.NITxIncListaPoFaziObrade(jwtHash, 'У', rezultatJSON);
+    call ni.NITxIncListaPoFaziObrade(jwtHash, 'В', rezultatJSON);
 END;
 $$;

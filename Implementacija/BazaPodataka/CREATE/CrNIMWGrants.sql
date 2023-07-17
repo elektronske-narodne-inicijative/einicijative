@@ -47,3 +47,6 @@ GRANT EXECUTE ON PROCEDURE ni.NITxIncObrisiPrilogInicijative(text, integer) TO n
 GRANT EXECUTE ON PROCEDURE ni.NITxIncPripremiPozivnicu(text, integer, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncPonistiPozivnicu(text, integer) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncIskoristiPozivnicu(text, integer, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncPodnesiZahtev(text, integer) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncPovuciInicijativu(text, integer) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncPokreniInicijativu(text, integer) TO niapi;
