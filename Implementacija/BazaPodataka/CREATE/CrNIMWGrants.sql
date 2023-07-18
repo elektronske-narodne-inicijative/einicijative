@@ -50,3 +50,9 @@ GRANT EXECUTE ON PROCEDURE ni.NITxIncIskoristiPozivnicu(text, integer, text) TO 
 GRANT EXECUTE ON PROCEDURE ni.NITxIncPodnesiZahtev(text, integer) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncPovuciInicijativu(text, integer) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncPokreniInicijativu(text, integer) TO niapi;
+
+GRANT EXECUTE ON PROCEDURE ni.NITxSltUpitInicijative(integer, text, text, text, date) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxSltPotpis(uuid, text, integer, text, integer, text, uuid, timestamp) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxSltUpitPotpisa(uuid, integer, text, uuid, timestamp) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxSltUpitListePotpisa(uuid, json) TO niapi;
+

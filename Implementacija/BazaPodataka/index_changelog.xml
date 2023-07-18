@@ -22,11 +22,13 @@
   <include file="CODE/NITxBaciGresku.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajNumerickiParametar.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajStringParametar.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIntPodaciOGradjaninu.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntGradjaninNovaSesija.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntInicijaitivaZaOvlAkciju.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntPristupClanaOdbora.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntPristupClanaOdboraZaIzmenu.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntUpisiUDnevnikPromena.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxIntPotpisiInicijativu.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntDajSesiju.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntDajInicijativu.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntDajGradjanina.sql" relativeToChangelogFile="true" />
@@ -68,6 +70,11 @@
   <include file="CODE/NITxIncPovuciInicijativu.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIncPokreniInicijativu.sql" relativeToChangelogFile="true" />
 
+  <include file="CODE/NITxSltUpitInicijative.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxSltPotpis.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxSltUpitPotpisa.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxSltUpitListePotpisa.sql" relativeToChangelogFile="true" />
+
   <include file="CODE/NITestMuskoIme.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestZenskoIme.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestPrezime.sql" relativeToChangelogFile="true" />
@@ -76,6 +83,7 @@
   <include file="CODE/NITestTxPtpMethods.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestTxOvlMethods.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITestTxIncMethods.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITestTxSltMethods.sql" relativeToChangelogFile="true" />
 
   <include file="CREATE/CrNIMWGrants.sql" relativeToChangelogFile="true" />
 
