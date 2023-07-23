@@ -41,6 +41,12 @@ C:/...>Liquibase\liquibase.bat update
 
 Ovo će sa tekućeg foldera pokupiti liquibase.properties i iz njega pročitati informacije gore i instalirati bazu - videćete koje je sve fajlove primenio i da li ima bilo kakvih grešaka (ne bi trebalo).
 
+1.1. Servis za objavljivanje nipub
+
+Izvorni kod je podešen za rad sa IntelliJ IDEA. Idealno bi bilo (ako koristite Windows) da kreirate foldere sa imenima "C:/TEMP/einicijativa/podaci/zajednicko/" i "C:/TEMP/einicijativa/podaci/inicijative/" - inače podesite podatke na vaše lokalne foldere i trudite se da ne čekinujete ovu izmenu.
+
+Da bi servis ispravno objavljivao ćirilicu potrebno je da podesite VM options projekta (Run -> Edit Configurations) tako što dodate "-Dfile.encoding=UTF-8".
+
 
 ------------------------------------
 2. TESTIRANJE
@@ -59,43 +65,30 @@ set search_path=ni;
 \set VERBOSITY verbose
 \timing
 
-Sledeće što možete da uradite je da pokrenete testove procedura koje podržavaju API metode za inicijatore:
+Sledeće što možete da uradite je da pokrenete paket testova (minimalna varijanta inicijalnog punjenjenja je sa ni.NITestPunjenjeBaze(1,1)):
 
-call ni.NITestTxIncMethods(70);
+do $$ 
+declare
+    idGradjanina uuid;
+begin
+    call ni.NITestPunjenjeBaze(1,1);
+    select cast(min(cast(IDNIGradjanin as text)) as uuid)
+      into idGradjanina
+      from ni.nigradjanin;
+    delete from nipotpisinicijative where idnigradjanin = idGradjanina;
+    call ni.NITestTxPtpMethods(idGradjanina, 70, 0.001);
+    delete from nipotpisinicijative where idnigradjanin = idGradjanina;
+    call ni.NITestTxSltMethods(idGradjanina, 0.001);
+    call ni.NITestTxIncMethods(70);
+    call ni.NITestTxOvlMethods(600);
+    call ni.NITestTxOvlMethods(600);
+    call ni.NITestTxOvlMethods(600);
+    call ni.NITestTxOvlMethods(600);
+end $$;
 
-Rezultate u bazi možete da vidite pregledom odgovarajućih tabela:
 
-select * from niinicijativa;
-select * from nipriloginicijative;
-select * from niclaninicijativnogodbora;
-select * from ni.nidnevnikpromena order by idnidnevnikpromena desc;
+2.2. Servis za objavljivanje
 
-Da biste napunili bazu ozbiljnijom količinim podataka koristite proceduru NITestPunjenjeBaze - ona je opisana u glavnom README fajlu projekta. Primer dole popunjava 2% glasača i 2x1000 inicijativa:
+Kada se paket testova iz prethodne tačke izvrši možete da startujete nipub i on će objaviti sve dokumente (zajedničke plus inicijative upravo kreirane test skriptom).
 
-call ni.NITestPunjenjeBaze(2,2); 
-
-Za sledeći korak vam je potreban jedan ID građanina - to možete da dobijete iz liste koju vraća ovaj upit:
-
-select * from nigradjanin;
-
-UUID koji ste pronašli zamenite umesto primera ispod i tako pustite testove potpisnika - prvi će ubaciti 31 potpis i onda pući pošto je istekla sesija za potpisivanje (30 je od 30 sekundi), a drugi će ubaciti 2.000 potpisa (ako je testno punjenje sa 2x1000 inicijativa).
-
-delete from nipotpisinicijative where idnigradjanin = cast('59239ea0-9767-46ad-8930-0f901431c177' as uuid);
-call ni.NITestTxPtpMethods(cast('59239ea0-9767-46ad-8930-0f901431c177' as uuid), 30, 1.0);
-
-delete from nipotpisinicijative where idnigradjanin = cast('59239ea0-9767-46ad-8930-0f901431c177' as uuid);
-call ni.NITestTxPtpMethods(cast('59239ea0-9767-46ad-8930-0f901431c177' as uuid), 70, 0.001);
-
-delete from nipotpisinicijative where idnigradjanin = cast('59239ea0-9767-46ad-8930-0f901431c177' as uuid);
-
-Konačno testove API metoda ovlašćenih lica možete startovati na sledeći način (4 seta testova):
-
-call ni.NITestTxOvlMethods(600);
-call ni.NITestTxOvlMethods(600);
-call ni.NITestTxOvlMethods(600);
-call ni.NITestTxOvlMethods(600);
-
-Rezultat je da će 4 inicijative biti prebačene u konačno stanje (unet ishod), što možete proveriti sledećim upitom:
-
-select * from niinicijativa where idnifazaobrade='К';
-
+Parametri za pokretanje paketa se nalaze u application.properties fajlu, a parametar koji određuje period aktivnosti inicijative koja se objavljuje je u bazi, u tabeli NIParametar i podešen je na 600 sekundi (10 minuta).
