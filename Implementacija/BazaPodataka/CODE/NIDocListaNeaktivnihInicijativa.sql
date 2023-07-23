@@ -1,10 +1,10 @@
 CREATE OR REPLACE FUNCTION ni.NIDocListaNeaktivnihInicijativa()
-RETURNS json AS
+RETURNS text AS
 $$
 DECLARE
-  rezultat JSON;
+  rezultat text;
 BEGIN
-    SELECT json_agg(a)
+    SELECT cast(json_agg(a) as text)
       INTO rezultat
       FROM (SELECT i.IDNIInicijativa as "idInicijative", 
                    i.NazivInicijative as  "nazivInicijative", 

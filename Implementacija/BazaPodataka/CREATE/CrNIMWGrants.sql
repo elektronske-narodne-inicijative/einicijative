@@ -12,7 +12,7 @@ GRANT EXECUTE ON FUNCTION ni.NIDocListaOpstina() TO nipub;
 GRANT EXECUTE ON FUNCTION ni.NIDocListaUpravnihOkruga() TO nipub;
 GRANT EXECUTE ON FUNCTION ni.NIDocListaAktivnihInicijativa() TO nipub;
 GRANT EXECUTE ON FUNCTION ni.NIDocListaNeaktivnihInicijativa() TO nipub;
-GRANT EXECUTE ON FUNCTION ni.NIDocsSkoroPromenjeneInicijative(int) TO nipub;
+GRANT EXECUTE ON FUNCTION ni.NIDocsSkoroPromenjeneInicijative() TO nipub;
 
 -- Grant execute on API-related procedures to the API service
 

@@ -1,10 +1,10 @@
 CREATE OR REPLACE FUNCTION ni.NIDocListaUpravnihOkruga()
-RETURNS json AS
+RETURNS text AS
 $$
 DECLARE
-  rezultat JSON;
+  rezultat text;
 BEGIN
-    SELECT json_agg(a)
+    SELECT cast(json_agg(a) as text)
       INTO rezultat
       FROM (SELECT IDNIUpravniOkrug as "idUpravnogOkruga", Opis as "opis", Sortiranje as "sortiranje" 
               FROM ni.NIUpravniOkrug 

@@ -1,10 +1,13 @@
-CREATE OR REPLACE FUNCTION ni.NIDocsSkoroPromenjeneInicijative(IN pBrojPoslednjihMinuta INT)
-  RETURNS TABLE (idInicijative INTEGER, jsonDokument JSONB)
+CREATE OR REPLACE FUNCTION ni.NIDocsSkoroPromenjeneInicijative()
+  RETURNS TABLE (idInicijative INTEGER, jsonDokument text)
 AS
 $$
+DECLARE
+    brojPoslednjihSekundi INT;
 BEGIN
-   RETURN QUERY
-SELECT i.IDNIINicijativa, JSONB_STRIP_NULLS(
+    brojPoslednjihSekundi = ni.NITxDajNumerickiParametar('ПериодИзменаЗаДетаље');
+    RETURN QUERY
+SELECT i.IDNIINicijativa as idInicijative, cast (JSONB_STRIP_NULLS(
   JSONB_BUILD_OBJECT(
   'idInicijative',              i.IDNIInicijativa,
   'tipInicijative',             (SELECT Opis from ni.NITipInicijative s where s.IDNITipInicijative=i.IDNITipInicijative),
@@ -79,12 +82,12 @@ SELECT i.IDNIINicijativa, JSONB_STRIP_NULLS(
                AND p.IDNIGradjanin = g.IDNIGradjanin
              GROUP BY 2, 1
              ORDER BY 2, 1
-      ) d ))) as sadrzajZaObjavu
+      ) d ))) as text) as sadrzajZaObjavu
   FROM ni.NIInicijativa i
  WHERE i.IDNIInicijativa in
   (SELECT DISTINCT p1.IDNIInicijativa
      FROM ni.NIPotpisInicijative p1
-    WHERE p1.trnPotpisa > current_timestamp - CAST(pBrojPoslednjihMinuta||' minutes' AS Interval) );
+    WHERE p1.trnPotpisa > current_timestamp - CAST(brojPoslednjihSekundi||' seconds' AS Interval) );
 
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
