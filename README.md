@@ -110,21 +110,20 @@ Sledeći poziv će kreirati nešto ispod milion građana i 10 hiljada inicijativ
 
 <code>call ni.NITestPunjenjeBaze(15,10);</code>
 ## Tekuće stanje implementacije rešenja, planovi
-##### Poslednji put ažurirano: 11.07.2023
+##### Poslednji put ažurirano: 23.07.2023
 ### Urađeno
 U ovom trenutku je tehnička dokumentacija uglavnom kompletirana i sastoji se od ove stranice i povezanih dokumenata - ono što još planiram da dodam je dokumentacija o tipovima poruka za nadzorni dnevnik (audit log events) i sistem za nadzor zdravlja usluga - to ču početi kada krenem da radim komponente srednjeg sloja.
 
-Što se tiče implementacije, najveći deo implementacije baze je sada kompletan - ostale su još procedure koje podržavaju API metode za inicijatore, kojih doduše ima najviše, ali je sada napravljen dovoljan broj sličnih procedura drugih namena, tako da očekujem da će implementacija ići dosta brže nego kod ovih početnih. Značaj implementacije ovih procedura u bazi je što se kroz njih još jednom prolazi kroz odnos REST API-ja i strukture baze - i već sam u više navrata korigovao jednu ili drugu stranu u ovom procesu.
+Najveći deo implementacije baze je takođe završen, uključujući i sve procedure koje koriste API metodi, kao i sve funkcije koje koristi servis za objavljivanje dokumenata <code>nipub</code>. Testne procedure su i dalje relativno "plitke", ali to će biti dopunjavano s vremenom. U bazi je dodata nova šema <code>nibatch</code>, koja sadrži tabele koje koristi Spring Batch, kao i odgovarajuće dodele prava korisniku baze <code>nipub</code> (koji koristi odgovarajući servis).
+
+Prva verzija servisa nipub je takođe implementirana (Java 17, Spring Boot 3.1.2, Spring Batch, jdbc, postgres), projekat je [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/Java/nipub). Ovo stvara uslove za početak implementacije "faze 1" web aplikacije, jer servis generiše podatke koje koristi javni deo aplikacije, tj. korisničke priče sa slajda 3 ("Bilo ko, na bazi javnog pristupa") u [ovoj prezentaciji](https://docs.google.com/presentation/d/1cnEa4gFjD85ZG449C_NlCCojxXWHUtky/edit?usp=drive_link&ouid=100806157112222708210&rtpof=true&sd=true).
+
 ### Planovi
-Kada baza bude kompletirana, sledeći korak je implementacija servisa za objavljivanje (nipub). Servis za objavljivanje ide prvi jer em je vrlo jednostavan (svu obradu podataka rade već postojeće procedure u bazi), em se pomoću njega stvaraju podaci nad kojima bi mogla da se napravi prototipska aplikacija, koja bi mogla da pokrije korisničke priče sa slajda 3 ("Bilo ko, na bazi javnog pristupa") u [ovoj prezentaciji](https://docs.google.com/presentation/d/1cnEa4gFjD85ZG449C_NlCCojxXWHUtky/edit?usp=drive_link&ouid=100806157112222708210&rtpof=true&sd=true). Ovaj servis će biti urađen koristeći [Spring Boot 3.x](https://start.spring.io/) / Java 17 sa Spring Batch i PostgreSQL driverom. 
+Sledeći korak u implementaciji je  "faza 1" web aplikacija koja pokriva korisničke priče za javni pristup, koja će biti urađena u [Vue.js](https://vuejs.org/). Ovakva aplikacija, kombinovana sa testnim podacima generisanim <code>nipub</code> servisom, može da se distribuira/objavi (web sajt) kao statički sadržaj koji bi vizuelizovao buduće rešenje (sa obeleženim mestima gde će u budućnosti biti stranice koje zahtevaju prijavu preko <code>eid.gov.rs</code> servisa).
 
-Iza ovoga ide "prototipska" (tj. faza 1) web aplikacija koja pokriva korisničke priče za javni pristup, koja će biti urađena u [Vue.js](https://vuejs.org/). Ovakva aplikacija, kombinovana sa testnim podacima kreiranim postojećim testnim procedurama u bazi i budućim servisom za objavljivanje, može da se distribuira/objavi (web sajt) kao statički sadržaj, koji bi vizuelizovao buduće rešenje (sa obeleženim mestima gde će u budućnosti biti stranice koje zahtevaju prijavu preko <code>eid.gov.rs</code> servisa).
-
-Konačno bi se u paraleli razvijao niapi servis i odgovarajući delovi (sledeće faze) web aplikacije. I ovaj servis će biti urađen koristeći Spring Boot 3.x / Java 17, uz PostgreSQL driver i odgovarajuću biblioteku za implementaciju RESTful API (Jersey ili Spring Web), rukovanje JWT, PDF fajlovima, itd.
+Kada se prva faza web aplikacije kompletira, u paraleli bi se razvijao niapi servis i odgovarajući delovi (sledeće faze) web aplikacije. I ovaj servis će biti urađen koristeći Spring Boot 3.x / Java 17, uz PostgreSQL driver i odgovarajuću biblioteku za implementaciju RESTful API (Jersey ili Spring Web), rukovanje JWT, PDF fajlovima, itd.
 ### Tajming
 ###### *Ovo je naravno sve hobi, koji radim uz dosta intenzivan glavni posao, tako da su datumi/periodi dole pre svega moja želja i lako mogu proklizati. Sve bi se naravno moglo ubrzati ako bi uskočilo još akcijaša ;)
 
-- Pokušaću da do kraja jula imam kompletnu implementaciju baze.
-- Idealno bi nipub bio gotov u toku avgusta, ako ne budem previše zauzet regularnim poslom.
-- Septembar i oktobar bi možda bili dovoljno da složim prvu skicu javne web aplikacije, verovatno bez toplotnih mapa za početak, osim ako se ne pokaže kao vrlo jednostavno.
-- Februar ili mart sledeće godine bi možda bili trenutak kada sve što je opisano u korisničkim pričama i API specifikacijama bude raspoloživo.
+- Avgust i septembar bi možda bili dovoljno vremena da složim prvu skicu javne web aplikacije, verovatno bez toplotnih mapa za početak, osim ako se ne pokaže kao vrlo jednostavno.
+- Januar ili februar sledeće godine bi možda bili trenutak kada sve što je opisano u korisničkim pričama i API specifikacijama bude raspoloživo.
