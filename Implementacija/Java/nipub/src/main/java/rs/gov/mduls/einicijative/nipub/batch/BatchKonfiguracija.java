@@ -71,6 +71,13 @@ public class BatchKonfiguracija {
     }
 
     @Bean
+    public Step naslovnaStatistike(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+        return new StepBuilder("naslovnaStatistike", jobRepository)
+                .tasklet(naslovnaStatistikeTasklet(), transactionManager)
+                .build();
+    }
+
+    @Bean
     public Step skoroPromenjeneInicijative(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("skoroPromenjeneInicijative", jobRepository)
                 .tasklet(skoroPromenjeneInicijativeTasklet(), transactionManager)
@@ -148,6 +155,16 @@ public class BatchKonfiguracija {
     }
 
     @Bean
+    public NaslovnaStatistikeTasklet naslovnaStatistikeTasklet() {
+        NaslovnaStatistikeTasklet tasklet = new NaslovnaStatistikeTasklet();
+        tasklet.setSemaFunc(Consts.SEMA_SPROC);
+        tasklet.setImeFunc(Consts.IME_SPROC_NASLOVNA_STATISTIKE);
+        tasklet.setDirDat(dirZajednicko);
+        tasklet.setImeDat(Consts.IME_DATOTEKE_NASLOVNA_STATISTIKE);
+        return tasklet;
+    }
+
+    @Bean
     public SkoroPromenjeneInicijativeTasklet skoroPromenjeneInicijativeTasklet() {
         SkoroPromenjeneInicijativeTasklet tasklet = new SkoroPromenjeneInicijativeTasklet();
         tasklet.setSemaFunc(Consts.SEMA_SPROC);
@@ -181,10 +198,12 @@ public class BatchKonfiguracija {
     public Job minutnaObjavaJob(
             JobRepository jobRepository,
             Step listaAktivnihInicijativa,
+            Step naslovnaStatistike,
             Step skoroPromenjeneInicijative
     ) {
         return new JobBuilder("minutnaObjavaJob", jobRepository)
                 .start(listaAktivnihInicijativa)
+                .next(naslovnaStatistike)
                 .next(skoroPromenjeneInicijative)
                 .build();
     }
