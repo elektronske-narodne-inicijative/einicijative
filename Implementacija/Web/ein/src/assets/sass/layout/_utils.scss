@@ -1,0 +1,111 @@
+/* Utils */
+.clearfix:after {
+    content: " ";
+    display: block;
+    clear: both;
+}
+
+.card {
+    @include double-shadow(0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26));
+    @include border-radius($borderRadius);
+    background: #ffffff;
+    padding: 1.25em;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+
+    .card-title {
+        font-size: 16px;
+        font-weight: 500;
+        margin: 2em 0 1em 0;
+        letter-spacing: .3px;
+    }
+
+    .card-title:first-child {
+        margin-top: 0;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .card-header {
+        @include flex();
+        @include flex-align-center();
+        @include flex-justify-between();
+    }
+
+    .card-subtitle {
+        color: $textSecondaryColor;
+        font-weight: 600;
+        margin: -1rem 0 1rem 0;
+    }
+}
+
+.p-toast {
+    &.p-toast-top-right,
+    &.p-toast-top-left,
+    &.p-toast-top-center {
+        top: 85px;
+    }
+}
+
+@-webkit-keyframes fadeInDown {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -20px, 0);
+        transform: translate3d(0, -20px, 0);
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -20px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@-webkit-keyframes fadeOutUp {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -20px, 0);
+        transform: translate3d(0, -20px, 0);
+    }
+}
+
+@keyframes fadeOutUp {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -20px, 0);
+        transform: translate3d(0, -20px, 0);
+    }
+}
+
+.fadeInDown {
+    -webkit-animation: fadeInDown 5s; /* Safari 4.0 - 8.0 */
+    animation: fadeInDown 5s;
+}
+
+.fadeOutUp {
+    -webkit-animation: fadeOutUp $transitionDuration; /* Safari 4.0 - 8.0 */
+    animation: fadeOutUp $transitionDuration;
+}
+

@@ -1,0 +1,209 @@
+.layout-config-button {
+    display: block;
+    position: fixed;
+    width: 52px;
+    height: 52px;
+    line-height: 52px;
+    background-color: #fafafa;
+    text-align: center;
+    top: 230px;
+    right: 0;
+    z-index: 1000000;
+    border-radius: 0;
+    @include border-radius-left($borderRadius);
+    transition: background-color $transitionDuration;
+    box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2), 0 5px 22px 4px rgba(0, 0, 0, 0.12), 0 12px 17px 2px rgba(0, 0, 0, 0.14);
+
+    &.p-link {
+        text-align: center;
+        background-color: #fafafa;
+    }
+
+    i {
+        font-size: 32px;
+        color: #00bcd4;
+        line-height: inherit;
+    }
+
+    &:hover {
+        background-color: #e0e0e0;
+    }
+}
+
+.layout-config {
+    z-index: 1000002;
+    position: fixed;
+    padding: 0;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: #ffffff;
+    width: 52vw;
+    box-shadow: 0 11px 15px -7px rgba(0,0,0,.2),0 24px 38px 3px rgba(0,0,0,.14),0 9px 46px 8px rgba(0,0,0,.12);
+
+    .layout-config-content {
+        padding: 1em;
+        position: relative;
+    }
+
+    .layout-config-close {
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+        right: -18px;
+        top: -18px;
+        background-color: #E91E63;
+        border: 1px solid #E91E63;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background-color $transitionDuration;
+
+        i {
+            color: #ffffff;
+            line-height: inherit;
+            font-size: 18px;
+            margin-top: -2px;
+        }
+
+        &:hover {
+            background-color: #D81B60;
+        }
+    }
+
+    &.layout-config-enter-active {
+        transition: all 150ms cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    &.layout-config-leave-active {
+        transition: all 75ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    &.layout-config-enter,
+    &.layout-config-leave-to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-50%) scale(0.7);
+    }
+
+    .layout-config-option {
+        width: 100px;
+        height: 80px;
+        line-height: 80px;
+        text-align: center;
+        display: inline-block;
+        transition: transform $transitionDuration;
+        overflow: hidden;
+
+        i {
+            line-height: inherit;
+            font-size: 30px;
+            color: #ffffff;
+        }
+
+        &:hover,
+        &:focus {
+            transform: scale(1.1);
+        }
+
+        &.layout-config-option-image {
+            position: relative;
+
+            i {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-left: -17px;
+                margin-top: -40px;
+            }
+
+            img {
+                border: 0 none;
+            }
+        }
+
+        &.layout-config-option-light {
+            i {
+                color: #000000;
+            }
+
+            &:hover,
+            &:focus {
+                &:before {
+                    color: rgba(0, 0, 0, .32);
+                }
+            }
+        }
+    }
+
+    .p-col {
+        padding: 1em;
+    }
+
+    .p-tabview {
+        border: 0 none;
+
+        &.p-tabview-top > .p-tabview-nav {
+            li {
+                vertical-align: bottom;
+                top: auto;
+                margin: 0 0.125em 0px 0;
+            }
+        }
+
+        .p-tabview-panels {
+            padding: 1em 0;
+            height: 500px;
+            overflow: auto;
+
+            .p-tabview-panel {
+                padding: 0.857em 1em;
+                line-height: 1.5;
+            }
+        }
+    }
+
+    .layout-config-subtitle {
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        margin: .75em 0;
+        color: $textSecondaryColor;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    p {
+        line-height: 1.5;
+        margin-top: 0;
+        color: $textSecondaryColor;
+    }
+}
+
+.layout-config-mask {
+    opacity: 0.8;
+    background-color: $maskBgColor;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000001;
+    width: 100%;
+    height: 100%;
+
+    &.layout-config-mask-enter,
+    &.layout-config-mask-leave-to {
+        opacity: 0;
+    }
+
+    &.layout-config-mask-enter-active,
+    &.layout-config-mask-leave-active {
+        transition: opacity 250ms cubic-bezier(0, 0, 0.2, 1);
+    }
+}
+
+@media screen and (max-width: $mobileBreakpoint) {
+    .layout-config {
+        width: 80vw;
+    }
+}

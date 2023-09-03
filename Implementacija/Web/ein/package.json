@@ -1,0 +1,36 @@
+{
+    "name": "sapphire",
+    "version": "4.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+    },
+    "dependencies": {
+        "@fullcalendar/core": "^5.7.2",
+        "@fullcalendar/daygrid": "^5.7.2",
+        "@fullcalendar/interaction": "^5.7.2",
+        "@fullcalendar/timegrid": "^5.7.2",
+        "@fullcalendar/vue3": "^5.7.2",
+        "chart.js": "3.3.2",
+        "primeflex": "^3.3.0",
+        "primeicons": "^6.0.1",
+        "primevue": "3.26.1",
+        "quill": "^1.3.7",
+        "vue": "^3.2.45",
+        "vue-router": "^4.1.6",
+        "prismjs": "^1.9.0"
+    },
+    "devDependencies": {
+        "@rushstack/eslint-patch": "^1.1.4",
+        "@vitejs/plugin-vue": "^4.0.0",
+        "@vue/eslint-config-prettier": "^7.0.0",
+        "eslint": "^8.22.0",
+        "eslint-plugin-vue": "^9.3.0",
+        "prettier": "^2.7.1",
+        "sass": "^1.54.4",
+        "vite": "^4.0.4"
+    }
+}

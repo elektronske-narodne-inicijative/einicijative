@@ -1,0 +1,12 @@
+build
+dist
+node_modules
+.DS_Store
+sassdoc
+.sass-cache
+public/einicijativa
+
+/idea
+/.idea
+
+package-lock.json

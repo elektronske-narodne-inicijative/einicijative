@@ -1,0 +1,10 @@
+
+@import 'primevue/resources/primevue.min.css';
+@import 'primeicons/primeicons.css';
+@import 'primeflex/primeflex.css';
+@import 'prismjs/themes/prism-coy.css';
+
+/* Custom toast location */
+.p-toast.p-toast-topright {
+    top: 70px;
+}
