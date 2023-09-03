@@ -52,10 +52,76 @@
                             <InputText id="emailZaKontakt" type="text" readOnly="true" v-model="det.emailZaKontakt" />
                         </div>
                     </div>
+                    <div v-if="det.prilozi && det.prilozi.length > 0" class="field grid">
+                        <label for="prilozi" class="col-12 mb-2 md:col-2 md:mb-0">Прилози</label>
+                        <div class="col-12 md:col-10">
+                            <DataTable :value="det.prilozi" class="p-datatable-gridlines" :rows="5" dataKey="sortiranje" :rowHover="true" :loading="det.ucitavaSe" responsiveLayout="scroll">
+                                <template #header>
+                                    <div class="flex justify-content-between flex-column sm:flex-row"></div>
+                                </template>
+                                <template #empty> Нема прилога</template>
+                                <template #loading> Подаци се учитавају, молимо сачекајте. </template>
+                                <Column field="nazivPriloga" header="(прилози се отварају у засебним прозорима)" style="min-width: 25rem">
+                                    <template #body="{ data }">
+                                        <a :href="data.urlPriloga" target="_blank">
+                                            {{ data.nazivPriloga }}
+                                        </a>
+                                    </template>
+                                </Column>
+                            </DataTable>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Чланови иницијативног одбора</div>
+                        <DataTable :value="det.clanoviInicijativnogOdbora" class="p-datatable-gridlines" :rows="10" dataKey="emailZaKontakt" :rowHover="true" :loading="det.ucitavaSe" responsiveLayout="scroll">
+                            <template #header>
+                                <div class="flex justify-content-between flex-column sm:flex-row"></div>
+                            </template>
+                            <template #empty> Нема чланова одбора</template>
+                            <template #loading> Подаци се учитавају, молимо сачекајте. </template>
+                            <Column field="imePrezime" header="Име и презиме" style="min-width: 25rem">
+                                <template #body="{ data }">
+                                    {{ data.imePrezime }}
+                                </template>
+                            </Column>
+                            <Column field="emailZaKontakt" header="Емаил адреса за контакт" style="min-width: 25rem">
+                                <template #body="{ data }">
+                                    {{ data.emailZaKontakt }}
+                                </template>
+                            </Column>
+                            <Column field="godinaRodjenja" header="Година рођења" style="min-width: 4rem" bodyStyle="text-align:right">
+                                <template #body="{ data }">
+                                    {{ data.godinaRodjenja }}
+                                </template>
+                            </Column>
+                        </DataTable>
+                    </div>
                     <div class="grid dashboard-grid">
                         <div class="col-12 md:col-6 overview-box statistike">
                             <div class="card">
                                 <div class="card-title">Демографија потписа</div>
+                                <DataTable :value="det.potpisiDemografija" class="p-datatable-gridlines" :rows="10" dataKey="opsegGodina" :rowHover="true" :loading="det.ucitavaSe" responsiveLayout="scroll">
+                                    <template #header>
+                                        <div class="flex justify-content-between flex-column sm:flex-row"></div>
+                                    </template>
+                                    <template #empty> Нема потписа</template>
+                                    <template #loading> Подаци се учитавају, молимо сачекајте. </template>
+                                    <Column field="opsegGodina" header="Старост" style="min-width: 25rem">
+                                        <template #body="{ data }">
+                                            {{ data.opsegGodina }}
+                                        </template>
+                                    </Column>
+                                    <Column field="brojPotpisaZena" header="#мушкарци" style="min-width: 3rem" bodyStyle="text-align:right">
+                                        <template #body="{ data }">
+                                            {{ formatNumber(data.brojPotpisaZena) }}
+                                        </template>
+                                    </Column>
+                                    <Column field="brojPotpisaMuskaraca" header="#жене" style="min-width: 3rem" bodyStyle="text-align:right">
+                                        <template #body="{ data }">
+                                            {{ formatNumber(data.brojPotpisaMuskaraca) }}
+                                        </template>
+                                    </Column>
+                                </DataTable>
                             </div>
                         </div>
                         <div class="col-12 md:col-6 overview-box geografija">
