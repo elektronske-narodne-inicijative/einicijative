@@ -87,7 +87,7 @@ SELECT i.IDNIINicijativa as idInicijative, cast (JSONB_STRIP_NULLS(
                             END as "opsegGodina",
                            count(*) as "brojPotpisa"
                         FROM ni.NIPotpisInicijative p, ni.NIGradjanin g
-                       WHERE p.IDNIInicijativa = 9985
+                       WHERE p.IDNIInicijativa = i.IDNIInicijativa
                          AND p.IDNIGradjanin = g.IDNIGradjanin
                        GROUP BY 2, 1
                        ORDER BY 2, 1

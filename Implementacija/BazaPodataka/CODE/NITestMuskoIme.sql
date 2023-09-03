@@ -34,7 +34,7 @@ BEGIN
     WHEN  27 THEN RETURN 'Филип';
     WHEN  28 THEN RETURN 'Часлав';
     WHEN  29 THEN RETURN 'Чедомир';
-    ELSE RETURN 'Šaban';
+    ELSE RETURN 'Шабан';
   END CASE;
 END;
 $$
