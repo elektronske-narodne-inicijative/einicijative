@@ -106,7 +106,7 @@
                                     </template>
                                     <template #empty> Нема потписа</template>
                                     <template #loading> Подаци се учитавају, молимо сачекајте. </template>
-                                    <Column field="opsegGodina" header="Старост" style="min-width: 25rem">
+                                    <Column field="opsegGodina" header="Старост" style="min-width: 5rem">
                                         <template #body="{ data }">
                                             {{ data.opsegGodina }}
                                         </template>
