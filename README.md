@@ -118,12 +118,17 @@ Najveći deo implementacije baze je takođe završen, uključujući i sve proced
 
 Prva verzija servisa nipub je takođe implementirana (Java 17, Spring Boot 3.1.2, Spring Batch, jdbc, postgres), projekat je [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/Java/nipub). Ovo stvara uslove za početak implementacije "faze 1" web aplikacije, jer servis generiše podatke koje koristi javni deo aplikacije, tj. korisničke priče sa slajda 3 ("Bilo ko, na bazi javnog pristupa") u [ovoj prezentaciji](https://docs.google.com/presentation/d/1cnEa4gFjD85ZG449C_NlCCojxXWHUtky/edit?usp=drive_link&ouid=100806157112222708210&rtpof=true&sd=true).
 
-### Planovi
-Sledeći korak u implementaciji je  "faza 1" web aplikacija koja pokriva korisničke priče za javni pristup, koja će biti urađena u [Vue.js](https://vuejs.org/). Ovakva aplikacija, kombinovana sa testnim podacima generisanim <code>nipub</code> servisom, može da se distribuira/objavi (web sajt) kao statički sadržaj koji bi vizuelizovao buduće rešenje (sa obeleženim mestima gde će u budućnosti biti stranice koje zahtevaju prijavu preko <code>eid.gov.rs</code> servisa).
+Napravljen je i kostur web aplikacije, koji za sada koristi samo objavljene podatke iz <code>nipub</code> servisa (nešto unapređeno testno punjenje baze pretvoreno u datoteke ubačene u web projekat), koristeći [Vue.js v3](https://vuejs.org/) i [PrimeVue šablon SAPPHIRE](https://sapphire.primevue.org/#/). 
 
-Kada se prva faza web aplikacije kompletira, u paraleli bi se razvijao niapi servis i odgovarajući delovi (sledeće faze) web aplikacije. I ovaj servis će biti urađen koristeći Spring Boot 3.x / Java 17, uz PostgreSQL driver i odgovarajuću biblioteku za implementaciju RESTful API (Jersey ili Spring Web), rukovanje JWT, PDF fajlovima, itd.
+Aplikacija može da se vidi/proba [ovde](https://test-einicijativa.one/#/). 
+
+Cilj je bio stvoriti radnu verziju koja može lako da se demonstrira i bude materijal za dalju diskusiju, a moj smisao za UI i web dizajn su vrlo skromni - unapred se izvinjavam svima koji su očekivali nešto lepo i cool.
+
+### Planovi
+Sada je vreme da se počne rad na <code>niapi</code> servisu i odgovarajućim (dinamičkim) delovima web aplikacije. I ovaj servis će biti urađen koristeći Spring Boot 3.x / Java 17, uz PostgreSQL driver i odgovarajuću biblioteku za implementaciju RESTful API (Jersey ili Spring Web), rukovanje JWT, PDF fajlovima, itd.
 ### Tajming
 ###### *Ovo je naravno sve hobi, koji radim uz dosta intenzivan glavni posao, tako da su datumi/periodi dole pre svega moja želja i lako mogu proklizati. Sve bi se naravno moglo ubrzati ako bi uskočilo još akcijaša ;)
 
-- Avgust i septembar bi možda bili dovoljno vremena da složim prvu skicu javne web aplikacije, verovatno bez toplotnih mapa za početak, osim ako se ne pokaže kao vrlo jednostavno.
-- Januar ili februar sledeće godine bi možda bili trenutak kada sve što je opisano u korisničkim pričama i API specifikacijama bude raspoloživo.
+Ovo što preostaje je najkompleksniji deo implementacije i verovatno će se protegnuti do kraja ove i kroz deo sledeće godine. Ovo uključuje izradu mock-a/simulatora u4niapi (najverovatnije koristeći Wiremock), za funkcije izdavanja ličnih podataka koje daje eUprava, kao i (implicitno) eid servisa (najverovatnije koristeći besplatni Auth0 račun). Prvi cilj će svakako biti implementacija funkcija za potpisnike (online i šalter), pa onda verovatno ovlašćenih lica (pošto je manje posla) - i na kraju inicijativnih odbora. 
+
+Ovo dinamičko rešenje neće biti jednostavno demonstrirati javno - videću ako budem mogao da izvedem nešto, makar za uži krug učesnika.
