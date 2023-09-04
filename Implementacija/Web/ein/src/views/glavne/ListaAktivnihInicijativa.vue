@@ -19,7 +19,7 @@
                         <div class="flex justify-content-between flex-column sm:flex-row">
                             <span class="p-input-icon-left mb-2">
                                 <i class="pi pi-search" />
-                                <InputText v-model="filters1['global'].value" placeholder="Назив или покретач" style="width: 100%" />
+                                <InputText v-model="filters1['global'].value" placeholder="Назив или иницијаторка" style="width: 100%" />
                             </span>
                         </div>
                     </template>
@@ -47,12 +47,12 @@
                         </template>
                     </Column>
 
-                    <Column field="imePrezimeInicijatora" header="Покретач" style="min-width: 7rem" filter>
+                    <Column field="imePrezimeInicijatora" header="Иницијаторка" style="min-width: 7rem" filter>
                         <template #body="{ data }">
                             {{ data.imePrezimeInicijatora }}
                         </template>
                         <template #filter="{ filterModel }">
-                            <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Покретач" />
+                            <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Иницијаторка" />
                         </template>
                     </Column>
 

@@ -5,7 +5,7 @@
                 <h5>Народна Иницијатива Бр. {{ det.idInicijative }}</h5>
                 <div class="card p-fluid">
                     <div class="field grid">
-                        <label for="imePrezimeInicijatora" class="col-12 mb-2 md:col-2 md:mb-0">Иницијатор</label>
+                        <label for="imePrezimeInicijatora" class="col-12 mb-2 md:col-2 md:mb-0">Иницијаторка</label>
                         <div class="col-12 md:col-10">
                             <InputText id="imePrezimeInicijatora" type="text" readOnly="true" v-model="det.imePrezimeInicijatora" />
                         </div>
@@ -72,12 +72,12 @@
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-title">Чланови иницијативног одбора</div>
+                        <div class="card-title">Чланице иницијативног одбора</div>
                         <DataTable :value="det.clanoviInicijativnogOdbora" class="p-datatable-gridlines" :rows="10" dataKey="emailZaKontakt" :rowHover="true" :loading="det.ucitavaSe" responsiveLayout="scroll">
                             <template #header>
                                 <div class="flex justify-content-between flex-column sm:flex-row"></div>
                             </template>
-                            <template #empty> Нема чланова одбора</template>
+                            <template #empty> Нема чланица одбора</template>
                             <template #loading> Подаци се учитавају, молимо сачекајте. </template>
                             <Column field="imePrezime" header="Име и презиме" style="min-width: 25rem">
                                 <template #body="{ data }">

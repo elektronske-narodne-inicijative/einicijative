@@ -17,6 +17,13 @@
                     </template>
                     <PodrziArhiva :sifarnici="sifarnici" />
                 </TabPanel>
+                <TabPanel>
+                    <template #header>
+                        <i class="pi pi-folder"></i>
+                        <span>&nbsp;&nbsp;Моја листа потписа</span>
+                    </template>
+                    <PodrziMojaListaPotpisa :sifarnici="sifarnici" />
+                </TabPanel>
             </TabView>
         </div>
     </div>
@@ -26,9 +33,10 @@
 import PodrziArhiva from '@/views/podrzi/PodrziArhiva.vue';
 import PodrziAktivne from '@/views/podrzi/PodrziAktivne.vue';
 import PubService from '@/service/PubService';
+import PodrziMojaListaPotpisa from '@/views/podrzi/PodrziMojaListaPotpisa.vue';
 
 export default {
-    components: { PodrziAktivne, PodrziArhiva },
+    components: { PodrziMojaListaPotpisa, PodrziAktivne, PodrziArhiva },
 
     data() {
         return {
