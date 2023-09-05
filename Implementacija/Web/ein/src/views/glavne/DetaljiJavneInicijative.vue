@@ -2,7 +2,11 @@
     <div class="grid">
         <div class="col-12">
             <div class="card">
-                <h5>Народна Иницијатива Бр. {{ det.idInicijative }}</h5>
+                <span style="float: initial"><Button type="button" label="Пријави се да би потписао" @click="prijaviPotpisnika($event, det.idInicijative)" /></span>
+                <span style="float: right"
+                    >Линк за директан приступ: <a :href="urlZaDirektniPristup">{{ urlZaDirektniPristup }}</a></span
+                >
+                <h5>Народна Иницијатива Број {{ det.idInicijative }}</h5>
                 <div class="card p-fluid">
                     <div class="field grid">
                         <label for="imePrezimeInicijatora" class="col-12 mb-2 md:col-2 md:mb-0">Иницијаторка</label>
@@ -173,21 +177,30 @@ export default {
     },
     setup(props) {
         const pubService = new PubService();
+        const urlZaDirektniPristup = window.location.protocol + '//' + window.location.host + '/#/podrzi/' + props.idInicijative.toString() + '/detalji';
         const det = ref({ idInicijative: '[Учитава се...]', ucitavaSe: true });
         pubService.getDetaljiInicijative(props.idInicijative).then((data) => {
-            det.value = data;
+            if (data === undefined) {
+                det.value.idInicijative = '[' + props.idInicijative + ': Није пронађена]';
+                console.log('Nema podataka o inicijativi:', props.idInicijative);
+            } else {
+                det.value = data;
+                console.log('Učitani podaci o inicijativi:', props.idInicijative);
+            }
             det.value.ucitavaSe = false;
-            console.log('Učitani podaci o inicijativi:', props.idInicijative);
         });
         let opstine = [];
         for (let ops in props.sifarnici.opstine) {
             opstine[props.sifarnici.opstine[ops].idOpstine] = props.sifarnici.opstine[ops].opis;
         }
-        return { det, opstine };
+        return { det, opstine, urlZaDirektniPristup };
     },
 
     mounted() {},
     methods: {
+        prijaviPotpisnika(event, idInicijative) {
+            // redirekt za prijavu na eid.gov.rs
+        },
         imeOpstine(idOpstine) {
             return this.opstine[idOpstine];
         },

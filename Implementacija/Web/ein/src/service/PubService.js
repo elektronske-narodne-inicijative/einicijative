@@ -7,55 +7,56 @@ export default class PubService {
         } else {
             punoImeDatoteke = 'einicijativa/podaci/inicijative/' + brojDir + '/inicijativa-' + idInicijative + '.json';
         }
-        return fetch(punoImeDatoteke)
+        return fetch(punoImeDatoteke + '?t=' + Date.now().toString())
             .then((res) => res.json())
-            .then((d) => d);
+            .then((d) => d)
+            .catch((err) => console.error(err));
     }
 
     getStatistikeZaNaslovnuStranu() {
-        return fetch('einicijativa/podaci/zajednicko/naslovna-statistike.json')
+        return fetch('einicijativa/podaci/zajednicko/naslovna-statistike.json' + '?t=' + Date.now().toString())
             .then((res) => res.json())
             .then((d) => d);
     }
 
     getAktivneInicijative() {
-        return fetch('einicijativa/podaci/zajednicko/aktivne-inicijative.json')
+        return fetch('einicijativa/podaci/zajednicko/aktivne-inicijative.json' + '?t=' + Date.now().toString())
             .then((res) => res.json())
             .then((d) => d);
     }
 
     getNeaktivneInicijative() {
-        return fetch('einicijativa/podaci/zajednicko/neaktivne-inicijative.json')
+        return fetch('einicijativa/podaci/zajednicko/neaktivne-inicijative.json' + '?t=' + Date.now().toString())
             .then((res) => res.json())
             .then((d) => d);
     }
 
     getFazeObrade() {
-        return fetch('einicijativa/podaci/zajednicko/faze-obrade.json')
+        return fetch('einicijativa/podaci/zajednicko/faze-obrade.json' + '?t=' + Date.now().toString())
             .then((res) => res.json())
             .then((d) => d);
     }
 
     getNivoiVlasti() {
-        return fetch('einicijativa/podaci/zajednicko/nivoi-vlasti.json')
+        return fetch('einicijativa/podaci/zajednicko/nivoi-vlasti.json' + '?t=' + Date.now().toString())
             .then((res) => res.json())
             .then((d) => d);
     }
 
     getOpstine() {
-        return fetch('einicijativa/podaci/zajednicko/opstine.json')
+        return fetch('einicijativa/podaci/zajednicko/opstine.json' + '?t=' + Date.now().toString())
             .then((res) => res.json())
             .then((d) => d);
     }
 
     getTipoviInicijativa() {
-        return fetch('einicijativa/podaci/zajednicko/tipovi-inicijativa.json')
+        return fetch('einicijativa/podaci/zajednicko/tipovi-inicijativa.json' + '?t=' + Date.now().toString())
             .then((res) => res.json())
             .then((d) => d);
     }
 
     getUpravniOkruzi() {
-        return fetch('einicijativa/podaci/zajednicko/upravni-okruzi.json')
+        return fetch('einicijativa/podaci/zajednicko/upravni-okruzi.json' + '?t=' + Date.now().toString())
             .then((res) => res.json())
             .then((d) => d);
     }

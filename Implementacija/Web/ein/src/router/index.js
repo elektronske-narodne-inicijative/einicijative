@@ -23,6 +23,15 @@ const routes = [
                 },
             },
             {
+                path: '/podrzi/:id/detalji',
+                name: 'detalji',
+                component: () => import('@/views/glavne/DetaljiDirektanPristup.vue'),
+                meta: {
+                    breadcrumb: [{ parent: 'Подржи', label: 'Детаљи' }],
+                },
+                params: true,
+            },
+            {
                 path: '/pokreni',
                 name: 'pokreni',
                 component: () => import('@/views/pokreni/PokreniGlavni.vue'),
