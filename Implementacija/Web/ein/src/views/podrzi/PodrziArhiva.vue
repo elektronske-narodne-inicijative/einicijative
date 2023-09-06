@@ -7,35 +7,35 @@
                         <i class="pi pi-folder"></i>
                         <span>&nbsp;&nbsp;Покренуте ({{ brojPokrenutih }})</span>
                     </template>
-                    <JavnaListaInicijativa :listaInicijativa="pokrenuteInicijative" :sifarnici="sifarnici" />
+                    <JavnaListaInicijativa :listaInicijativa="pokrenuteInicijative" :sifarnici="sifarnici" :ucitavaSe="ucitavamInicijative" />
                 </TabPanel>
                 <TabPanel>
                     <template #header>
                         <i class="pi pi-folder"></i>
                         <span>&nbsp;&nbsp;Усвојене ({{ brojUsvojenih }})</span>
                     </template>
-                    <JavnaListaInicijativa :listaInicijativa="usvojeneInicijative" :sifarnici="sifarnici" />
+                    <JavnaListaInicijativa :listaInicijativa="usvojeneInicijative" :sifarnici="sifarnici" :ucitavaSe="ucitavamInicijative" />
                 </TabPanel>
                 <TabPanel>
                     <template #header>
                         <i class="pi pi-folder"></i>
                         <span>&nbsp;&nbsp;Одбијене ({{ brojOdbijenih }})</span>
                     </template>
-                    <JavnaListaInicijativa :listaInicijativa="odbijeneInicijative" :sifarnici="sifarnici" />
+                    <JavnaListaInicijativa :listaInicijativa="odbijeneInicijative" :sifarnici="sifarnici" :ucitavaSe="ucitavamInicijative" />
                 </TabPanel>
                 <TabPanel>
                     <template #header>
                         <i class="pi pi-folder"></i>
                         <span>&nbsp;&nbsp;Неуспешне ({{ brojNeuspesnih }})</span>
                     </template>
-                    <JavnaListaInicijativa :listaInicijativa="neuspesneInicijative" :sifarnici="sifarnici" />
+                    <JavnaListaInicijativa :listaInicijativa="neuspesneInicijative" :sifarnici="sifarnici" :ucitavaSe="ucitavamInicijative" />
                 </TabPanel>
                 <TabPanel>
                     <template #header>
                         <i class="pi pi-folder"></i>
                         <span>&nbsp;&nbsp;Повучене ({{ brojPovucenih }})</span>
                     </template>
-                    <JavnaListaInicijativa :listaInicijativa="povuceneInicijative" :sifarnici="sifarnici" />
+                    <JavnaListaInicijativa :listaInicijativa="povuceneInicijative" :sifarnici="sifarnici" :ucitavaSe="ucitavamInicijative" />
                 </TabPanel>
             </TabView>
         </div>
@@ -96,8 +96,8 @@ export default {
             this.brojOdbijenih = this.odbijeneInicijative.length;
             this.brojNeuspesnih = this.neuspesneInicijative.length;
             this.brojPovucenih = this.povuceneInicijative.length;
+            this.ucitavamInicijative = false;
         });
-        this.ucitavamInicijative = false;
     },
 
     methods: {},

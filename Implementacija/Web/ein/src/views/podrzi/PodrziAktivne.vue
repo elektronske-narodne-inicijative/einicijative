@@ -1,5 +1,5 @@
 <template>
-    <JavnaListaInicijativa :listaInicijativa="aktivneInicijative" :sifarnici="sifarnici" />
+    <JavnaListaInicijativa :listaInicijativa="aktivneInicijative" :sifarnici="sifarnici" :ucitavaSe="ucitavamInicijative" />
 </template>
 
 <script>
@@ -30,8 +30,8 @@ export default {
     mounted() {
         this.pubService.getAktivneInicijative().then((data) => {
             this.aktivneInicijative = data;
+            this.ucitavamInicijative = false;
         });
-        this.ucitavamInicijative = false;
     },
 
     methods: {},

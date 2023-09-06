@@ -10,7 +10,7 @@
                     dataKey="brInicijative"
                     :rowHover="true"
                     v-model:filters="filters1"
-                    :loading="loading1"
+                    :loading="ucitavaSe"
                     :filters="filters1"
                     responsiveLayout="scroll"
                     :globalFilterFields="['nazivInicijative', 'imePrezimeInicijatora']"
@@ -26,13 +26,16 @@
                     <template #empty> Нема таквих иницијатива</template>
                     <template #loading> Подаци се учитавају, молимо сачекајте. </template>
 
-                    <Column field="idInicijative" header="Број" style="min-width: 1rem" bodyStyle="text-align:right">
+                    <Column field="idInicijative" header="Детаљи" style="min-width: 1rem" bodyStyle="text-align:center">
                         <template #body="{ data }">
                             <Button type="button" :label="data.idInicijative.toString()" @click="prikaziDetalje($event, data.idInicijative)" style="width: 100%" />
                         </template>
                     </Column>
 
-                    <Column field="brPotpisa" header="# потписа" style="min-width: 3rem" bodyStyle="text-align:right" sortable>
+                    <Column field="brPotpisa" header="Потписа" style="min-width: 1rem" bodyStyle="text-align:right" sortable>
+                        <template #header>
+                            <div class="flex-1 text-right" />
+                        </template>
                         <template #body="{ data }">
                             {{ formatNumber(data.brPotpisa) }}
                         </template>
@@ -69,6 +72,9 @@
                     </Column>
 
                     <Column field="brDanaDoZavrsetka" header="Остало дана" style="min-width: 3rem" bodyStyle="text-align:right" sortable>
+                        <template #header>
+                            <div class="flex-1 text-right" />
+                        </template>
                         <template #body="{ data }">
                             {{ formatNumber(data.brDanaDoZavrsetka) }}
                         </template>
@@ -89,6 +95,11 @@ import DetaljiJavneInicijative from '@/views/glavne/DetaljiJavneInicijative.vue'
 export default {
     components: { DetaljiJavneInicijative },
     props: {
+        ucitavaSe: {
+            type: Boolean,
+            default: true,
+            required: true,
+        },
         listaInicijativa: {
             type: Array,
             required: true,
@@ -101,7 +112,7 @@ export default {
     data() {
         return {
             inicijativa: {},
-            loading1: false,
+            loading1: true,
             filters1: null,
             idTekuceInicijative: 0,
         };

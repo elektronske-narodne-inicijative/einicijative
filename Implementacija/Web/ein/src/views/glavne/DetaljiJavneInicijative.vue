@@ -2,7 +2,7 @@
     <div class="grid">
         <div class="col-12">
             <div class="card">
-                <span style="float: initial"><Button type="button" label="Пријави се да би потписао" @click="prijaviPotpisnika($event, det.idInicijative)" /></span>
+                <span style="float: initial"><Button v-if="det.fazaObrade === 'Активна (прикупљање потписа у току)'" type="button" label="Пријави се да би потписала" @click="prijaviPotpisnika($event, det.idInicijative)" /></span>
                 <span style="float: right"
                     >Линк за директан приступ: <a :href="urlZaDirektniPristup">{{ urlZaDirektniPristup }}</a></span
                 >
@@ -115,12 +115,18 @@
                                             {{ data.opsegGodina }}
                                         </template>
                                     </Column>
-                                    <Column field="brojPotpisaZena" header="#мушкарци" style="min-width: 3rem" bodyStyle="text-align:right">
+                                    <Column field="brojPotpisaZena" header="#М" style="min-width: 3rem" bodyStyle="text-align:right">
+                                        <template #header>
+                                            <div class="flex-1 text-right" />
+                                        </template>
                                         <template #body="{ data }">
                                             {{ formatNumber(data.brojPotpisaZena) }}
                                         </template>
                                     </Column>
-                                    <Column field="brojPotpisaMuskaraca" header="#жене" style="min-width: 3rem" bodyStyle="text-align:right">
+                                    <Column field="brojPotpisaMuskaraca" header="#Ж" style="min-width: 3rem" bodyStyle="text-align:right">
+                                        <template #header>
+                                            <div class="flex-1 text-right" />
+                                        </template>
                                         <template #body="{ data }">
                                             {{ formatNumber(data.brojPotpisaMuskaraca) }}
                                         </template>
@@ -137,14 +143,25 @@
                                     </template>
                                     <template #empty> Нема потписа</template>
                                     <template #loading> Подаци се учитавају, молимо сачекајте. </template>
-                                    <Column field="brojPotpisa" header="#потписа" style="min-width: 3rem" bodyStyle="text-align:right" sortable>
+                                    <Column field="brojPotpisa" header="#" bodyStyle="text-align:right" sortable>
+                                        <template #header>
+                                            <div class="flex-1 text-right" />
+                                        </template>
                                         <template #body="{ data }">
                                             {{ formatNumber(data.brojPotpisa) }}
                                         </template>
                                     </Column>
-                                    <Column field="idOpstine" header="Општина" style="min-width: 25rem" sortable>
+                                    <Column field="procenatPotpisalo" header="%" bodyStyle="text-align:right" sortable>
+                                        <template #header>
+                                            <div class="flex-1 text-right" />
+                                        </template>
                                         <template #body="{ data }">
-                                            {{ imeOpstine(data.idOpstine) }}
+                                            {{ data.procenatPotpisalo }}
+                                        </template>
+                                    </Column>
+                                    <Column field="nazivOpstine" header="Општина" sortable>
+                                        <template #body="{ data }">
+                                            {{ data.nazivOpstine }}
                                         </template>
                                     </Column>
                                 </DataTable>
@@ -172,37 +189,43 @@ export default {
             required: true,
         },
     },
+
     data() {
         return {};
     },
+
     setup(props) {
         const pubService = new PubService();
         const urlZaDirektniPristup = window.location.protocol + '//' + window.location.host + '/#/podrzi/' + props.idInicijative.toString() + '/detalji';
         const det = ref({ idInicijative: '[Учитава се...]', ucitavaSe: true });
+        const naziviOpstina = ref({});
+        const brGlasacaUOpstinama = ref({});
+        for (let ops in props.sifarnici.opstine) {
+            naziviOpstina.value[props.sifarnici.opstine[ops].idOpstine] = props.sifarnici.opstine[ops].opis;
+            brGlasacaUOpstinama.value[props.sifarnici.opstine[ops].idOpstine] = props.sifarnici.opstine[ops].brojRegistrovanihGlasaca;
+        }
         pubService.getDetaljiInicijative(props.idInicijative).then((data) => {
             if (data === undefined) {
                 det.value.idInicijative = '[' + props.idInicijative + ': Није пронађена]';
                 console.log('Nema podataka o inicijativi:', props.idInicijative);
             } else {
                 det.value = data;
-                console.log('Učitani podaci o inicijativi:', props.idInicijative);
+                for (let gsindex in det.value.potpisiGeografija) {
+                    det.value.potpisiGeografija[gsindex].nazivOpstine = naziviOpstina.value[det.value.potpisiGeografija[gsindex].idOpstine];
+                    det.value.potpisiGeografija[gsindex].procenatPotpisalo = (det.value.potpisiGeografija[gsindex].brojPotpisa * 100.0) / brGlasacaUOpstinama.value[det.value.potpisiGeografija[gsindex].idOpstine];
+                    det.value.potpisiGeografija[gsindex].procenatPotpisalo = (Math.round(det.value.potpisiGeografija[gsindex].procenatPotpisalo * 10000) / 10000).toFixed(4);
+                }
             }
-            det.value.ucitavaSe = false;
         });
-        let opstine = [];
-        for (let ops in props.sifarnici.opstine) {
-            opstine[props.sifarnici.opstine[ops].idOpstine] = props.sifarnici.opstine[ops].opis;
-        }
-        return { det, opstine, urlZaDirektniPristup };
+        return { det, urlZaDirektniPristup };
     },
 
     mounted() {},
+
     methods: {
         prijaviPotpisnika(event, idInicijative) {
             // redirekt za prijavu na eid.gov.rs
-        },
-        imeOpstine(idOpstine) {
-            return this.opstine[idOpstine];
+            console.log(event, idInicijative);
         },
         formatNumber(value) {
             return value.toLocaleString('sr-RS');
