@@ -1,4 +1,8 @@
 # Elektronske Narodne Inicijative
+## Probajte aplikaciju!
+Prva testna, statička verzija aplikacije, koja demonstrira navigaciju kroz objavljene podatke i opisuje tekstom šta će biti u delovima aplikacije koji još nisu izvedeni, može da se vidi/proba [ovde](https://test-einicijativa.one/#/). Više detalja o planovima možete naći na dnu ove stranice.
+
+Sve ideje i komentari su dobrodošli - pišite na elektronske.narodne.inicijative@gmail.com.
 ## Cilj, namena, istorija
 U nadi da će Ministarstvo za državnu upravu i lokalnu samoupravu, Vladina kancelarija za informacione tehnologije i budući podugovarač, koji na tenderu za javne nabavke dobije da radi rešenje za Elektronske Narodne Inicijative, videti neku upotrebnu vrednost od priloženih ideja i tehničkog sadržaja, u ovom github repou i na Swagger hub-u ostavljamo sadržaj koji svako ko to poželi može koristiti u skladu sa [Apache 2.0 licencom](https://www.apache.org/licenses/LICENSE-2.0).
 
@@ -110,7 +114,7 @@ Sledeći poziv će kreirati nešto ispod milion građana i 10 hiljada inicijativ
 
 <code>call ni.NITestPunjenjeBaze(15,10);</code>
 ## Tekuće stanje implementacije rešenja, planovi
-##### Poslednji put ažurirano: 23.07.2023
+##### Poslednji put ažurirano: 06.09.2023
 ### Urađeno
 U ovom trenutku je tehnička dokumentacija uglavnom kompletirana i sastoji se od ove stranice i povezanih dokumenata - ono što još planiram da dodam je dokumentacija o tipovima poruka za nadzorni dnevnik (audit log events) i sistem za nadzor zdravlja usluga - to ču početi kada krenem da radim komponente srednjeg sloja.
 
@@ -118,17 +122,13 @@ Najveći deo implementacije baze je takođe završen, uključujući i sve proced
 
 Prva verzija servisa nipub je takođe implementirana (Java 17, Spring Boot 3.1.2, Spring Batch, jdbc, postgres), projekat je [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/Java/nipub). Ovo stvara uslove za početak implementacije "faze 1" web aplikacije, jer servis generiše podatke koje koristi javni deo aplikacije, tj. korisničke priče sa slajda 3 ("Bilo ko, na bazi javnog pristupa") u [ovoj prezentaciji](https://docs.google.com/presentation/d/1cnEa4gFjD85ZG449C_NlCCojxXWHUtky/edit?usp=drive_link&ouid=100806157112222708210&rtpof=true&sd=true).
 
-Napravljen je i kostur web aplikacije, koji za sada koristi samo objavljene podatke iz <code>nipub</code> servisa (nešto unapređeno testno punjenje baze pretvoreno u datoteke ubačene u web projekat), koristeći [Vue.js v3](https://vuejs.org/) i [PrimeVue šablon SAPPHIRE](https://sapphire.primevue.org/#/). 
-
-Aplikacija može da se vidi/proba [ovde](https://test-einicijativa.one/#/). 
-
-Cilj je bio stvoriti radnu verziju koja može lako da se demonstrira i bude materijal za dalju diskusiju, a moj smisao za UI i web dizajn su vrlo skromni - unapred se izvinjavam svima koji su očekivali nešto lepo i cool.
+Napravljen je i kostur web aplikacije, koji za sada koristi samo objavljene podatke iz <code>nipub</code> servisa (nešto unapređeno testno punjenje baze pretvoreno u datoteke ubačene u web projekat), koristeći [Vue.js v3](https://vuejs.org/) i [PrimeVue šablon SAPPHIRE](https://sapphire.primevue.org/#/). Cilj je bio stvoriti radnu verziju koja može lako da se demonstrira i bude materijal za dalju diskusiju.
 
 ### Planovi
 Sada je vreme da se počne rad na <code>niapi</code> servisu i odgovarajućim (dinamičkim) delovima web aplikacije. I ovaj servis će biti urađen koristeći Spring Boot 3.x / Java 17, uz PostgreSQL driver i odgovarajuću biblioteku za implementaciju RESTful API (Jersey ili Spring Web), rukovanje JWT, PDF fajlovima, itd.
 ### Tajming
 ###### *Ovo je naravno sve hobi, koji radim uz dosta intenzivan glavni posao, tako da su datumi/periodi dole pre svega moja želja i lako mogu proklizati. Sve bi se naravno moglo ubrzati ako bi uskočilo još akcijaša ;)
 
-Ovo što preostaje je najkompleksniji deo implementacije i verovatno će se protegnuti do kraja ove i kroz deo sledeće godine. Ovo uključuje izradu mock-a/simulatora u4niapi (najverovatnije koristeći Wiremock), za funkcije izdavanja ličnih podataka koje daje eUprava, kao i (implicitno) eid servisa (najverovatnije koristeći besplatni Auth0 račun). Prvi cilj će svakako biti implementacija funkcija za potpisnike (online i šalter), pa onda verovatno ovlašćenih lica (pošto je manje posla) - i na kraju inicijativnih odbora. 
+Ovo što preostaje je najkompleksniji deo implementacije i verovatno će se protegnuti do kraja ove i kroz deo sledeće godine.
 
-Ovo dinamičko rešenje neće biti jednostavno demonstrirati javno - videću ako budem mogao da izvedem nešto, makar za uži krug učesnika.
+Ovo uključuje izradu mock-a/simulatora u4niapi (najverovatnije koristeći Wiremock) za funkcije izdavanja ličnih podataka koje daje eUprava, kao i (implicitno) eid servisa (najverovatnije koristeći besplatni Auth0 račun). Prvi cilj će svakako biti implementacija funkcija za potpisnike (online i šalter), pa onda verovatno ovlašćenih lica (pošto je manje posla) - i na kraju inicijativnih odbora. 
