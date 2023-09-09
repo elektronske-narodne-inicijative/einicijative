@@ -83,7 +83,7 @@
             </div>
         </div>
     </div>
-    <OverlayPanel ref="detaljiInicijative" appendTo="body" :showCloseIcon="true" id="detaljiInicijative" style="width: 98%; height: 99%; margin: 1%">
+    <OverlayPanel ref="detaljiInicijative" appendTo="body" :showCloseIcon="true" id="detaljiInicijative" style="width: 100%; height: 100%">
         <DetaljiJavneInicijative v-if="this.idTekuceInicijative" :idInicijative="this.idTekuceInicijative" :sifarnici="sifarnici" />
     </OverlayPanel>
 </template>

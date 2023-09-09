@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
+<svg  style="background-color:white;"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -10,8 +10,7 @@
    viewBox="0 0 14.110937 19.049999"
    height="19.049999mm"
    width="14.110937mm">
-  <defs
-     id="defs4173">
+  <defs id="defs4173">
     <clipPath
        id="clipPath3104"
        clipPathUnits="userSpaceOnUse">

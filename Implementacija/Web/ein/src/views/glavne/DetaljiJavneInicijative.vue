@@ -101,6 +101,18 @@
                         </DataTable>
                     </div>
                     <div class="grid dashboard-grid">
+                        <div class="col-12 md:col-6 overview-box glasovinamapiprocenat">
+                            <div class="card">
+                                <div class="card-title">Густина: % гласача</div>
+                                <GlasoviNaMapi v-if="maxProcenat" :geografija="mapaGeografije" :maxProcenat="maxProcenat" :maxBrojPotpisa="maxBrojPotpisa" :procentualnaToplota="true" />
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-6 overview-box glasovinamapiapsolutno">
+                            <div class="card">
+                                <div class="card-title">Густина: број потписа</div>
+                                <GlasoviNaMapi v-if="maxProcenat" :geografija="mapaGeografije" :maxProcenat="maxProcenat" :maxBrojPotpisa="maxBrojPotpisa" :procentualnaToplota="false" />
+                            </div>
+                        </div>
                         <div class="col-12 md:col-6 overview-box statistike">
                             <div class="card">
                                 <div class="card-title">Демографија потписа</div>
@@ -136,7 +148,7 @@
                         </div>
                         <div class="col-12 md:col-6 overview-box geografija">
                             <div class="card">
-                                <div class="card-title">Географија потписа</div>
+                                <div class="card-title">Број по општини</div>
                                 <DataTable :value="det.potpisiGeografija" class="p-datatable-gridlines" :rows="10" dataKey="ID" :rowHover="true" :loading="det.ucitavaSe" responsiveLayout="scroll">
                                     <template #header>
                                         <div class="flex justify-content-between flex-column sm:flex-row"></div>
@@ -176,9 +188,11 @@
 
 <script>
 import PubService from '@/service/PubService';
-import { ref } from 'vue';
+import { ref, toRaw } from 'vue';
+import GlasoviNaMapi from '@/views/glavne/GlasoviNaMapi.vue';
 
 export default {
+    components: { GlasoviNaMapi },
     props: {
         idInicijative: {
             type: Number,
@@ -195,11 +209,25 @@ export default {
     },
 
     setup(props) {
+        function procenat4decimale(a, b) {
+            return Number((Math.round(((a * 100) / b) * 10000) / 10000).toFixed(4));
+        }
+        function dodajGradUMapuGeografije(mapaGeografije, postojiOpstina, idGrada, imeGrada, ukupnoPotpisa, ukupnoGlasaca) {
+            mapaGeografije.value[idGrada].nazivOpstine = imeGrada;
+            mapaGeografije.value[idGrada].idOpstine = idGrada;
+            mapaGeografije.value[idGrada].brojPotpisa = ukupnoPotpisa;
+            mapaGeografije.value[idGrada].ukupnoGlasaca = ukupnoGlasaca;
+            mapaGeografije.value[idGrada].procenatPotpisalo = procenat4decimale(ukupnoPotpisa, ukupnoGlasaca);
+        }
         const pubService = new PubService();
         const urlZaDirektniPristup = window.location.protocol + '//' + window.location.host + '/#/podrzi/' + props.idInicijative.toString() + '/detalji';
         const det = ref({ idInicijative: '[Учитава се...]', ucitavaSe: true });
+        const det2 = ref({});
         const naziviOpstina = ref({});
         const brGlasacaUOpstinama = ref({});
+        const maxBrojPotpisa = ref(0);
+        const maxProcenat = ref(0.0);
+        const mapaGeografije = ref({});
         for (let ops in props.sifarnici.opstine) {
             naziviOpstina.value[props.sifarnici.opstine[ops].idOpstine] = props.sifarnici.opstine[ops].opis;
             brGlasacaUOpstinama.value[props.sifarnici.opstine[ops].idOpstine] = props.sifarnici.opstine[ops].brojRegistrovanihGlasaca;
@@ -212,20 +240,112 @@ export default {
                 det.value = data;
                 for (let gsindex in det.value.potpisiGeografija) {
                     det.value.potpisiGeografija[gsindex].nazivOpstine = naziviOpstina.value[det.value.potpisiGeografija[gsindex].idOpstine];
+                    det.value.potpisiGeografija[gsindex].ukupnoGlasaca = brGlasacaUOpstinama.value[det.value.potpisiGeografija[gsindex].idOpstine];
                     det.value.potpisiGeografija[gsindex].procenatPotpisalo = (det.value.potpisiGeografija[gsindex].brojPotpisa * 100.0) / brGlasacaUOpstinama.value[det.value.potpisiGeografija[gsindex].idOpstine];
-                    det.value.potpisiGeografija[gsindex].procenatPotpisalo = (Math.round(det.value.potpisiGeografija[gsindex].procenatPotpisalo * 10000) / 10000).toFixed(4);
+                    det.value.potpisiGeografija[gsindex].procenatPotpisalo = Number((Math.round(det.value.potpisiGeografija[gsindex].procenatPotpisalo * 10000) / 10000).toFixed(4));
+                }
+                for (let pgindex in det.value.potpisiGeografija) {
+                    mapaGeografije.value[det.value.potpisiGeografija[pgindex].idOpstine] = det.value.potpisiGeografija[pgindex];
+                }
+                // Beograd
+                let postojiOpstina = 0;
+                let ukupnoPotpisa = 0;
+                let ukupnoGlasaca = 0;
+                let opstine = [70092, 70106, 70114, 70122, 70149, 70157, 70165, 70173, 70181, 70190, 70203, 70211, 70220, 70238, 70246, 70254, 71293];
+                for (let i in opstine) {
+                    if (mapaGeografije.value[opstine[i]]) {
+                        postojiOpstina = opstine[i];
+                        ukupnoPotpisa = ukupnoPotpisa + mapaGeografije.value[opstine[i]].brojPotpisa;
+                        ukupnoGlasaca = ukupnoGlasaca + mapaGeografije.value[opstine[i]].ukupnoGlasaca;
+                    }
+                }
+                if (postojiOpstina !== 0) {
+                    mapaGeografije.value[100001] = structuredClone(toRaw(mapaGeografije.value[postojiOpstina]));
+                    dodajGradUMapuGeografije(mapaGeografije, postojiOpstina, 100001, 'Београд', ukupnoPotpisa, ukupnoGlasaca);
+                }
+                // Niš
+                postojiOpstina = 0;
+                ukupnoPotpisa = 0;
+                ukupnoGlasaca = 0;
+                opstine = [71285, 71307, 71315, 71323, 71331, 71358];
+                for (let i in opstine) {
+                    if (mapaGeografije.value[opstine[i]]) {
+                        postojiOpstina = opstine[i];
+                        ukupnoPotpisa = ukupnoPotpisa + mapaGeografije.value[opstine[i]].brojPotpisa;
+                        ukupnoGlasaca = ukupnoGlasaca + mapaGeografije.value[opstine[i]].ukupnoGlasaca;
+                    }
+                }
+                if (postojiOpstina !== 0) {
+                    mapaGeografije.value[100002] = structuredClone(toRaw(mapaGeografije.value[postojiOpstina]));
+                    dodajGradUMapuGeografije(mapaGeografije, postojiOpstina, 100002, 'Ниш', ukupnoPotpisa, ukupnoGlasaca);
+                }
+                // Novi Sad
+                postojiOpstina = 0;
+                ukupnoPotpisa = 0;
+                ukupnoGlasaca = 0;
+                opstine = [80284, 80519];
+                for (let i in opstine) {
+                    if (mapaGeografije.value[opstine[i]]) {
+                        postojiOpstina = opstine[i];
+                        ukupnoPotpisa = ukupnoPotpisa + mapaGeografije.value[opstine[i]].brojPotpisa;
+                        ukupnoGlasaca = ukupnoGlasaca + mapaGeografije.value[opstine[i]].ukupnoGlasaca;
+                    }
+                }
+                if (postojiOpstina !== 0) {
+                    mapaGeografije.value[100003] = structuredClone(toRaw(mapaGeografije.value[postojiOpstina]));
+                    dodajGradUMapuGeografije(mapaGeografije, postojiOpstina, 100003, 'Нови Сад', ukupnoPotpisa, ukupnoGlasaca);
+                }
+                // Vranje
+                postojiOpstina = 0;
+                ukupnoPotpisa = 0;
+                ukupnoGlasaca = 0;
+                opstine = [70432, 71358];
+                for (let i in opstine) {
+                    if (mapaGeografije.value[opstine[i]]) {
+                        postojiOpstina = opstine[i];
+                        ukupnoPotpisa = ukupnoPotpisa + mapaGeografije.value[opstine[i]].brojPotpisa;
+                        ukupnoGlasaca = ukupnoGlasaca + mapaGeografije.value[opstine[i]].ukupnoGlasaca;
+                    }
+                }
+                if (postojiOpstina !== 0) {
+                    mapaGeografije.value[100004] = structuredClone(toRaw(mapaGeografije.value[postojiOpstina]));
+                    dodajGradUMapuGeografije(mapaGeografije, postojiOpstina, 100004, 'Врање', ukupnoPotpisa, ukupnoGlasaca);
+                }
+                // Užice
+                postojiOpstina = 0;
+                ukupnoPotpisa = 0;
+                ukupnoGlasaca = 0;
+                opstine = [71145, 71366];
+                for (let i in opstine) {
+                    if (mapaGeografije.value[opstine[i]]) {
+                        postojiOpstina = opstine[i];
+                        ukupnoPotpisa = ukupnoPotpisa + mapaGeografije.value[opstine[i]].brojPotpisa;
+                        ukupnoGlasaca = ukupnoGlasaca + mapaGeografije.value[opstine[i]].ukupnoGlasaca;
+                    }
+                }
+                if (postojiOpstina !== 0) {
+                    mapaGeografije.value[100005] = structuredClone(toRaw(mapaGeografije.value[postojiOpstina]));
+                    dodajGradUMapuGeografije(mapaGeografije, postojiOpstina, 100005, 'Ужице', ukupnoPotpisa, ukupnoGlasaca);
+                }
+                for (let gsindex in mapaGeografije.value) {
+                    if (maxBrojPotpisa.value < mapaGeografije.value[gsindex].brojPotpisa) {
+                        maxBrojPotpisa.value = mapaGeografije.value[gsindex].brojPotpisa;
+                    }
+                    if (maxProcenat.value < mapaGeografije.value[gsindex].procenatPotpisalo) {
+                        maxProcenat.value = mapaGeografije.value[gsindex].procenatPotpisalo;
+                    }
                 }
             }
         });
-        return { det, urlZaDirektniPristup };
+        return { det, mapaGeografije, maxBrojPotpisa, maxProcenat, urlZaDirektniPristup };
     },
 
     mounted() {},
 
     methods: {
         prijaviPotpisnika(event, idInicijative) {
-            // redirekt za prijavu na eid.gov.rs
-            console.log(event, idInicijative);
+            // redirekt za prijavu na eid.gov.rs - test varijanta sa Auth0
+            window.location.href = 'https://dev-3l2ntuj6cqt60dix.eu.auth0.com/authorize?response_type=code&client_id=FNqheDYYX8A0raqebQdm631vnwIuGre7&redirect_uri=https%3A%2F%2Ftest-einicijativa.one%2F%23%2Fpodrzi%2F' + idInicijative + '%2Fdetalji';
         },
         formatNumber(value) {
             return value.toLocaleString('sr-RS');

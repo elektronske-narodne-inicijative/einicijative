@@ -74,7 +74,7 @@
             </div>
         </div>
     </div>
-    <OverlayPanel ref="detaljiInicijative" appendTo="body" :showCloseIcon="true" id="detaljiInicijative" style="width: 94%; height: 94%; margin: 2%">
+    <OverlayPanel ref="detaljiInicijative" appendTo="body" :showCloseIcon="true" id="detaljiInicijative" style="width: 100%; height: 100%">
         <DetaljiJavneInicijative v-if="this.idTekuceInicijative" :idInicijative="this.idTekuceInicijative" :sifarnici="sifarnici" />
     </OverlayPanel>
 </template>
