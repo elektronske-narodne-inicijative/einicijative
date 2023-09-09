@@ -1,5 +1,5 @@
 # Elektronske Narodne Inicijative
-## Probajte aplikaciju!
+## Probajte demo aplikaciju!
 Prva testna, statička verzija aplikacije, koja demonstrira navigaciju kroz objavljene podatke i opisuje tekstom šta će biti u delovima aplikacije koji još nisu izvedeni, može da se vidi/proba [ovde](https://test-einicijativa.one/#/). Više detalja o planovima možete naći na dnu ove stranice.
 
 Sve ideje i komentari su dobrodošli - pišite na elektronske.narodne.inicijative@gmail.com.
@@ -35,7 +35,7 @@ Podnošenjem zahteva za narodnu incijativu članovi inicijativnog odbora gube mo
 Opis budućeg tehničkog rešenja kroz opis pretpostavljenih zahteva ključnih tipova korisnika i razloga za te zahteve, koristeći pristup zvani "korisničke priče", dat je u [ovoj prezentaciji](https://docs.google.com/presentation/d/1cnEa4gFjD85ZG449C_NlCCojxXWHUtky/edit?usp=drive_link&ouid=100806157112222708210&rtpof=true&sd=true).
 
 ## Tehnička arhitektura
-Sistem za elektronske narodne inicijative (u daljem tekstu eInicijativa/eInicijative ili einicijative.gov.rs) je zamišljen kao zasebna, "slabo spregnuta" (loosely coupled) elektronska usluga državnih organa koja se oslanja, što se tiče autentikacije korisnika (ovlašćenih lica organa javne uprave, članova inicijativnih odbora i potpisnika), na sistem [eid.gov.rs](https://eid.gov.rs/sr-Cyrl-RS/pocetna), koristeći *JWT* koncept ([JSON Web Token](https://jwt.io/)), a što se tiče dostupnosti verifikovanih ličnih podataka na sistem [euprava.gov.rs](https://euprava.gov.rs/) (konzumirajući namenski novi API nazvan *u4niapi*). Kontekst eInicijativa sistema je prikazan na dijagramu ispod.
+Sistem za elektronske narodne inicijative (u daljem tekstu eInicijativa/eInicijative ili einicijative.gov.rs) je zamišljen kao zasebna, "slabo spregnuta" (loosely coupled) elektronska usluga državnih organa koja se oslanja, što se tiče autentikacije korisnika (ovlašćenih lica organa javne uprave, članova inicijativnih odbora i potpisnika), na sistem [eid.gov.rs](https://eid.gov.rs/sr-Cyrl-RS/pocetna), koristeći [OpenID Connect protokol](https://openid.net/developers/how-connect-works/) i *JWT* koncept ([JSON Web Token](https://jwt.io/)), a što se tiče dostupnosti verifikovanih ličnih podataka na sistem [euprava.gov.rs](https://euprava.gov.rs/) (konzumirajući namenski novi API nazvan *u4niapi*). Kontekst eInicijativa sistema je prikazan na dijagramu ispod.
 
 ![ein-korisniciisistemi](https://github.com/elektronske-narodne-inicijative/einicijative/assets/137355033/03af8413-8c50-4d83-b988-a72a445a63bf)
 
@@ -114,15 +114,15 @@ Sledeći poziv će kreirati nešto ispod milion građana i 10 hiljada inicijativ
 
 <code>call ni.NITestPunjenjeBaze(15,10);</code>
 ## Tekuće stanje implementacije rešenja, planovi
-##### Poslednji put ažurirano: 06.09.2023
+##### Poslednji put ažurirano: 09.09.2023
 ### Urađeno
 U ovom trenutku je tehnička dokumentacija uglavnom kompletirana i sastoji se od ove stranice i povezanih dokumenata - ono što još planiram da dodam je dokumentacija o tipovima poruka za nadzorni dnevnik (audit log events) i sistem za nadzor zdravlja usluga - to ču početi kada krenem da radim komponente srednjeg sloja.
 
 Najveći deo implementacije baze je takođe završen, uključujući i sve procedure koje koriste API metodi, kao i sve funkcije koje koristi servis za objavljivanje dokumenata <code>nipub</code>. Testne procedure su i dalje relativno "plitke", ali to će biti dopunjavano s vremenom. U bazi je dodata nova šema <code>nibatch</code>, koja sadrži tabele koje koristi Spring Batch, kao i odgovarajuće dodele prava korisniku baze <code>nipub</code> (koji koristi odgovarajući servis).
 
-Prva verzija servisa nipub je takođe implementirana (Java 17, Spring Boot 3.1.2, Spring Batch, jdbc, postgres), projekat je [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/Java/nipub). Ovo stvara uslove za početak implementacije "faze 1" web aplikacije, jer servis generiše podatke koje koristi javni deo aplikacije, tj. korisničke priče sa slajda 3 ("Bilo ko, na bazi javnog pristupa") u [ovoj prezentaciji](https://docs.google.com/presentation/d/1cnEa4gFjD85ZG449C_NlCCojxXWHUtky/edit?usp=drive_link&ouid=100806157112222708210&rtpof=true&sd=true).
+Prva verzija servisa nipub je takođe implementirana (Java 17, Spring Boot 3.1.2, Spring Batch, jdbc, postgres), projekat je [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/Java/nipub). Ovo generiše podatke koje koristi javni deo aplikacije, tj. korisničke priče sa slajda 3 ("Bilo ko, na bazi javnog pristupa") u [ovoj prezentaciji](https://docs.google.com/presentation/d/1cnEa4gFjD85ZG449C_NlCCojxXWHUtky/edit?usp=drive_link&ouid=100806157112222708210&rtpof=true&sd=true).
 
-Napravljen je i kostur web aplikacije, koji za sada koristi samo objavljene podatke iz <code>nipub</code> servisa (nešto unapređeno testno punjenje baze pretvoreno u datoteke ubačene u web projekat), koristeći [Vue.js v3](https://vuejs.org/) i [PrimeVue šablon SAPPHIRE](https://sapphire.primevue.org/#/). Cilj je bio stvoriti radnu verziju koja može lako da se demonstrira i bude materijal za dalju diskusiju.
+Napravljen je i kostur web aplikacije, koji za sada koristi samo objavljene podatke iz <code>nipub</code> servisa (nešto unapređeno testno punjenje baze pretvoreno u datoteke ubačene u web projekat), koristeći [Vue.js v3](https://vuejs.org/) i [PrimeVue šablon SAPPHIRE](https://sapphire.primevue.org/#/). Prijava za potpisivanje na eid.gov.rs se simulira koristeći Auth0 servis. Cilj je bio stvoriti radnu verziju koja može lako da se demonstrira i bude materijal za dalju diskusiju.
 
 ### Planovi
 Sada je vreme da se počne rad na <code>niapi</code> servisu i odgovarajućim (dinamičkim) delovima web aplikacije. I ovaj servis će biti urađen koristeći Spring Boot 3.x / Java 17, uz PostgreSQL driver i odgovarajuću biblioteku za implementaciju RESTful API (Jersey ili Spring Web), rukovanje JWT, PDF fajlovima, itd.
