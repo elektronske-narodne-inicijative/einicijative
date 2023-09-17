@@ -1,0 +1,37 @@
+scheme: http
+auth0-issuer: https://dev-3l2ntuj6cqt60dix.eu.auth0.com/
+auth0-jwe-key-selector: https://dev-3l2ntuj6cqt60dix.eu.auth0.com/
+
+server:
+  error:
+    include-message: always
+  ssl:
+    enabled: false
+
+spring:
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ni
+    username: nipub
+    password: ChangeMeToARandomGUID
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${auth0-issuer}
+
+resource-server:
+  cors:
+    allowed-origins:
+      - http://localhost:8080
+      - https://test-einicijativa.one/
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        security:
+          core: DEBUG

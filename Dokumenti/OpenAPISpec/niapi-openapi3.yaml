@@ -169,22 +169,17 @@ paths:
         '500':
           $ref: '#/components/responses/500Error'
 
-  /potpisnik/inicijativa/{idInicijative}/potpis:
+  /potpisnik/potpis:
     post:
       description: Potpisnik potpisuje narodnu inicijativu online
       security:
         - bearerAuth: []
-      parameters:
-        - name: idInicijative
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
       requestBody:
         required: true
         content:
-          application/json: {}
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InicijativaZaPotpis'
       responses:
         '200':
           description: Detalji o potpisanoj inicijativi sa overom aplikacije (digitalnim potpisom)
@@ -940,6 +935,14 @@ components:
           format: date
         obrazlozenje:
           type: string
+
+    InicijativaZaPotpis:
+      type: object
+      required:
+        - idInicijative
+      properties:
+        idInicijative:
+          type: integer
 
     PotpisInicijative:
       type: object

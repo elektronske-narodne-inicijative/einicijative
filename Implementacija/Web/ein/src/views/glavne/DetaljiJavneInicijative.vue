@@ -345,7 +345,8 @@ export default {
     methods: {
         prijaviPotpisnika(event, idInicijative) {
             // redirekt za prijavu na eid.gov.rs - test varijanta sa Auth0
-            window.location.href = 'https://dev-3l2ntuj6cqt60dix.eu.auth0.com/authorize?response_type=code&client_id=FNqheDYYX8A0raqebQdm631vnwIuGre7&redirect_uri=https%3A%2F%2Ftest-einicijativa.one%2F%23%2Fpodrzi%2F' + idInicijative + '%2Fdetalji';
+            window.location.href =
+                'https://dev-3l2ntuj6cqt60dix.eu.auth0.com/authorize?response_type=token&client_id=FNqheDYYX8A0raqebQdm631vnwIuGre7&redirect_uri=https%3A%2F%2Ftest-einicijativa.one%2F&audience=https%3A%2F%2Ftest-einicijativa.one%2Fniapi';
         },
         formatNumber(value) {
             return value.toLocaleString('sr-RS');
