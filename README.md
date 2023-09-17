@@ -65,7 +65,7 @@ Opis logike koju se očekuje da implementiraju API metodi, očekivanih tipova po
 
 Detalji API-ja su pripremljeni u mašinski čitljivom OpenAPI 3.0 formatu i objavljeni na Swagger portalu u dva dela:
 - API koji eUprava daje eInicijativi: [u4niapi](https://app.swaggerhub.com/apis/elektronske-narodne-inicijative/u4niapi/0.0.1#/)
-- API koji eUPrava daje šalterima (deo) ili javno: [niapi](https://app.swaggerhub.com/apis/elektronske-narodne-inicijative/niapi/0.0.1#/)
+- API koji eInicijativa daje šalterima (deo) ili javno: [niapi](https://app.swaggerhub.com/apis/elektronske-narodne-inicijative/niapi/0.0.1#/)
 
 Iz OpenAPI specifikacije se lako može generisati kod za niz programskih jezika / alata, kao što se može videti na slici ispod.
 
@@ -114,7 +114,7 @@ Sledeći poziv će kreirati nešto ispod milion građana i 10 hiljada inicijativ
 
 <code>call ni.NITestPunjenjeBaze(15,10);</code>
 ## Tekuće stanje implementacije rešenja, planovi
-##### Poslednji put ažurirano: 09.09.2023
+##### Poslednji put ažurirano: 17.09.2023
 ### Urađeno
 U ovom trenutku je tehnička dokumentacija uglavnom kompletirana i sastoji se od ove stranice i povezanih dokumenata - ono što još planiram da dodam je dokumentacija o tipovima poruka za nadzorni dnevnik (audit log events) i sistem za nadzor zdravlja usluga - to ču početi kada krenem da radim komponente srednjeg sloja.
 
@@ -124,11 +124,13 @@ Prva verzija servisa nipub je takođe implementirana (Java 17, Spring Boot 3.1.2
 
 Napravljen je i kostur web aplikacije, koji za sada koristi samo objavljene podatke iz <code>nipub</code> servisa (nešto unapređeno testno punjenje baze pretvoreno u datoteke ubačene u web projekat), koristeći [Vue.js v3](https://vuejs.org/) i [PrimeVue šablon SAPPHIRE](https://sapphire.primevue.org/#/). Prijava za potpisivanje na eid.gov.rs se simulira koristeći Auth0 servis. Cilj je bio stvoriti radnu verziju koja može lako da se demonstrira i bude materijal za dalju diskusiju.
 
+Napravljen je i prvi, "prazan" kostur niapi servisa, samo do nivoa prečišćavanja API-ja generisanog na bazi OpenAPI specifikacije i konfiguracije upotrebe Auth0 JWT tokena za validaciju pristupa.
+
 ### Planovi
-Sada je vreme da se počne rad na <code>niapi</code> servisu i odgovarajućim (dinamičkim) delovima web aplikacije. I ovaj servis će biti urađen koristeći Spring Boot 3.x / Java 17, uz PostgreSQL driver i odgovarajuću biblioteku za implementaciju RESTful API (Jersey ili Spring Web), rukovanje JWT, PDF fajlovima, itd.
+Radi se na implementaciji API servisa i proširenju sajta odgovarajućim funkcijama koje koriste API. Na ovome će se u etapama raditi sledećih nekoliko meseci. Prvo funkcije potpisnika, pa ovlašćenog lica i na kraju inicijatora.
+
+Rad uključuje i izradu mock-a/simulatora u4niapi (najverovatnije koristeći Wiremock) za funkcije izdavanja ličnih podataka koje daje eUprava, kao i (implicitno) eid servisa (najverovatnije koristeći besplatni Auth0 račun). Prvi cilj će svakako biti implementacija funkcija za potpisnike (online i šalter), pa onda verovatno ovlašćenih lica (pošto je manje posla) - i na kraju inicijativnih odbora.
 ### Tajming
 ###### *Ovo je naravno sve hobi, koji radim uz dosta intenzivan glavni posao, tako da su datumi/periodi dole pre svega moja želja i lako mogu proklizati. Sve bi se naravno moglo ubrzati ako bi uskočilo još akcijaša ;)
 
 Ovo što preostaje je najkompleksniji deo implementacije i verovatno će se protegnuti do kraja ove i kroz deo sledeće godine.
-
-Ovo uključuje izradu mock-a/simulatora u4niapi (najverovatnije koristeći Wiremock) za funkcije izdavanja ličnih podataka koje daje eUprava, kao i (implicitno) eid servisa (najverovatnije koristeći besplatni Auth0 račun). Prvi cilj će svakako biti implementacija funkcija za potpisnike (online i šalter), pa onda verovatno ovlašćenih lica (pošto je manje posla) - i na kraju inicijativnih odbora. 
