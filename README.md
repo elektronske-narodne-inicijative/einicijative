@@ -3,19 +3,19 @@
 Prva testna, statička verzija aplikacije, koja demonstrira navigaciju kroz objavljene podatke i opisuje tekstom šta će biti u delovima aplikacije koji još nisu izvedeni, može da se vidi/proba [ovde](https://test-einicijativa.one/#/). Više detalja o planovima možete naći na dnu ove stranice.
 
 Sve ideje i komentari su dobrodošli - pišite na elektronske.narodne.inicijative@gmail.com.
-## Cilj, namena, istorija
+## Čemu sve ovo?
 U nadi da će Ministarstvo za državnu upravu i lokalnu samoupravu, Vladina kancelarija za informacione tehnologije i budući podugovarač, koji na tenderu za javne nabavke dobije da radi rešenje za Elektronske Narodne Inicijative, videti neku upotrebnu vrednost od priloženih ideja i tehničkog sadržaja, u ovom github repou i na Swagger hub-u ostavljamo sadržaj koji svako ko to poželi može koristiti u skladu sa [Apache 2.0 licencom](https://www.apache.org/licenses/LICENSE-2.0).
 
 Ideje za sadržaj koji vidite ovde su razvijene u saradnji između Ivana Grujića i Gorana Vučkovića počevši od maja 2023. godine i dostavljene u formi dopisa Ministarstvu za državnu upravu i lokalnu samoupravu 12. juna 2023. od strane organizacije Transparentnost Srbija.
 
 U paraleli su ideje tehnički razvijane, što je kao rezultat proizvelo tehničke sadržaje (tehničke specifikacije i izvorni kod) koji su dostupni kroz ovaj repo.
-## Ciljevi
+## Ciljevi proizvoda
 Imajući u vidu kako domaća iskustva - "papirno" izvođene narodne inicijative, kao i strana, pre svega sajt [petition.parliament.uk](https://petition.parliament.uk/), tako i tekst [Zakona o referendumu i narodnoj inicijativi](https://www.paragraf.rs/propisi/zakon_o_referendumu_i_narodnoj_inicijativi.html) od 10. decembra 2021, ovo tehničko rešenje je projektovano tako da se ostvari nekoliko ključnih ciljeva:
 - Omogući građanima da koriste svoje ustavno pravo pokretanja i učestvovanja u narodnim inicijativama na racionalan i efikasan način, oslanjajući se na postojeće resurse digitalne infrastrukture državnih organa Srbije
 - Omogući da građani mogu jednostavno da kontrolišu svoje učešće u narodnim inicijativama
 - Minimizuje rizike koji trenutno nastaju prikupljanjem podataka o ličnosti neophodnih za provere ne-elektronskih narodnih inicijativa
 - Minimizuje verovatnoću tehničkih napada na sistem i povezane sisteme, kako elementima "zaštite u dubinu", tako i minimizovanjem vrednosti koju bi napadač dobio u slučaju uspešnog upada u sistem
-## Ključne ideje
+## Ključne ideje na kojima je proizvod baziran
 Ključne ideje na kojima je zasnovan ovaj predlog tehničkog rešenja su:
 - Ako se identitet građanina verifikuje od strane sistema državnih organa u trenutku potpisivanja, prikupljanje uobičajenih podataka o ličnosti (ime, prezime, adresa stanovanja, JMBG) i njihovo dostavljanje inicijativnom odboru nije više svrsishodno, te ga ne treba ni raditi, u skladu sa principom srazmernosti iz članova 14 i 54 [Zakona o zaštiti podataka o ličnosti](https://www.paragraf.rs/propisi/zakon_o_zastiti_podataka_o_licnosti.html)
 - Nema očiglednog razloga da se proces izvođenja narodnih inicijativa, počevši od pripreme zahteva i uključenja članova inicijativnog odbora, preko podnošenja i verifikacije zahteva od strane predsednika nadležne skupštine, prikupljanja potpisa - i na kraju pokretanja inicijative pred skupštinom i registracije odluke skupštine, *ne digitalizuje u celini* - i da se ono što bi bio tok papirnih dokumenata kroz institucije ne pretvori u prostu promenu stanja (faze obrade) elektronske narodne inicijative u sistemu.
@@ -129,7 +129,7 @@ Napravljen je i prvi, "prazan" kostur niapi servisa, samo do nivoa prečišćava
 ### Planovi
 Radi se na implementaciji API servisa i proširenju sajta odgovarajućim funkcijama koje koriste API. Na ovome će se u etapama raditi sledećih nekoliko meseci. Prvo funkcije potpisnika, pa ovlašćenog lica i na kraju inicijatora.
 
-Rad uključuje i izradu mock-a/simulatora u4niapi (najverovatnije koristeći Wiremock) za funkcije izdavanja ličnih podataka koje daje eUprava, kao i (implicitno) eid servisa (najverovatnije koristeći besplatni Auth0 račun). Prvi cilj će svakako biti implementacija funkcija za potpisnike (online i šalter), pa onda verovatno ovlašćenih lica (pošto je manje posla) - i na kraju inicijativnih odbora.
+Rad uključuje i izradu mock-a/simulatora u4niapi (najverovatnije koristeći Wiremock) za funkcije izdavanja ličnih podataka koje daje eUprava. Prvi cilj će svakako biti implementacija funkcija za potpisnike (online i šalter), pa onda verovatno ovlašćenih lica (pošto je manje posla) - i na kraju inicijativnih odbora.
 ### Tajming
 ###### *Ovo je naravno sve hobi, koji radim uz dosta intenzivan glavni posao, tako da su datumi/periodi dole pre svega moja želja i lako mogu proklizati. Sve bi se naravno moglo ubrzati ako bi uskočilo još akcijaša ;)
 
