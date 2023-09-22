@@ -7,7 +7,7 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 
 @SpringBootApplication
 @ComponentScan(
-		basePackages = {"rs.gov.mduls.einicijative.niapi.controllers"},
+		basePackages = {"rs.gov.mduls.einicijative.niapi.api.controllers","rs.gov.mduls.einicijative.niapi.db"},
 		nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 public class NiapiApplication {

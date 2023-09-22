@@ -33,7 +33,7 @@ BEGIN
     jwtHash = cast(digest(cast(jwtVrednost as text), 'sha256') as text);
     trnIstekaJWT = cast (current_timestamp + interval '1 second' * jwtTimeoutSec as timestamp);
     -- inicijalizuj
-    call ni.NITxPtpNovaSesija(jwtHash, jwtVrednost, trnIstekaJWT, gradjanin.IDNIGradjanin, gradjanin.IDNIPol, gradjanin.GodinaRodjenja, gradjanin.IDNIOpstina);
+    call ni.NITxPtpNovaSesija(jwtHash, cast(jwtVrednost as text), trnIstekaJWT, gradjanin.IDNIGradjanin, gradjanin.IDNIPol, gradjanin.GodinaRodjenja, gradjanin.IDNIOpstina);
     commit;
     call ni.NITxDajSesijuPoHash(jwtHash, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
     call ni.NITxPtpDajProfil(jwtHash, idPola, godinaRodjenja, nazivOpstine);

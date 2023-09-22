@@ -26,8 +26,8 @@ BEGIN
 EXCEPTION
     WHEN no_data_found THEN
         prisutna = false;
-        isteklaSesija = null;
-        istekaoJWT = null;
+        isteklaSesija = false;
+        istekaoJWT = false;
         idTipaSesije = null;
         idTipaKorisnika = null;
 END;

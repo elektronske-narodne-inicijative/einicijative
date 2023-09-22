@@ -2,6 +2,7 @@ scheme: http
 auth0-issuer: https://dev-3l2ntuj6cqt60dix.eu.auth0.com/
 auth0-jwe-key-selector: https://dev-3l2ntuj6cqt60dix.eu.auth0.com/
 
+
 server:
   error:
     include-message: always
@@ -13,7 +14,7 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/ni
+    url: jdbc:postgresql://localhost:5432/ni?escapeSyntaxCallMode=callIfNoReturn
     username: nipub
     password: ChangeMeToARandomGUID
   security:
@@ -28,10 +29,3 @@ resource-server:
       - http://localhost:8080
       - https://test-einicijativa.one/
 
-logging:
-  level:
-    org:
-      springframework:
-        web: DEBUG
-        security:
-          core: DEBUG

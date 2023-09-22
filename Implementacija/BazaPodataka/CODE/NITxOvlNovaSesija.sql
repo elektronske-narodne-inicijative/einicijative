@@ -1,6 +1,6 @@
 CREATE OR REPLACE PROCEDURE ni.NITxOvlNovaSesija(
     IN  jwtHash text,
-    IN  jwtVrednost json,
+    IN  jwtVrednost text,
     IN  trnIstekaJWT timestamp,
     IN  idKorisnika uuid,
     IN  idNivoaVlasti text,

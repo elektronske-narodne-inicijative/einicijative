@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+    <appender name="NADZORNITRAG" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>ninadzornitrag</syslogHost>
+        <facility>LOCAL0</facility>
+        <port>514</port>
+        <suffixPattern>[niapi]%msg</suffixPattern>
+    </appender>
+    <appender name="NADGLEDANJE" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>ninadgledanje</syslogHost>
+        <facility>LOCAL1</facility>
+        <port>514</port>
+        <suffixPattern>[niapi]%msg</suffixPattern>
+    </appender>
+    <logger name="rs.gov.mduls.einicijative.niapi.nadzornitrag" level="info" additivity="false">
+        <appender-ref ref="NADZORNITRAG"/>
+        <appender-ref ref="CONSOLE" />
+    </logger>
+    <logger name="rs.gov.mduls.einicijative.niapi.nadgledanje" level="info" additivity="false">
+        <appender-ref ref="NADGLEDANJE"/>
+        <appender-ref ref="CONSOLE" />
+    </logger>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>

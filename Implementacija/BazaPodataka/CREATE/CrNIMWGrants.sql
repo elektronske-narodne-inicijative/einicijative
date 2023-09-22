@@ -19,12 +19,13 @@ GRANT EXECUTE ON FUNCTION ni.NIDocsSkoroPromenjeneInicijative() TO nipub;
 
 GRANT EXECUTE ON PROCEDURE ni.NITxDajSesijuPoHash(text, boolean, boolean, boolean, char, char) TO niapi;
 
-GRANT EXECUTE ON PROCEDURE ni.NITxPtpNovaSesija(text, json, timestamp, uuid, text, integer, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxPtpNovaSesija(text, text, timestamp, uuid, text, integer, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxPtpDajProfil(text, text, integer, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxPtpPotpisiInicijativu(text, integer, uuid, timestamp) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxPtpDetaljiPotpisa(text, integer, text, uuid, timestamp) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxPtpListaPotpisa(text, json) TO niapi;
 
-GRANT EXECUTE ON PROCEDURE ni.NITxOvlNovaSesija(text, json, timestamp, uuid, text, text, text, text, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxOvlNovaSesija(text, text, timestamp, uuid, text, text, text, text, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxOvlDajProfil(text, text, text, text, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxOvlListaZaOdobrenje(text, json) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxOvlListaZaIshod(text, json) TO niapi;
@@ -34,7 +35,7 @@ GRANT EXECUTE ON PROCEDURE ni.NITxOvlOdobriInicijativu(text, integer) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxOvlRegistrujOdbacenuInicijativu(text, integer, date, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxOvlRegistrujPrihvacenuInicijativu(text, integer, date, text) TO niapi;
 
-GRANT EXECUTE ON PROCEDURE ni.NITxIncNovaSesija(text, json, timestamp, uuid, text, integer, text, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncNovaSesija(text, text, timestamp, uuid, text, integer, text, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncDajProfil(text, text, integer, text, text, text, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncPodesiBiografiju(text, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncPodesiEmail(text, text) TO niapi;

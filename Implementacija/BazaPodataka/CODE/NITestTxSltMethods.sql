@@ -7,17 +7,7 @@ AS $$
 DECLARE
     gradjanin RECORD;
     inicijativa RECORD;
-    jwtHash text;
-    jwtVrednost json;
-    trnIstekaJWT timestamp;
-    idPola text;
     godinaRodjenja integer;
-    idOpstine text;
-    prisutna boolean;
-    isteklaSesija boolean;
-    istekaoJWT boolean;
-    idTipaSesije char(1);
-    idTipaKorisnika char(1);
     nazivOpstine text;
     idPotpisa uuid;
     trnZavodjenjaPotpisa timestamp;

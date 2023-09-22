@@ -37,7 +37,7 @@ BEGIN
     idPokrajine = null;
     imePrezime = 'Алекса Жуњић';
     emailAdresa = 'azunjic@gmail.com';
-    call ni.NITxOvlNovaSesija(jwtHash, jwtVrednost, trnIstekaJWT, idKorisnika, idNivoaVlasti, idOpstine, idPokrajine, imePrezime, emailAdresa);
+    call ni.NITxOvlNovaSesija(jwtHash, cast(jwtVrednost as text), trnIstekaJWT, idKorisnika, idNivoaVlasti, idOpstine, idPokrajine, imePrezime, emailAdresa);
     commit;
     call ni.NITxDajSesijuPoHash(jwtHash, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
     call ni.NITxOvlDajProfil(jwtHash, imePrezime, emailAdresa, nivoUprave, opisJediniceUprave);

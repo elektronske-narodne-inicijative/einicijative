@@ -1,6 +1,6 @@
 ﻿/*
 Created: 17/06/2023
-Modified: 07/07/2023
+Modified: 22/09/2023
 Model: ModelPodatakaNarodneInicijative
 Database: PostgreSQL 12
 */
@@ -319,7 +319,7 @@ CREATE TABLE NISesija
   IDNISesija Text NOT NULL,
   IDNITipSesije Character(1),
   IDNIKorisnik UUID NOT NULL,
-  JWT Json NOT NULL,
+  JWT Text NOT NULL,
   TrnPocetka Timestamp with time zone NOT NULL,
   TrnIstekaJWT Timestamp with time zone NOT NULL,
   TrnIstekaSesije Timestamp with time zone NOT NULL

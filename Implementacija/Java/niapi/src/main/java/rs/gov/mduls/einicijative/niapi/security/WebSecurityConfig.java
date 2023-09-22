@@ -48,7 +48,7 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/niapi/status").permitAll()
-                .requestMatchers("/salteri/**").permitAll() // "ručna" validacija hedera
+                .requestMatchers("/niapi/salteri/**").permitAll() // "ručna" validacija hedera
                 .requestMatchers("/niapi/potpisnik/**").authenticated()
                 .requestMatchers("/niapi/inicijator/**").authenticated()
                 .requestMatchers("/niapi/ovlice/**").authenticated()

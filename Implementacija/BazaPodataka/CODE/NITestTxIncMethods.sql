@@ -44,7 +44,7 @@ BEGIN
     jwtHash = cast(digest(cast(jwtVrednost as text), 'sha256') as text);
     trnIstekaJWT = cast (current_timestamp + interval '1 second' * jwtTimeoutSec as timestamp);
     -- inicijalizuj
-    call ni.NITxIncNovaSesija(jwtHash, jwtVrednost, trnIstekaJWT, idKorisnikaSavo, 'М', 1986, '70106', 'Саво Манојловић');
+    call ni.NITxIncNovaSesija(jwtHash, cast(jwtVrednost as text), trnIstekaJWT, idKorisnikaSavo, 'М', 1986, '70106', 'Саво Манојловић');
     commit;
     call ni.NITxDajSesijuPoHash(jwtHash, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
     call ni.NITxIncDajProfil(jwtHash, idPola, godinaRodjenja, nazivOpstine, imePrezime, emailAdresa, biografija);
@@ -91,7 +91,7 @@ BEGIN
     jwtHash2 = cast(digest(cast(jwtVrednost2 as text), 'sha256') as text);
     trnIstekaJWT2 = cast (current_timestamp + interval '1 second' * jwtTimeoutSec as timestamp);
     -- inicijalizuj
-    call ni.NITxIncNovaSesija(jwtHash2, jwtVrednost2, trnIstekaJWT2, idKorisnikaZlatko, 'М', 1965, '70106', 'Златко Кокановић');
+    call ni.NITxIncNovaSesija(jwtHash2, cast(jwtVrednost2 as text), trnIstekaJWT2, idKorisnikaZlatko, 'М', 1965, '70106', 'Златко Кокановић');
     commit;
     call ni.NITxDajSesijuPoHash(jwtHash2, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
     call ni.NITxIncDajProfil(jwtHash2, idPola, godinaRodjenja, nazivOpstine, imePrezime, emailAdresa, biografija);
@@ -110,7 +110,7 @@ BEGIN
     jwtHash2 = cast(digest(cast(jwtVrednost2 as text), 'sha256') as text);
     trnIstekaJWT2 = cast (current_timestamp + interval '1 second' * jwtTimeoutSec as timestamp);
     -- inicijalizuj
-    call ni.NITxIncNovaSesija(jwtHash2, jwtVrednost2, trnIstekaJWT2, idKorisnikaLjiljana, 'Ж', 1975, '70106', 'Љиљана Браловић');
+    call ni.NITxIncNovaSesija(jwtHash2, cast(jwtVrednost2 as text), trnIstekaJWT2, idKorisnikaLjiljana, 'Ж', 1975, '70106', 'Љиљана Браловић');
     commit;
     call ni.NITxDajSesijuPoHash(jwtHash2, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
     call ni.NITxIncDajProfil(jwtHash2, idPola, godinaRodjenja, nazivOpstine, imePrezime, emailAdresa, biografija);
@@ -129,7 +129,7 @@ BEGIN
     jwtHash2 = cast(digest(cast(jwtVrednost2 as text), 'sha256') as text);
     trnIstekaJWT2 = cast (current_timestamp + interval '1 second' * jwtTimeoutSec as timestamp);
     -- inicijalizuj
-    call ni.NITxIncNovaSesija(jwtHash2, jwtVrednost2, trnIstekaJWT2, idKorisnikaMarina, 'Ж', 1985, '70106', 'Марина Павлић');
+    call ni.NITxIncNovaSesija(jwtHash2, cast(jwtVrednost2 as text), trnIstekaJWT2, idKorisnikaMarina, 'Ж', 1985, '70106', 'Марина Павлић');
     commit;
     call ni.NITxDajSesijuPoHash(jwtHash2, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
     call ni.NITxIncDajProfil(jwtHash2, idPola, godinaRodjenja, nazivOpstine, imePrezime, emailAdresa, biografija);
@@ -148,7 +148,7 @@ BEGIN
     jwtHash2 = cast(digest(cast(jwtVrednost2 as text), 'sha256') as text);
     trnIstekaJWT2 = cast (current_timestamp + interval '1 second' * jwtTimeoutSec as timestamp);
     -- inicijalizuj
-    call ni.NITxIncNovaSesija(jwtHash2, jwtVrednost2, trnIstekaJWT2, idKorisnikaKristina, 'Ж', 1996, '70106', 'Кристина Урошевић');
+    call ni.NITxIncNovaSesija(jwtHash2, cast(jwtVrednost2 as text), trnIstekaJWT2, idKorisnikaKristina, 'Ж', 1996, '70106', 'Кристина Урошевић');
     commit;
     call ni.NITxDajSesijuPoHash(jwtHash2, prisutna, isteklaSesija, istekaoJWT, idTipaSesije, idTipaKorisnika);
     call ni.NITxIncDajProfil(jwtHash2, idPola, godinaRodjenja, nazivOpstine, imePrezime, emailAdresa, biografija);
