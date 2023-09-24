@@ -1,0 +1,25 @@
+{
+        "request": {
+            "urlPath": "/v1/potpisnik",
+            "method": "GET",
+            "headers": {
+                "Authorization": {
+                       "matches": "Bearer .*[A-Z]"
+                }
+            }
+        },
+        "response": {
+                "status": 200,
+                "bodyFileName": "DetaljiOPotpisniku.json",
+                "transformers": ["response-template"],
+                "transformerParameters": {
+                        "idKorisnika": "b61d8d6e-a949-4292-97bf-728121b64791",
+                        "idPola": "Ж",
+                        "idOpstine": "70114",
+                        "godinaRodjenja": "1976"
+                },
+                "headers": {
+                        "Content-Type": "application/json"
+                }
+        }
+}

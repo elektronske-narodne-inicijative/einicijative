@@ -1,0 +1,6 @@
+{
+ "idKorisnika":"{{parameters.idKorisnika}}",
+ "imePrezime":"{{parameters.imePrezime}}"
+ "emailAdresa":"{{parameters.emailAdresa}}"
+ "idNivoaUprave":"{{parameters.idNivoaUprave}}"
+}

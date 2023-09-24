@@ -1,0 +1,26 @@
+{
+        "request": {
+            "urlPath": "/v1/inicijator",
+            "method": "GET",
+            "headers": {
+                "Authorization": {
+                       "matches": "Bearer .*[0-9]"
+                }
+            }
+        },
+        "response": {
+                "status": 200,
+                "bodyFileName": "DetaljiOInicijatoru.json",
+                "transformers": ["response-template"],
+                "transformerParameters": {
+                        "idKorisnika": "6434c305-a9cd-4205-9409-5295fb9c5c9c",
+                        "idPola": "Ж",
+                        "idOpstine": "70181",
+                        "godinaRodjenja": "1953",
+                        "imePrezime": "Милица Јефтимијевић Лилић"
+                },
+                "headers": {
+                        "Content-Type": "application/json"
+                }
+        }
+}

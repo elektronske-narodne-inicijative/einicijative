@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rs.gov.mduls.einicijative.niapi.api.interfaces.PotpisnikApi;
 import rs.gov.mduls.einicijative.niapi.api.model.PotpisnikProfilOdgovor;
+import rs.gov.mduls.einicijative.niapi.clients.euprava.EupravaRESTClient;
+import rs.gov.mduls.einicijative.niapi.clients.euprava.dto.DetaljiOGradjaninu;
 import rs.gov.mduls.einicijative.niapi.db.NiDatabaseApi;
 import rs.gov.mduls.einicijative.niapi.utils.Consts;
 import rs.gov.mduls.einicijative.niapi.utils.Nadgledanje;
@@ -18,13 +20,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.NativeWebRequest;
 
-import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTParser;
+
+import java.text.ParseException;
+import java.util.*;
 
 import jakarta.annotation.Generated;
-
-import javax.sql.DataSource;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-09-17T13:23:05.888263500+01:00[Europe/London]")
 @Controller
@@ -37,7 +39,11 @@ public class PotpisnikApiController implements PotpisnikApi {
     @Autowired
     private NiDatabaseApi dbApi;
 
+    @Autowired
+    private EupravaRESTClient eupravaServis;
+
     private String jwt;
+    private JWT parsedJwt;
     private String jwtHash;
 
     @Autowired
@@ -51,7 +57,7 @@ public class PotpisnikApiController implements PotpisnikApi {
         return Optional.ofNullable(request);
     }
 
-    private void pripremiJwt() {
+    private void pripremiJwt() throws ParseException {
 
         String authHeader = request.getHeader(Consts.HTTP_HEADER_AUTHORIZATION);
         if (authHeader == null) {
@@ -62,9 +68,14 @@ public class PotpisnikApiController implements PotpisnikApi {
         if (authHeader.startsWith(Consts.HTTP_HEADER_AUTHORIZATION_BEARER)) {
             jwt = authHeader.substring(Consts.HTTP_HEADER_AUTHORIZATION_BEARER.length() + 1);
             jwtHash = Utils.jwtToHash(jwt);
-            logger.debug("jwtHash:'{}', jwt: '{}'",jwtHash, jwt);
+            parsedJwt = JWTParser.parse(jwt);
+            logger.debug("jwtHash:'{}', parsedJwt.expiry:'{}' jwt:'{}'",jwtHash, parsedJwt.getJWTClaimsSet().getExpirationTime().toString(), jwt);
             return;
         }
+    }
+
+    private void greskaZaNadzorniTrag (String apiMetod, String tipIzuzetka, String porukaGreske) {
+        NadzorniTrag.greska(String.format("API-P(%s):",apiMetod,tipIzuzetka),porukaGreske);
     }
 
     private void ptpNovaSesija(
@@ -84,25 +95,37 @@ public class PotpisnikApiController implements PotpisnikApi {
     @Override
     public ResponseEntity<PotpisnikProfilOdgovor> potpisnikProfilGet() {
         long pocetak = System.currentTimeMillis();
-        pripremiJwt();
-        NiDatabaseApi.Sesija sesija = dbApi.dajSesijuPoHash(jwtHash);
-        if (!sesija.prisutna()) {
-            // FIXME: izvuci podatke iz jwt, pozovi eUpravu za lične podatke potpisnika - i onda to sve zajedno upiši
-            ptpNovaSesija(jwtHash, jwt, new Date(), UUID.randomUUID(), NiDatabaseApi.IdPolaEnum.M, 1990, "70114");
+        final String imeMetoda = "ptpProfil";
+        try {
+            pripremiJwt();
+            NiDatabaseApi.Sesija sesija = dbApi.dajSesijuPoHash(jwtHash);
+            if (!sesija.prisutna()) {
+                DetaljiOGradjaninu detalji = eupravaServis.dajPotpisnika(jwt);
+                ptpNovaSesija(
+                        jwtHash,
+                        jwt,
+                        parsedJwt.getJWTClaimsSet().getExpirationTime(),
+                        detalji.getIdKorisnika(),
+                        NiDatabaseApi.IdPolaEnum.fromValue(detalji.getIdPola().getValue()),
+                        detalji.getGodinaRodjenja(),
+                        detalji.getIdOpstine()
+                );
+            }
+            NiDatabaseApi.PtpProfil profil = dbApi.ptpDajProfil(jwtHash);
+            PotpisnikProfilOdgovor odgovor = new PotpisnikProfilOdgovor();
+            odgovor.setGodinaRodjenja(profil.godinaRodjenja());
+            odgovor.setNazivOpstine(profil.nazivOpstine());
+            if (profil.idPola() == NiDatabaseApi.IdPolaEnum.M) {
+                odgovor.setIdPola(PotpisnikProfilOdgovor.IdPolaEnum.M);
+            } else {
+                odgovor.setIdPola(PotpisnikProfilOdgovor.IdPolaEnum.Z);
+            }
+            ResponseEntity<PotpisnikProfilOdgovor> response = new ResponseEntity<PotpisnikProfilOdgovor>(odgovor,HttpStatus.OK);
+            Nadgledanje.apiPoziv(imeMetoda,System.currentTimeMillis() - pocetak);
+            return response;
+        } catch (Throwable t) {
+            greskaZaNadzorniTrag (imeMetoda, t.getClass().getName(),t.getMessage());
+            return null;
         }
-        NiDatabaseApi.PtpProfil profil = dbApi.ptpDajProfil(jwtHash);
-        // Upiši rezultat u DTO i vrati ga klijentu
-        PotpisnikProfilOdgovor odgovor = new PotpisnikProfilOdgovor();
-        odgovor.setGodinaRodjenja(profil.godinaRodjenja());
-        odgovor.setNazivOpstine(profil.nazivOpstine());
-        if (profil.idPola() == NiDatabaseApi.IdPolaEnum.M) {
-            odgovor.setIdPola(PotpisnikProfilOdgovor.IdPolaEnum.M);
-        } else {
-            odgovor.setIdPola(PotpisnikProfilOdgovor.IdPolaEnum.Z);
-        }
-        ResponseEntity<PotpisnikProfilOdgovor> response = new ResponseEntity<PotpisnikProfilOdgovor>(odgovor,HttpStatus.OK);
-        Nadgledanje.apiPoziv("potpisnikProfilGet",System.currentTimeMillis() - pocetak);
-        return response;
     }
-
 }

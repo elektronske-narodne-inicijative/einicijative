@@ -1,0 +1,25 @@
+{
+        "request": {
+            "urlPath": "/v1/ovlice",
+            "method": "GET",
+            "headers": {
+                "Authorization": {
+                       "matches": "Bearer .*[a-z]"
+                }
+            }
+        },
+        "response": {
+                "status": 200,
+                "bodyFileName": "DetaljiOOvlascenomLicuRepublika.json",
+                "transformers": ["response-template"],
+                "transformerParameters": {
+                        "idKorisnika": "a05ce0a2-1934-4464-a507-0c27dd7779ea",
+                        "imePrezime": "Владимир Димитријевић",
+                        "emailAdresa": "vladimir.dimitrijevic@parlament.rs",
+                        "idNivoaUprave": "Р"
+                },
+                "headers": {
+                        "Content-Type": "application/json"
+                }
+        }
+}

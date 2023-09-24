@@ -1,0 +1,25 @@
+{
+        "request": {
+            "urlPath": "/v1/ovlice",
+            "method": "GET",
+            "headers": {
+                "Authorization": {
+                       "matches": "Bearer .*[A-Z]"
+                }
+            }
+        },
+        "response": {
+                "status": 200,
+                "bodyFileName": "DetaljiOOvlascenomLicuRepublika.json",
+                "transformers": ["response-template"],
+                "transformerParameters": {
+                        "idKorisnika": "dbee86f8-e3e0-40a1-88cc-7850808ff04e",
+                        "imePrezime": "Драгана Одовић",
+                        "emailAdresa": "dragana.odovic@parlament.rs",
+                        "idNivoaUprave": "Р"
+                },
+                "headers": {
+                        "Content-Type": "application/json"
+                }
+        }
+}

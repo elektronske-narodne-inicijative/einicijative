@@ -1,0 +1,26 @@
+{
+        "request": {
+            "urlPath": "/v1/ovlice",
+            "method": "GET",
+            "headers": {
+                "Authorization": {
+                       "matches": "Bearer .*[0-9]"
+                }
+            }
+        },
+        "response": {
+                "status": 200,
+                "bodyFileName": "DetaljiOOvlascenomLicuOpstina.json",
+                "transformers": ["response-template"],
+                "transformerParameters": {
+                        "idKorisnika": "e6540b3e-17f5-4b59-90ad-42feb2ded77a",
+                        "imePrezime": "Наташа Милисављевић",
+                        "emailAdresa": "natasa.milisavljevic@jagodina.rs",
+                        "idNivoaUprave": "О",
+                        "idOpstine": "71048"
+                },
+                "headers": {
+                        "Content-Type": "application/json"
+                }
+        }
+}

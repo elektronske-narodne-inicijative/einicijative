@@ -1,0 +1,6 @@
+{
+ "idKorisnika":"{{parameters.idKorisnika}}",
+ "idPola":"{{parameters.idPola}}",
+ "idOpstine":"{{parameters.idOpstine}}",
+ "godinaRodjenja":"{{parameters.godinaRodjenja}}"
+}

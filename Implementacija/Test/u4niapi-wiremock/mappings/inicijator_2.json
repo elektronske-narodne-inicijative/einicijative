@@ -1,0 +1,26 @@
+{
+        "request": {
+            "urlPath": "/v1/inicijator",
+            "method": "GET",
+            "headers": {
+                "Authorization": {
+                        "matches": "Bearer .*[a-z]"
+                }
+            }
+        },
+        "response": {
+                "status": 200,
+                "bodyFileName": "DetaljiOPotpisniku.json",
+                "transformers": ["response-template"],
+                "transformerParameters": {
+                        "idKorisnika": "d271f9df-0e09-4766-a356-376dcad33ea8",
+                        "idPola": "Ж",
+                        "idOpstine": "70149",
+                        "godinaRodjenja": "1996",
+                        "imePrezime": "Ксенија Кнежевић"
+                },
+                "headers": {
+                        "Content-Type": "application/json"
+                }
+        }
+}

@@ -2,6 +2,11 @@ scheme: http
 auth0-issuer: https://dev-3l2ntuj6cqt60dix.eu.auth0.com/
 auth0-jwe-key-selector: https://dev-3l2ntuj6cqt60dix.eu.auth0.com/
 
+euprava:
+  url: https://test-einicijativa.one/u4niapi/v1
+  timeout: 60
+  salter-username: tajniKorisnik
+  salter-password: tajnaLozinka
 
 server:
   error:

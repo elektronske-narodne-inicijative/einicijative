@@ -23,7 +23,7 @@ paths:
                 example: fixed text "OK"
         '500':
           $ref: '#/components/responses/500Error'
-  /narodneinicijative/potpisnik:
+  /potpisnik:
     get:
       description: Licni podaci potrebni za potpisnike narodnih inicijativa
       security:
@@ -41,7 +41,7 @@ paths:
           $ref: '#/components/responses/401Error'
         '500':
           $ref: '#/components/responses/500Error'
-  /narodneinicijative/potpisnik/{jmbg}/salter:
+  /potpisnik/{jmbg}/salter:
     get:
       description: Licni podaci potrebni za potpisnike narodnih inicijativa
       security:
@@ -65,7 +65,7 @@ paths:
           $ref: '#/components/responses/401Error'
         '500':
           $ref: '#/components/responses/500Error'
-  /narodneinicijative/inicijator:
+  /inicijator:
     get:
       description: Licni podaci potrebni za potpisnike narodnih inicijativa
       security:
@@ -83,7 +83,7 @@ paths:
           $ref: '#/components/responses/401Error'
         '500':
           $ref: '#/components/responses/500Error'
-  /narodneinicijative/ovlice:
+  /ovlice:
     get:
       description: podaci o ovlascenom licu drzavnih organa
       security:
@@ -145,12 +145,15 @@ components:
       required:
         - idKorisnika
         - imePrezime
+        - emailAdresa
         - idNivoaUprave
       properties:
         idKorisnika:
           type: string
           format: uuid
         imePrezime:
+          type: string
+        emailAdresa:
           type: string
         idNivoaUprave:
           type: string
