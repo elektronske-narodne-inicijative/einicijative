@@ -114,9 +114,9 @@ Sledeći poziv će kreirati nešto ispod milion građana i 10 hiljada inicijativ
 
 <code>call ni.NITestPunjenjeBaze(15,10);</code>
 ## Tekuće stanje implementacije rešenja, planovi
-##### Poslednji put ažurirano: 17.09.2023
+##### Poslednji put ažurirano: 24.09.2023
 ### Urađeno
-U ovom trenutku je tehnička dokumentacija uglavnom kompletirana i sastoji se od ove stranice i povezanih dokumenata - ono što još planiram da dodam je dokumentacija o tipovima poruka za nadzorni dnevnik (audit log events) i sistem za nadzor zdravlja usluga - to ču početi kada krenem da radim komponente srednjeg sloja.
+U ovom trenutku je tehnička dokumentacija uglavnom kompletirana i sastoji se od ove stranice i povezanih dokumenata - ono što još planiram da dodam je dokumentacija o tipovima poruka za nadzorni dnevnik (audit log events) i sistem za nadzor zdravlja usluga (biće urađeno na bazi izvedenog stanja).
 
 Najveći deo implementacije baze je takođe završen, uključujući i sve procedure koje koriste API metodi, kao i sve funkcije koje koristi servis za objavljivanje dokumenata <code>nipub</code>. Testne procedure su i dalje relativno "plitke", ali to će biti dopunjavano s vremenom. U bazi je dodata nova šema <code>nibatch</code>, koja sadrži tabele koje koristi Spring Batch, kao i odgovarajuće dodele prava korisniku baze <code>nipub</code> (koji koristi odgovarajući servis).
 
@@ -124,13 +124,18 @@ Prva verzija servisa nipub je takođe implementirana (Java 17, Spring Boot 3.1.2
 
 Napravljen je i kostur web aplikacije, koji za sada koristi samo objavljene podatke iz <code>nipub</code> servisa (nešto unapređeno testno punjenje baze pretvoreno u datoteke ubačene u web projekat), koristeći [Vue.js v3](https://vuejs.org/) i [PrimeVue šablon SAPPHIRE](https://sapphire.primevue.org/#/). Prijava za potpisivanje na eid.gov.rs se simulira koristeći Auth0 servis. Cilj je bio stvoriti radnu verziju koja može lako da se demonstrira i bude materijal za dalju diskusiju.
 
-Napravljen je i prvi, "prazan" kostur niapi servisa, samo do nivoa prečišćavanja API-ja generisanog na bazi OpenAPI specifikacije i konfiguracije upotrebe Auth0 JWT tokena za validaciju pristupa.
+U toku je rad na niapi servisu (Java 17 / Spring Boot 3.1.x):
+- REST API je generisan iz OpenAPI specifikacije, prečišćen i integrisan
+- Implementirana je veza sa bazom, uključujući i metode koji implementiraju poziv najvećeg dela potrebnih procedura u bazi
+- Implementirani su logeri konfigurisani da šalju syslog protokolom podatke u SIEM (nadzorni dnevnik) i sistem za nadgledanje zdravlja infrastrukture
+- Implementiran je REST klijent za u4niapi - predloženi novi API eUprava portala koji daje neophodne lične podatke ovom proizvodu
+- Implementiran je simulator eUprava u4niapi koristeći [Wiremock](https://wiremock.org/) alat i postavljen na testni sajt [https://test-einicijativa.one](https://test-einicijativa.one) odakle se koristi u toku razvoja (konfiguracija je [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/Test/u4niapi-wiremock))
+- Implementiran je prvi niapi metod koji sve ovo koristi, a koji vraća profil potpisnika (GET /potpisnik/profil) - pomoću njega i uz upotrebu JWT koje web aplikacija dobija od Auth0 servisa je ovo prethodno integrisano i testirano
 
 ### Planovi
-Radi se na implementaciji API servisa i proširenju sajta odgovarajućim funkcijama koje koriste API. Na ovome će se u etapama raditi sledećih nekoliko meseci. Prvo funkcije potpisnika, pa ovlašćenog lica i na kraju inicijatora.
+Sada je dobrim delom otvoren put da se implementiraju ostali API metodi i time manje-više kompletira proizvod. Biće još par strukturnih proširenja, poput verifikacije i snimanja primljenih PDF fajlova sa prilozima narodnih inicijativa, ali je sada najveći deo tehnologija koje koristi niapi integrisan, u mnogo kraćem roku nego što je inicijalno očekivano. Kada se niapi servis kompletira, tekuća "statička" web aplikacija će biti povezana sa njim i proširena za interaktivne funkcije koje sada nedostaju.
 
-Rad uključuje i izradu mock-a/simulatora u4niapi (najverovatnije koristeći Wiremock) za funkcije izdavanja ličnih podataka koje daje eUprava. Prvi cilj će svakako biti implementacija funkcija za potpisnike (online i šalter), pa onda verovatno ovlašćenih lica (pošto je manje posla) - i na kraju inicijativnih odbora.
 ### Tajming
-###### *Ovo je naravno sve hobi, koji radim uz dosta intenzivan glavni posao, tako da su datumi/periodi dole pre svega moja želja i lako mogu proklizati. Sve bi se naravno moglo ubrzati ako bi uskočilo još akcijaša ;)
+###### *Ovo je naravno sve hobi, koji radim uz dosta intenzivan glavni posao, tako da su datumi/periodi dole pre svega moja želja i lako mogu proklizati.
 
-Ovo što preostaje je najkompleksniji deo implementacije i verovatno će se protegnuti do kraja ove i kroz deo sledeće godine.
+S obzirom na pozitivan razvoj integracije ključnih tehnologija i unutrašnjih elemenata niapi servisa, ima izgleda da se proizvod kompletira do kraja godine, sa idejom da se niapi servis kompletira do kraja oktobra / početka novembra, a onda web aplikacija proširi do pune funkcionalnosti, koristeći ovaj servis. Kada sve funkcionalnosti budu implementirane, fokus će biti stavljen na postavljanje pune demo verzije aplikacije i testiranje.
