@@ -16,7 +16,9 @@ import rs.gov.mduls.einicijative.niapi.utils.Utils;
 
 import javax.sql.DataSource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -35,6 +37,27 @@ public class NiDatabaseController implements NiDatabaseApi {
     /*-----------------------------------------------------------------------------------------------------------------
      * zajedničko za razne vrste korisnika
      */
+
+    @Override
+    public Map<String,String> dajParametre() {
+
+        try {
+            JdbcTemplate jdbcTemplate = new JdbcTemplate(niDataSource);
+            String sql = String.format("SELECT idParametra, vrednostParametra FROM %s.NITxDajParametre()",Consts.DB_SCHEMA_NAME);
+
+            Map<String,String> parametri = new HashMap<String,String>();
+            List<Map<String, Object>> zapisi = jdbcTemplate.queryForList(sql);
+            for (Map zapis: zapisi) {
+                parametri.put((String) zapis.get("idparametra"),(String) zapis.get("vrednostparametra"));
+            }
+            return parametri;
+        } catch (DataAccessException e) {
+            NadzorniTrag.sqlIzuzetak(e);
+            throw e;
+        }
+
+    }
+
     @Override
     public Sesija dajSesijuPoHash(
             String jwtHash
@@ -45,8 +68,8 @@ public class NiDatabaseController implements NiDatabaseApi {
             SqlParameterSource in = new MapSqlParameterSource().addValue("jwtHash", jwtHash);
             Map<String, Object> out = simpleJdbcCall.withSchemaName(Consts.DB_SCHEMA_NAME).withProcedureName("NITxDajSesijuPoHash").execute(in);
             boolean prisutna = Utils.bezbedanBooleanIzMape(out, "prisutna", false);
-            boolean isteklaSesija = Utils.bezbedanBooleanIzMape(out, "isteklaSesija", false);
-            boolean istekaoJWT = Utils.bezbedanBooleanIzMape(out,  "istekaoJWT", false);
+            boolean isteklaSesija = Utils.bezbedanBooleanIzMape(out, "isteklasesija", false);
+            boolean istekaoJWT = Utils.bezbedanBooleanIzMape(out,  "istekaokjwt", false);
             return new Sesija (
                     prisutna,
                     isteklaSesija,
@@ -121,7 +144,7 @@ public class NiDatabaseController implements NiDatabaseApi {
                     .addValue("idInicijative",idInicijative);
             Map<String, Object> out = simpleJdbcCall.withSchemaName(Consts.DB_SCHEMA_NAME).withProcedureName("NITxPtpPotpisiInicijativu").execute(in);
             return new PtpPotpis(
-                    (String) out.get("idpotpisa"),
+                    (String) out.get("nazivinicijative"),
                     (UUID) out.get("idpotpisa"),
                     (Date) out.get("trnzavodjenjapotpisa")
             );

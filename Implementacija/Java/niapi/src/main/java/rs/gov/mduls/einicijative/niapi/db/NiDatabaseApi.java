@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 public interface NiDatabaseApi {
@@ -59,6 +60,10 @@ public interface NiDatabaseApi {
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      * Specifikacije API metoda
      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+    /*-----------------------------------------------------------------------------------------------------------------
+     * Parametri servera
+     */
+    public Map<String,String> dajParametre();
 
     /*-----------------------------------------------------------------------------------------------------------------
      * zajedničko za razne vrste korisnika

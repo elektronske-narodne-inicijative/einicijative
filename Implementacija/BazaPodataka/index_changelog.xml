@@ -21,6 +21,7 @@
   <include file="CODE/NIDocsSkoroPromenjeneInicijative.sql" relativeToChangelogFile="true" />
 
   <include file="CODE/NITxBaciGresku.sql" relativeToChangelogFile="true" />
+  <include file="CODE/NITxDajParametre.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajNumerickiParametar.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxDajStringParametar.sql" relativeToChangelogFile="true" />
   <include file="CODE/NITxIntPodaciOGradjaninu.sql" relativeToChangelogFile="true" />

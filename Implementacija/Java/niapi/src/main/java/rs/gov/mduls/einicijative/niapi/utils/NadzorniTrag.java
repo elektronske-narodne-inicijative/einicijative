@@ -19,6 +19,11 @@ public class NadzorniTrag {
         }
     }
 
+    public static void izuzetak(Exception e)
+    {
+        greska(e.getClass().getSimpleName(),e.getMessage());
+    }
+
     public static void greska(String kod, String poruka)
     {
         syslogLogger.error("NIAPI-GRESKA-[{}] {}",kod,poruka);

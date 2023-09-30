@@ -25,8 +25,6 @@ public class PotpisnikPotpisOdgovor {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime trnZavodjenjaPotpisa;
 
-  private String imeKljucaZaOveru;
-
   private String overaAplikacije;
 
   public PotpisnikPotpisOdgovor() {
@@ -40,7 +38,6 @@ public class PotpisnikPotpisOdgovor {
     this.idInicijative = idInicijative;
     this.idPotpisa = idPotpisa;
     this.trnZavodjenjaPotpisa = trnZavodjenjaPotpisa;
-    this.imeKljucaZaOveru = imeKljucaZaOveru;
     this.overaAplikacije = overaAplikacije;
   }
 
@@ -101,25 +98,6 @@ public class PotpisnikPotpisOdgovor {
     this.trnZavodjenjaPotpisa = trnZavodjenjaPotpisa;
   }
 
-  public PotpisnikPotpisOdgovor imeKljucaZaOveru(String imeKljucaZaOveru) {
-    this.imeKljucaZaOveru = imeKljucaZaOveru;
-    return this;
-  }
-
-  /**
-   * Get imeKljucaZaOveru
-   * @return imeKljucaZaOveru
-  */
-  @NotNull 
-  @JsonProperty("imeKljucaZaOveru")
-  public String getImeKljucaZaOveru() {
-    return imeKljucaZaOveru;
-  }
-
-  public void setImeKljucaZaOveru(String imeKljucaZaOveru) {
-    this.imeKljucaZaOveru = imeKljucaZaOveru;
-  }
-
   public PotpisnikPotpisOdgovor overaAplikacije(String overaAplikacije) {
     this.overaAplikacije = overaAplikacije;
     return this;
@@ -151,13 +129,12 @@ public class PotpisnikPotpisOdgovor {
     return Objects.equals(this.idInicijative, potpisnikPotpisOdgovor.idInicijative) &&
         Objects.equals(this.idPotpisa, potpisnikPotpisOdgovor.idPotpisa) &&
         Objects.equals(this.trnZavodjenjaPotpisa, potpisnikPotpisOdgovor.trnZavodjenjaPotpisa) &&
-        Objects.equals(this.imeKljucaZaOveru, potpisnikPotpisOdgovor.imeKljucaZaOveru) &&
         Objects.equals(this.overaAplikacije, potpisnikPotpisOdgovor.overaAplikacije);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(idInicijative, idPotpisa, trnZavodjenjaPotpisa, imeKljucaZaOveru, overaAplikacije);
+    return Objects.hash(idInicijative, idPotpisa, trnZavodjenjaPotpisa, overaAplikacije);
   }
 
   @Override
@@ -167,7 +144,6 @@ public class PotpisnikPotpisOdgovor {
     sb.append("    idInicijative: ").append(toIndentedString(idInicijative)).append("\n");
     sb.append("    idPotpisa: ").append(toIndentedString(idPotpisa)).append("\n");
     sb.append("    trnZavodjenjaPotpisa: ").append(toIndentedString(trnZavodjenjaPotpisa)).append("\n");
-    sb.append("    imeKljucaZaOveru: ").append(toIndentedString(imeKljucaZaOveru)).append("\n");
     sb.append("    overaAplikacije: ").append(toIndentedString(overaAplikacije)).append("\n");
     sb.append("}");
     return sb.toString();

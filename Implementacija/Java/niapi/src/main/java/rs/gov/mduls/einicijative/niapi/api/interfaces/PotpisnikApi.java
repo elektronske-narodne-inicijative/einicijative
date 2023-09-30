@@ -78,21 +78,9 @@ public interface PotpisnikApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<PotpisnikPotpisOdgovor> potpisnikPotpisPost(
+    ResponseEntity<PotpisnikPotpisOdgovor> potpisnikPotpisPost(
             @Valid @RequestBody InicijativaZaPotpis inicijativaZaPotpis
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"idInicijative\" : 0, \"overaAplikacije\" : \"overaAplikacije\", \"trnZavodjenjaPotpisa\" : \"2000-01-23T04:56:07.000+00:00\", \"imeKljucaZaOveru\" : \"imeKljucaZaOveru\", \"idPotpisa\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    );
 
 
     /**

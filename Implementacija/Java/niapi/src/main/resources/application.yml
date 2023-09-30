@@ -2,6 +2,13 @@ scheme: http
 auth0-issuer: https://dev-3l2ntuj6cqt60dix.eu.auth0.com/
 auth0-jwe-key-selector: https://dev-3l2ntuj6cqt60dix.eu.auth0.com/
 
+niapi:
+  sertifikat:
+    lozinka: bBhZINEjpkiIaFImlL9kg
+    ko-overava: Електронске Народне Иницијативе
+    gde-overava: Србија
+    zasto-overava: Потврда аутентичности документа
+
 euprava:
   url: https://test-einicijativa.one/u4niapi/v1
   timeout: 60

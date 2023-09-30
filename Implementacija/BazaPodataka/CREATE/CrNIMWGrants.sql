@@ -17,11 +17,13 @@ GRANT EXECUTE ON FUNCTION ni.NIDocsSkoroPromenjeneInicijative() TO nipub;
 
 -- Grant execute on API-related procedures to the API service
 
+GRANT EXECUTE ON FUNCTION ni.NITxDajParametre() TO niapi;
+
 GRANT EXECUTE ON PROCEDURE ni.NITxDajSesijuPoHash(text, boolean, boolean, boolean, char, char) TO niapi;
 
 GRANT EXECUTE ON PROCEDURE ni.NITxPtpNovaSesija(text, text, timestamp, uuid, text, integer, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxPtpDajProfil(text, text, integer, text) TO niapi;
-GRANT EXECUTE ON PROCEDURE ni.NITxPtpPotpisiInicijativu(text, integer, uuid, timestamp) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxPtpPotpisiInicijativu(text, integer, text, uuid, timestamp) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxPtpDetaljiPotpisa(text, integer, text, uuid, timestamp) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxPtpListaPotpisa(text, json) TO niapi;
 

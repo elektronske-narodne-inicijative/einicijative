@@ -17,7 +17,6 @@ LANGUAGE plpgsql SECURITY DEFINER
 AS $$
 DECLARE
     slogPotpisa RECORD;
-    potpis UUID;
 BEGIN
     IF idNivoVlastiInicijative = 'О' THEN
         IF idOpstineInicijative != idOpstineGradjanina THEN
@@ -35,11 +34,11 @@ BEGIN
           FROM ni.NIPotpisInicijative
          WHERE IDNIInicijativa = idInicijative
            AND IDNIGradjanin = idGradjanina;
-        potpis = slogPotpisa.potpis;
+        idPotpisa = slogPotpisa.potpis;
         trnZavodjenjaPotpisa = slogPotpisa.TrnPotpisa;
     EXCEPTION
         WHEN no_data_found THEN
-            potpis = gen_random_uuid ();
+            idPotpisa = gen_random_uuid ();
             trnZavodjenjaPotpisa = now();
             INSERT INTO ni.NIPotpisInicijative(IDNIInicijativa, IDNIGradjanin, Potpis, TrnPotpisa, PotpisNaSalteru) VALUES (idInicijative, idGradjanina, potpis, trnZavodjenjaPotpisa, false);
     END;

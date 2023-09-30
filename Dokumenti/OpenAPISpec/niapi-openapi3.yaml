@@ -1213,7 +1213,6 @@ components:
         - idInicijative
         - idPotpisa
         - trnZavodjenjaPotpisa
-        - imeKljucaZaOveru
         - overaAplikacije
       properties:
         idInicijative:
@@ -1224,8 +1223,6 @@ components:
         trnZavodjenjaPotpisa:
           type: string
           format: date-time
-        imeKljucaZaOveru:
-          type: string
         overaAplikacije:
           type: string
 

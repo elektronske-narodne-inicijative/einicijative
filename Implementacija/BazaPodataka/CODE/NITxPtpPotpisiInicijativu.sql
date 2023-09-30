@@ -1,6 +1,7 @@
 CREATE OR REPLACE PROCEDURE ni.NITxPtpPotpisiInicijativu(
     IN  jwtHash Text,
     IN  idInicijative integer,
+    OUT nazivInicijative Text,
     OUT idPotpisa uuid,
     OUT trnZavodjenjaPotpisa timestamp
 )
@@ -31,5 +32,6 @@ BEGIN
         gradjanin.IDNIGradjanin, gradjanin.IDNIPol, gradjanin.GodinaRodjenja, gradjanin.IDNIOpstina, opstina.IDNIPokrajina, 
         inicijativa.IDNIInicijativa, inicijativa.IDNINivoVlasti, inicijativa.IDNIOpstina, inicijativa.IDNIPokrajina,
         null, idPotpisa, trnZavodjenjaPotpisa);
+    nazivInicijative = inicijativa.nazivInicijative;
 END;
 $$;

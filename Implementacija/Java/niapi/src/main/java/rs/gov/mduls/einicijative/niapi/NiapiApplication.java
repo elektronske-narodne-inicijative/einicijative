@@ -10,7 +10,8 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 		basePackages = {
 				"rs.gov.mduls.einicijative.niapi.api.controllers",
 				"rs.gov.mduls.einicijative.niapi.db",
-				"rs.gov.mduls.einicijative.niapi.clients.euprava"
+				"rs.gov.mduls.einicijative.niapi.clients.euprava",
+				"rs.gov.mduls.einicijative.niapi.pdf"
 		},
 		nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )

@@ -15,10 +15,12 @@ repositories {
 	mavenCentral()
 }
 
-repositories {
-	mavenCentral()
+jar {
+	manifest {
+		attributes 'Main-Class': 'rs.gov.mduls.einicijative.niapi.NiapiApplication'
+	}
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
-
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -32,6 +34,12 @@ dependencies {
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
+	implementation 'org.apache.pdfbox:pdfbox:3.0.0'
+	implementation 'org.apache.pdfbox:pdfbox-examples:3.0.0'
+	implementation 'org.bouncycastle:bcprov-jdk18on:1.75'
+	implementation 'org.bouncycastle:bcmail-jdk18on:1.75'
+	implementation 'commons-logging:commons-logging:1.2'
+	implementation 'info.picocli:picocli:4.7.4'
 
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 
