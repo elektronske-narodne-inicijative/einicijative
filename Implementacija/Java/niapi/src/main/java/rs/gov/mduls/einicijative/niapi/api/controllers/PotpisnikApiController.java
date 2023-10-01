@@ -1,11 +1,11 @@
 package rs.gov.mduls.einicijative.niapi.api.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import rs.gov.mduls.einicijative.niapi.api.interfaces.PotpisnikApi;
-import rs.gov.mduls.einicijative.niapi.api.model.InicijativaZaPotpis;
-import rs.gov.mduls.einicijative.niapi.api.model.PotpisnikPotpisOdgovor;
-import rs.gov.mduls.einicijative.niapi.api.model.PotpisnikProfilOdgovor;
+import rs.gov.mduls.einicijative.niapi.api.model.*;
 import rs.gov.mduls.einicijative.niapi.clients.euprava.EupravaRESTClient;
 import rs.gov.mduls.einicijative.niapi.clients.euprava.dto.DetaljiOGradjaninu;
 import rs.gov.mduls.einicijative.niapi.db.NiDatabaseApi;
@@ -25,6 +25,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -39,9 +40,6 @@ import jakarta.annotation.Generated;
 @RequestMapping("${openapi.ni.base-path:/niapi}")
 public class PotpisnikApiController implements PotpisnikApi {
 
-    private static final Logger logger = LoggerFactory.getLogger(PotpisnikApiController.class);
-    private final NativeWebRequest request;
-
     @Autowired
     private NiDatabaseApi dbApi;
 
@@ -51,6 +49,9 @@ public class PotpisnikApiController implements PotpisnikApi {
 
     @Autowired
     private EupravaRESTClient eupravaServis;
+
+    private static final Logger logger = LoggerFactory.getLogger(PotpisnikApiController.class);
+    private final NativeWebRequest request;
 
     private String jwt;
     private JWT parsedJwt;
@@ -84,7 +85,7 @@ public class PotpisnikApiController implements PotpisnikApi {
     }
 
     private void greskaZaNadzorniTrag(String apiMetod, String tipIzuzetka, String porukaGreske) {
-        NadzorniTrag.greska(String.format("API-P(%s):", apiMetod, tipIzuzetka), porukaGreske);
+        NadzorniTrag.greska(String.format("API-P(%s):%s", apiMetod, tipIzuzetka), porukaGreske);
     }
 
     private void ptpNovaSesija(
@@ -118,10 +119,99 @@ public class PotpisnikApiController implements PotpisnikApi {
         }
     }
 
+    /*******************************************************************************************************************
+     *   Implementacije interfejsa odavde na dole
+     */
     @Override
-    public ResponseEntity<PotpisnikProfilOdgovor> potpisnikProfilGet() {
+    public ResponseEntity<PotpisnikUpitPotpisaInicijativeOdgovor> potpisnikInicijativaIdInicijativeGet(
+            Long idInicijative
+    ) throws Exception {
+        long pocetak = System.currentTimeMillis();
+        final String imeMetoda = "ptpDetaljiPotpisa";
+        final String porukaOGresci = "Проблем са провером потписа иницијативе";
+        try {
+            ptpDajUpisiSesiju();
+            NiDatabaseApi.PtpPotpis potpis =
+                    dbApi.ptpDetaljiPotpisa(jwtHash, idInicijative.intValue());
+            PotpisInicijative dtoPotpis = new PotpisInicijative();
+            dtoPotpis.setIdInicijative(idInicijative.intValue());
+            dtoPotpis.setIdPotpisa(potpis.idPotpisa());
+            dtoPotpis.setNazivInicijative(potpis.nazivInicijative());
+            if (potpis.trnZavodjenjaPotpisa() != null)
+                dtoPotpis.setTrnZavodjenjaPotpisa(potpis.trnZavodjenjaPotpisa().toInstant().atOffset(ZoneOffset.UTC));
+            PotpisnikUpitPotpisaInicijativeOdgovor odgovor = new PotpisnikUpitPotpisaInicijativeOdgovor();
+            odgovor.setPotpis(dtoPotpis);
+            ResponseEntity<PotpisnikUpitPotpisaInicijativeOdgovor> response =
+                    new ResponseEntity<>(odgovor, HttpStatus.OK);
+            Nadgledanje.apiPoziv(imeMetoda, System.currentTimeMillis() - pocetak);
+            return response;
+        } catch (DataAccessException e) {
+            throw new Exception(porukaOGresci);
+        } catch (Throwable t) {
+            greskaZaNadzorniTrag(imeMetoda, t.getClass().getName(), t.getMessage());
+            throw new Exception(porukaOGresci);
+        }
+    }
+
+    @Override
+    public ResponseEntity<PotpisnikPotpisOdgovor> potpisnikPotpisPost(
+            InicijativaZaPotpis inicijativaZaPotpis
+    ) throws Exception {
+        long pocetak = System.currentTimeMillis();
+        final String imeMetoda = "ptpPotpis";
+        final String porukaOGresci = "Потписивање није успело";
+        try {
+            ptpDajUpisiSesiju();
+            NiDatabaseApi.PtpPotpis potpis =
+                    dbApi.ptpPotpisiInicijativu(jwtHash, inicijativaZaPotpis.getIdInicijative());
+            PotpisnikPotpisOdgovor odgovor = new PotpisnikPotpisOdgovor();
+            odgovor.setIdInicijative(inicijativaZaPotpis.getIdInicijative());
+            odgovor.setIdPotpisa(potpis.idPotpisa());
+            odgovor.setTrnZavodjenjaPotpisa(potpis.trnZavodjenjaPotpisa().toInstant().atOffset(ZoneOffset.UTC));
+            odgovor.setOveraAplikacije(pdfUsluge.pripremiPotvrduOPotpisu(inicijativaZaPotpis.getIdInicijative(),potpis));
+            ResponseEntity<PotpisnikPotpisOdgovor> response = new ResponseEntity<PotpisnikPotpisOdgovor>(odgovor, HttpStatus.OK);
+            NadzorniTrag.potpis(inicijativaZaPotpis.getIdInicijative(),potpis.idPotpisa());
+            Nadgledanje.apiPoziv(imeMetoda, System.currentTimeMillis() - pocetak);
+            return response;
+        } catch (DataAccessException e) {
+            throw new Exception(porukaOGresci);
+        } catch (Throwable t) {
+            greskaZaNadzorniTrag(imeMetoda, t.getClass().getName(), t.getMessage());
+            throw new Exception(porukaOGresci);
+        }
+    }
+
+    @Override
+    public ResponseEntity<PotpisnikUpitListePotpisaOdgovor> potpisnikPotpisiGet() throws Exception {
+        long pocetak = System.currentTimeMillis();
+        final String imeMetoda = "ptpDetaljiPotpisa";
+        final String porukaOGresci = "Проблем са провером потписа иницијативе";
+        try {
+            ptpDajUpisiSesiju();
+            String potpisiJSON =
+                    dbApi.ptpListaPotpisa(jwtHash);
+            PotpisnikUpitListePotpisaOdgovor odgovor = new PotpisnikUpitListePotpisaOdgovor();
+            if (potpisiJSON != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                List<PotpisInicijative> potpisi = mapper.readValue(potpisiJSON, new TypeReference<List<PotpisInicijative>>(){});
+                odgovor.setPotpisi(potpisi);
+            }
+            ResponseEntity<PotpisnikUpitListePotpisaOdgovor> response = new ResponseEntity<>(odgovor, HttpStatus.OK);
+            Nadgledanje.apiPoziv(imeMetoda, System.currentTimeMillis() - pocetak);
+            return response;
+        } catch (DataAccessException e) {
+            throw new Exception(porukaOGresci);
+        } catch (Throwable t) {
+            greskaZaNadzorniTrag(imeMetoda, t.getClass().getName(), t.getMessage());
+            throw new Exception(porukaOGresci);
+        }
+    }
+
+    @Override
+    public ResponseEntity<PotpisnikProfilOdgovor> potpisnikProfilGet() throws Exception {
         long pocetak = System.currentTimeMillis();
         final String imeMetoda = "ptpProfil";
+        final String porukaOGresci = "Читање профила није успело";
         try {
             ptpDajUpisiSesiju();
             NiDatabaseApi.PtpProfil profil =
@@ -134,39 +224,14 @@ public class PotpisnikApiController implements PotpisnikApi {
             } else {
                 odgovor.setIdPola(PotpisnikProfilOdgovor.IdPolaEnum.Z);
             }
-            ResponseEntity<PotpisnikProfilOdgovor> response = new ResponseEntity<PotpisnikProfilOdgovor>(odgovor, HttpStatus.OK);
+            ResponseEntity<PotpisnikProfilOdgovor> response = new ResponseEntity<>(odgovor, HttpStatus.OK);
             Nadgledanje.apiPoziv(imeMetoda, System.currentTimeMillis() - pocetak);
             return response;
+        } catch (DataAccessException e) {
+            throw new Exception(porukaOGresci);
         } catch (Throwable t) {
             greskaZaNadzorniTrag(imeMetoda, t.getClass().getName(), t.getMessage());
-            return null;
-        }
-    }
-
-    @Override
-    public ResponseEntity<PotpisnikPotpisOdgovor> potpisnikPotpisPost(
-            InicijativaZaPotpis inicijativaZaPotpis
-    ) {
-        long pocetak = System.currentTimeMillis();
-        final String imeMetoda = "ptpPotpis";
-        try {
-            ptpDajUpisiSesiju();
-            NiDatabaseApi.PtpPotpis potpis =
-                    dbApi.ptpPotpisiInicijativu(jwtHash, inicijativaZaPotpis.getIdInicijative());
-            if(potpis.idPotpisa() == null) {
-                ResponseEntity<String> response = new ResponseEntity<String>("Потписивање није успело", HttpStatus.BAD_REQUEST);
-            }
-            PotpisnikPotpisOdgovor odgovor = new PotpisnikPotpisOdgovor();
-            odgovor.setIdInicijative(inicijativaZaPotpis.getIdInicijative());
-            odgovor.setIdPotpisa(potpis.idPotpisa());
-            odgovor.setTrnZavodjenjaPotpisa(potpis.trnZavodjenjaPotpisa().toInstant().atOffset(ZoneOffset.UTC)); //FIXME: CET/CEST
-            odgovor.setOveraAplikacije(pdfUsluge.pripremiPotvrduOPotpisu(inicijativaZaPotpis.getIdInicijative(),potpis));
-            ResponseEntity<PotpisnikPotpisOdgovor> response = new ResponseEntity<PotpisnikPotpisOdgovor>(odgovor, HttpStatus.OK);
-            Nadgledanje.apiPoziv(imeMetoda, System.currentTimeMillis() - pocetak);
-            return response;
-        } catch (Throwable t) {
-            greskaZaNadzorniTrag(imeMetoda, t.getClass().getName(), t.getMessage());
-            return null;
+            throw new Exception(porukaOGresci);
         }
     }
 }

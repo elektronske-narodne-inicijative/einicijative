@@ -45,22 +45,9 @@ public interface PotpisnikApi {
         value = "/potpisnik/inicijativa/{idInicijative}",
         produces = { "application/json" }
     )
-    default ResponseEntity<PotpisnikUpitPotpisaInicijativeOdgovor> potpisnikInicijativaIdInicijativeGet(
+     ResponseEntity<PotpisnikUpitPotpisaInicijativeOdgovor> potpisnikInicijativaIdInicijativeGet(
             @PathVariable("idInicijative") Long idInicijative
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"potpis\" : { \"idInicijative\" : 0, \"trnZavodjenjaPotpisa\" : \"2000-01-23T04:56:07.000+00:00\", \"nazivInicijative\" : \"nazivInicijative\", \"idPotpisa\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\" } }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
+    ) throws Exception;
 
     /**
      * POST /potpisnik/potpis
@@ -80,7 +67,7 @@ public interface PotpisnikApi {
     )
     ResponseEntity<PotpisnikPotpisOdgovor> potpisnikPotpisPost(
             @Valid @RequestBody InicijativaZaPotpis inicijativaZaPotpis
-    );
+    ) throws Exception;
 
 
     /**
@@ -97,21 +84,7 @@ public interface PotpisnikApi {
         value = "/potpisnik/potpisi",
         produces = { "application/json" }
     )
-    default ResponseEntity<PotpisnikUpitListePotpisaOdgovor> potpisnikPotpisiGet(
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"potpisi\" : [ { \"idInicijative\" : 0, \"trnZavodjenjaPotpisa\" : \"2000-01-23T04:56:07.000+00:00\", \"nazivInicijative\" : \"nazivInicijative\", \"idPotpisa\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\" }, { \"idInicijative\" : 0, \"trnZavodjenjaPotpisa\" : \"2000-01-23T04:56:07.000+00:00\", \"nazivInicijative\" : \"nazivInicijative\", \"idPotpisa\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\" } ] }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
+    ResponseEntity<PotpisnikUpitListePotpisaOdgovor> potpisnikPotpisiGet() throws Exception;
 
     /**
      * GET /potpisnik/profil
@@ -127,7 +100,6 @@ public interface PotpisnikApi {
         value = "/potpisnik/profil",
         produces = { "application/json" }
     )
-    ResponseEntity<PotpisnikProfilOdgovor> potpisnikProfilGet(
-    );
+    ResponseEntity<PotpisnikProfilOdgovor> potpisnikProfilGet() throws Exception;
 
 }

@@ -39,7 +39,7 @@ BEGIN
     call ni.NITxPtpDajProfil(jwtHash, idPola, godinaRodjenja, nazivOpstine);
     -- vrti dok ne potrošiš sesiju
     FOR inicijativa IN SELECT * FROM ni.NIInicijativa LOOP
-        call ni.NITxPtpPotpisiInicijativu(jwtHash, inicijativa.IDNIInicijativa, idPotpisa, trnZavodjenjaPotpisa);
+        call ni.NITxPtpPotpisiInicijativu(jwtHash, inicijativa.IDNIInicijativa, nazivInicijative, idPotpisa, trnZavodjenjaPotpisa);
         call ni.NITxPtpDetaljiPotpisa(jwtHash, inicijativa.IDNIInicijativa, nazivInicijative, idPotpisa, trnZavodjenjaPotpisa);
         call ni.NITxPtpListaPotpisa(jwtHash, listaPotpisa);
         commit;

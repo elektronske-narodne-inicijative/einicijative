@@ -166,7 +166,7 @@ public class NiDatabaseController implements NiDatabaseApi {
                     .addValue("idInicijative",idInicijative);
             Map<String, Object> out = simpleJdbcCall.withSchemaName(Consts.DB_SCHEMA_NAME).withProcedureName("NITxPtpDetaljiPotpisa").execute(in);
             return new PtpPotpis(
-                    (String) out.get("idpotpisa"),
+                    (String) out.get("nazivinicijative"),
                     (UUID) out.get("idpotpisa"),
                     (Date) out.get("trnzavodjenjapotpisa")
             );
@@ -184,7 +184,7 @@ public class NiDatabaseController implements NiDatabaseApi {
             SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate);
             SqlParameterSource in = new MapSqlParameterSource()
                     .addValue("jwtHash", jwtHash);
-            Map<String, Object> out = simpleJdbcCall.withSchemaName(Consts.DB_SCHEMA_NAME).withProcedureName("NITxPtpDetaljiPotpisa").execute(in);
+            Map<String, Object> out = simpleJdbcCall.withSchemaName(Consts.DB_SCHEMA_NAME).withProcedureName("NITxPtpListaPotpisa").execute(in);
             return (String) out.get("listapotpisa");
         } catch (DataAccessException e) {
             NadzorniTrag.sqlIzuzetak(e);

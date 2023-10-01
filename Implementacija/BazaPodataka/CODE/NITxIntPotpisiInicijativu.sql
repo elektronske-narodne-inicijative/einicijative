@@ -40,7 +40,7 @@ BEGIN
         WHEN no_data_found THEN
             idPotpisa = gen_random_uuid ();
             trnZavodjenjaPotpisa = now();
-            INSERT INTO ni.NIPotpisInicijative(IDNIInicijativa, IDNIGradjanin, Potpis, TrnPotpisa, PotpisNaSalteru) VALUES (idInicijative, idGradjanina, potpis, trnZavodjenjaPotpisa, false);
+            INSERT INTO ni.NIPotpisInicijative(IDNIInicijativa, IDNIGradjanin, Potpis, TrnPotpisa, PotpisNaSalteru) VALUES (idInicijative, idGradjanina, idPotpisa, trnZavodjenjaPotpisa, false);
     END;
 END;
 $$;

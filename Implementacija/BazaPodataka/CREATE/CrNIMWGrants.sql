@@ -25,7 +25,7 @@ GRANT EXECUTE ON PROCEDURE ni.NITxPtpNovaSesija(text, text, timestamp, uuid, tex
 GRANT EXECUTE ON PROCEDURE ni.NITxPtpDajProfil(text, text, integer, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxPtpPotpisiInicijativu(text, integer, text, uuid, timestamp) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxPtpDetaljiPotpisa(text, integer, text, uuid, timestamp) TO niapi;
-GRANT EXECUTE ON PROCEDURE ni.NITxPtpListaPotpisa(text, json) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxPtpListaPotpisa(text, text) TO niapi;
 
 GRANT EXECUTE ON PROCEDURE ni.NITxOvlNovaSesija(text, text, timestamp, uuid, text, text, text, text, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxOvlDajProfil(text, text, text, text, text) TO niapi;

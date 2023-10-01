@@ -1,6 +1,6 @@
 CREATE OR REPLACE PROCEDURE ni.NITxPtpListaPotpisa(
     IN  jwtHash Text,
-    OUT listaPotpisa JSON
+    OUT listaPotpisa Text
 )
 LANGUAGE plpgsql SECURITY DEFINER
 AS $$
@@ -19,7 +19,7 @@ BEGIN
     );
     call ni.NITxIntDajGradjanina(sesija, gradjanin,'Недостају подаци о грађанину за ИД корисника из сесије!');
     trnOd = now() - interval '1 day' * ni.NITxDajNumerickiParametar('ПериодЛистеПотписаЗаПотписника');
-    SELECT json_agg(a)
+    SELECT cast(json_agg(a) as text)
       INTO listaPotpisa
       FROM (SELECT i.IDNIInicijativa as "idInicijative", 
                    i.NazivInicijative as  "nazivInicijative", 

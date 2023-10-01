@@ -12,7 +12,6 @@ DECLARE
     inicijativa RECORD;
     gradjanin RECORD;
     slogPotpisa RECORD;
-    potpis UUID;
 BEGIN
     call ni.NITxIntDajSesiju(
         jwtHash, 
@@ -29,7 +28,7 @@ BEGIN
       FROM ni.NIPotpisInicijative
      WHERE IDNIInicijativa = idInicijative
        AND IDNIGradjanin = gradjanin.IDNIGradjanin;
-    potpis = slogPotpisa.potpis;
+    idPotpisa = slogPotpisa.potpis;
     nazivInicijative = inicijativa.NazivInicijative;
     trnZavodjenjaPotpisa = slogPotpisa.TrnPotpisa;
 END;

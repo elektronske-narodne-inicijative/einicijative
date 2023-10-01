@@ -17,7 +17,9 @@ euprava:
 
 server:
   error:
+    include-exception: false
     include-message: always
+    include-stacktrace: never
   ssl:
     enabled: false
 

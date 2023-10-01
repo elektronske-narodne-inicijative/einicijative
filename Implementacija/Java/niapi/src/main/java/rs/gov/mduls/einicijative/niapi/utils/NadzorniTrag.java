@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class NadzorniTrag {
     private static final Logger syslogLogger = LoggerFactory.getLogger("rs.gov.mduls.einicijative.niapi.nadzornitrag");
@@ -26,11 +27,19 @@ public class NadzorniTrag {
 
     public static void greska(String kod, String poruka)
     {
-        syslogLogger.error("NIAPI-GRESKA-[{}] {}",kod,poruka);
+        String porukaDoKrajaLinije = poruka;
+        if (poruka != null && poruka.indexOf("\n") != -1) {
+            porukaDoKrajaLinije = poruka.substring(0,poruka.indexOf("\n"));
+        }
+        syslogLogger.error("NIAPI-GRESKA-[{}] {}",kod,porukaDoKrajaLinije);
     }
 
     public static void prijava(String tip, String korisnik) {
         syslogLogger.info("NIAPI-PRIJAVA({}):{}", tip, korisnik);
+    }
+
+    public static void potpis(int idInicijative, UUID potpis) {
+        syslogLogger.info("NIAPI-POTPIS({}):{}", idInicijative, potpis);
     }
     public static void poruka(String msg) {
         syslogLogger.info(msg);
