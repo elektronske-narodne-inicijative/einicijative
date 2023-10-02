@@ -1,6 +1,6 @@
 # Elektronske Narodne Inicijative
 ## Probajte demo aplikaciju!
-Prva testna, statička verzija aplikacije, koja demonstrira navigaciju kroz objavljene podatke i opisuje tekstom šta će biti u delovima aplikacije koji još nisu izvedeni, može da se vidi/proba [ovde](https://test-einicijativa.one/#/). Više detalja o planovima možete naći na dnu ove stranice.
+Radna verzija aplikacije može da se vidi/proba [ovde](https://test-einicijativa.one/#/). Više detalja o stanju implementacije planovima možete naći na dnu ove stranice.
 
 Sve ideje i komentari su dobrodošli - pišite na elektronske.narodne.inicijative@gmail.com.
 ## Čemu sve ovo?
@@ -114,28 +114,24 @@ Sledeći poziv će kreirati nešto ispod milion građana i 10 hiljada inicijativ
 
 <code>call ni.NITestPunjenjeBaze(15,10);</code>
 ## Tekuće stanje implementacije rešenja, planovi
-##### Poslednji put ažurirano: 24.09.2023
+##### Poslednji put ažurirano: 02.10.2023
 ### Urađeno
-U ovom trenutku je tehnička dokumentacija uglavnom kompletirana i sastoji se od ove stranice i povezanih dokumenata - ono što još planiram da dodam je dokumentacija o tipovima poruka za nadzorni dnevnik (audit log events) i sistem za nadzor zdravlja usluga (biće urađeno na bazi izvedenog stanja).
+U ovom trenutku su  baza i nipub servis manje-više kompletni (do na defekte, koji se čiste kako budu uočeni), a web sajt je u fazi kostura koji pokazuje podatke generisane od strane nipub servisa. Servis niapi i dinamički deo sajta su trenutno u implementaciji. 
 
-Najveći deo implementacije baze je takođe završen, uključujući i sve procedure koje koriste API metodi, kao i sve funkcije koje koristi servis za objavljivanje dokumenata <code>nipub</code>. Testne procedure su i dalje relativno "plitke", ali to će biti dopunjavano s vremenom. U bazi je dodata nova šema <code>nibatch</code>, koja sadrži tabele koje koristi Spring Batch, kao i odgovarajuće dodele prava korisniku baze <code>nipub</code> (koji koristi odgovarajući servis).
-
-Prva verzija servisa nipub je takođe implementirana (Java 17, Spring Boot 3.1.2, Spring Batch, jdbc, postgres), projekat je [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/Java/nipub). Ovo generiše podatke koje koristi javni deo aplikacije, tj. korisničke priče sa slajda 3 ("Bilo ko, na bazi javnog pristupa") u [ovoj prezentaciji](https://docs.google.com/presentation/d/1cnEa4gFjD85ZG449C_NlCCojxXWHUtky/edit?usp=drive_link&ouid=100806157112222708210&rtpof=true&sd=true).
-
-Napravljen je i kostur web aplikacije, koji za sada koristi samo objavljene podatke iz <code>nipub</code> servisa (nešto unapređeno testno punjenje baze pretvoreno u datoteke ubačene u web projekat), koristeći [Vue.js v3](https://vuejs.org/) i [PrimeVue šablon SAPPHIRE](https://sapphire.primevue.org/#/). Prijava za potpisivanje na eid.gov.rs se simulira koristeći Auth0 servis. Cilj je bio stvoriti radnu verziju koja može lako da se demonstrira i bude materijal za dalju diskusiju.
-
-U toku je rad na niapi servisu (Java 17 / Spring Boot 3.1.x):
+Što se tiče niapi implementacije, stanje je ovakvo:
 - REST API je generisan iz OpenAPI specifikacije, prečišćen i integrisan
 - Implementirana je veza sa bazom, uključujući i metode koji implementiraju poziv najvećeg dela potrebnih procedura u bazi
 - Implementirani su logeri konfigurisani da šalju syslog protokolom podatke u SIEM (nadzorni dnevnik) i sistem za nadgledanje zdravlja infrastrukture
 - Implementiran je REST klijent za u4niapi - predloženi novi API eUprava portala koji daje neophodne lične podatke ovom proizvodu
 - Implementiran je simulator eUprava u4niapi koristeći [Wiremock](https://wiremock.org/) alat i postavljen na testni sajt [https://test-einicijativa.one](https://test-einicijativa.one) odakle se koristi u toku razvoja (konfiguracija je [ovde](https://github.com/elektronske-narodne-inicijative/einicijative/tree/main/Implementacija/Test/u4niapi-wiremock))
-- Implementiran je prvi niapi metod koji sve ovo koristi, a koji vraća profil potpisnika (GET /potpisnik/profil) - pomoću njega i uz upotrebu JWT koje web aplikacija dobija od Auth0 servisa je ovo prethodno integrisano i testirano
+- Implementirani su niapi metodi za potpisnike, uključujući i metod za potpisivanje inicijative koji vraća base64 filtriranu potvrdu o potpisivanju koja je digitalno potpisani PDF dokument ([primer](https://github.com/elektronske-narodne-inicijative/einicijative/blob/main/Dokumenti/primer-potvrde-o-potpisu.pdf)).
 
 ### Planovi
-Sada je dobrim delom otvoren put da se implementiraju ostali API metodi i time manje-više kompletira proizvod. Biće još par strukturnih proširenja, poput verifikacije i snimanja primljenih PDF fajlova sa prilozima narodnih inicijativa, ali je sada najveći deo tehnologija koje koristi niapi integrisan, u mnogo kraćem roku nego što je inicijalno očekivano. Kada se niapi servis kompletira, tekuća "statička" web aplikacija će biti povezana sa njim i proširena za interaktivne funkcije koje sada nedostaju.
+Sledeći korak je integracija dinamičkih funkcija potpisnika u web sajt, koji će time biti kompletiran za funkcije potpisnika. Posle ovoga će funkcije za ovlašćena lica biti dodate u niapi, a onda i aplikaciju (njih je mnogo manje nego onih za inicijatore). Konačno će u niapi i aplikaciju biti dodate funkcije za inicijatore.
+
+Testno okruženje postavljeno [ovde](https://test-einicijativa.one/#/) (link sa vrha ove stranice) više nije statička aplikacija, nego kompletna postavka rešenja, sa bazom napunjenom testnim sadržajem kao što je opisano iznad (900k građana, 10k inicijativa i 7.9M potpisa), nipub i niapi servisima i sajtom. Ovo okruženje će biti dopunjavano kako razvoj bude tekao.
 
 ### Tajming
 ###### *Ovo je naravno sve hobi, koji radim uz dosta intenzivan glavni posao, tako da su datumi/periodi dole pre svega moja želja i lako mogu proklizati.
 
-S obzirom na pozitivan razvoj integracije ključnih tehnologija i unutrašnjih elemenata niapi servisa, ima izgleda da se proizvod kompletira do kraja godine, sa idejom da se niapi servis kompletira do kraja oktobra / početka novembra, a onda web aplikacija proširi do pune funkcionalnosti, koristeći ovaj servis. Kada sve funkcionalnosti budu implementirane, fokus će biti stavljen na postavljanje pune demo verzije aplikacije i testiranje.
+S obzirom na pozitivan razvoj integracije ključnih tehnologija i unutrašnjih elemenata niapi servisa, ima izgleda da se proizvod kompletira do kraja godine (ali i dalje sve može proklizati u slučaju nedostatka vremena).
