@@ -1,6 +1,8 @@
 package rs.gov.mduls.einicijative.niapi.api.controllers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -42,7 +44,6 @@ public class PotpisnikApiController implements PotpisnikApi {
 
     @Autowired
     private NiDatabaseApi dbApi;
-
 
     @Autowired
     private PdfUsluge pdfUsluge;
@@ -192,7 +193,9 @@ public class PotpisnikApiController implements PotpisnikApi {
                     dbApi.ptpListaPotpisa(jwtHash);
             PotpisnikUpitListePotpisaOdgovor odgovor = new PotpisnikUpitListePotpisaOdgovor();
             if (potpisiJSON != null) {
-                ObjectMapper mapper = new ObjectMapper();
+                ObjectMapper mapper = JsonMapper.builder()
+                        .addModule(new JavaTimeModule())
+                        .build();
                 List<PotpisInicijative> potpisi = mapper.readValue(potpisiJSON, new TypeReference<List<PotpisInicijative>>(){});
                 odgovor.setPotpisi(potpisi);
             }
