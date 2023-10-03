@@ -2,7 +2,10 @@
     <div class="grid">
         <div class="col-12">
             <div class="card">
-                <span style="float: initial"><Button v-if="det.fazaObrade === 'Активна (прикупљање потписа у току)'" type="button" label="Пријави се да би потписала" @click="prijaviPotpisnika($event, det.idInicijative)" /></span>
+                <span style="float: initial">
+                    <Button v-if="det.fazaObrade === 'Активна (прикупљање потписа у току)' && jwt === undefined" type="button" label="Пријави се да би потписала" @click="prijaviPotpisnika($event, det.idInicijative)" />
+                    <Button v-if="det.fazaObrade === 'Активна (прикупљање потписа у току)' && jwt !== undefined" :disabled="potpisano" type="button" :label="tekstNaDugmetuZaPotpis" @click="potpisiInicijativu($event, jwt, det.idInicijative)" />
+                </span>
                 <span style="float: right"
                     >Линк за директан приступ: <a :href="urlZaDirektniPristup">{{ urlZaDirektniPristup }}</a></span
                 >
@@ -188,6 +191,7 @@
 
 <script>
 import PubService from '@/service/PubService';
+import ApiService from '@/service/ApiService';
 import { ref, toRaw } from 'vue';
 import GlasoviNaMapi from '@/views/glavne/GlasoviNaMapi.vue';
 
@@ -198,6 +202,10 @@ export default {
             type: Number,
             required: true,
         },
+        jwt: {
+            type: String,
+            required: false,
+        },
         sifarnici: {
             type: Object,
             required: true,
@@ -205,7 +213,10 @@ export default {
     },
 
     data() {
-        return {};
+        return {
+            potpisano: false,
+            tekstNaDugmetuZaPotpis: 'Потпиши иницијативу',
+        };
     },
 
     setup(props) {
@@ -220,9 +231,8 @@ export default {
             mapaGeografije.value[idGrada].procenatPotpisalo = procenat4decimale(ukupnoPotpisa, ukupnoGlasaca);
         }
         const pubService = new PubService();
-        const urlZaDirektniPristup = window.location.protocol + '//' + window.location.host + '/#/podrzi/' + props.idInicijative.toString() + '/detalji';
+        const urlZaDirektniPristup = window.location.protocol + '//' + window.location.host + '/podrzi/' + props.idInicijative.toString() + '/detalji';
         const det = ref({ idInicijative: '[Учитава се...]', ucitavaSe: true });
-        const det2 = ref({});
         const naziviOpstina = ref({});
         const brGlasacaUOpstinama = ref({});
         const maxBrojPotpisa = ref(0);
@@ -346,7 +356,60 @@ export default {
         prijaviPotpisnika(event, idInicijative) {
             // redirekt za prijavu na eid.gov.rs - test varijanta sa Auth0
             window.location.href =
-                'https://dev-3l2ntuj6cqt60dix.eu.auth0.com/authorize?response_type=token&client_id=FNqheDYYX8A0raqebQdm631vnwIuGre7&redirect_uri=https%3A%2F%2Ftest-einicijativa.one%2F&audience=https%3A%2F%2Ftest-einicijativa.one%2Fniapi';
+                'https://dev-3l2ntuj6cqt60dix.eu.auth0.com/authorize?response_type=token&client_id=FNqheDYYX8A0raqebQdm631vnwIuGre7&redirect_uri=' +
+                encodeURIComponent(window.location.protocol) +
+                '%2F%2F' +
+                encodeURIComponent(window.location.host) +
+                '%2Foidcptp' +
+                '&state=P-' +
+                idInicijative +
+                '&audience=https%3A%2F%2Ftest-einicijativa.one%2Fniapi';
+        },
+        b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+            const byteCharacters = atob(b64Data);
+            const byteArrays = [];
+
+            for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+
+                const byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+
+            const blob = new Blob(byteArrays, { type: contentType });
+            return blob;
+        },
+        potpisiInicijativu(event, jwt, idInicijative) {
+            const apiService = new ApiService();
+            const potpis = ref({});
+
+            apiService.ptpPotpisiInicijativu(jwt, idInicijative).then((data) => {
+                if (data === undefined) {
+                    console.log('Nije uspeo potpis za inicijativu:', idInicijative);
+                    this.potpisano = false;
+                    this.tekstNaDugmetuZaPotpis = 'Проблем. Поново?';
+                } else {
+                    this.potpisano = true;
+                    this.tekstNaDugmetuZaPotpis = 'Потписана!';
+                    potpis.value = data;
+                    const blob = this.b64toBlob(potpis.value.overaAplikacije, 'application/pdf', 512);
+                    if (window.navigator['msSaveOrOpenBlob']) {
+                        window.navigator['msSaveBlob'](blob, 'potpis-inicijative-' + idInicijative);
+                    } else {
+                        const elem = window.document.createElement('a');
+                        elem.href = window.URL.createObjectURL(blob);
+                        elem.download = 'potpis-inicijative-' + idInicijative;
+                        document.body.appendChild(elem);
+                        elem.click();
+                        document.body.removeChild(elem);
+                    }
+                }
+            });
         },
         formatNumber(value) {
             return value.toLocaleString('sr-RS');

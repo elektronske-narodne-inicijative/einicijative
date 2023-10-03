@@ -15,6 +15,10 @@
 export default {
     components: {},
     props: {
+        jwt: {
+            type: String,
+            required: false,
+        },
         sifarnici: {
             type: Object,
             required: true,

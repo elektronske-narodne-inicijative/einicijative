@@ -1,5 +1,6 @@
 <template>
-    <DetaljiJavneInicijative v-if="ucitavamSifarnike == 5 && parseInt(idTekuceInicijative) != 0" :idInicijative="parseInt(idTekuceInicijative)" :sifarnici="sifarnici" />
+    <DetaljiJavneInicijative v-if="ucitavamSifarnike == 5 && parseInt(idTekuceInicijative) != 0" :jwt="jwt" :idInicijative="parseInt(idTekuceInicijative)" :sifarnici="sifarnici" />
+    <PodrziMojaListaPotpisa v-if="ucitavamSifarnike == 5 && lista" :jwt="jwt" :sifarnici="sifarnici" />
 </template>
 
 <script>
@@ -7,9 +8,10 @@ import { ref, onMounted } from 'vue';
 import PubService from '@/service/PubService';
 import DetaljiJavneInicijative from '@/views/glavne/DetaljiJavneInicijative.vue';
 import { useRoute, useRouter } from 'vue-router';
+import PodrziMojaListaPotpisa from '@/views/podrzi/PodrziMojaListaPotpisa.vue';
 
 export default {
-    components: { DetaljiJavneInicijative },
+    components: { PodrziMojaListaPotpisa, DetaljiJavneInicijative },
 
     data() {
         return {
@@ -55,11 +57,29 @@ export default {
 
     setup() {
         const idTekuceInicijative = ref(0);
+        const lista = ref(false);
+        const jwt = ref('');
+        const router = useRouter();
+        const route = useRoute();
         onMounted(async () => {
-            const route = useRoute();
-            idTekuceInicijative.value = route.params.id;
+            await router.isReady();
+            const parsedParams = {};
+            route.hash
+                .split('&')
+                .map((part) => part.replace(/^#/, ''))
+                .forEach((param) => {
+                    const parts = param.split('=');
+                    parsedParams[parts[0]] = parts[1];
+                });
+            jwt.value = parsedParams['access_token'];
+            if (parsedParams['state'].match(/P-.*/)) {
+                idTekuceInicijative.value = parsedParams['state'].substring(2);
+                console.log('idTekuceInicijative=' + idTekuceInicijative.value);
+            } else if (parsedParams['state'] === 'L') {
+                lista.value = true;
+            }
         });
-        return { idTekuceInicijative };
+        return { jwt, idTekuceInicijative, lista };
     },
     methods: {},
 };

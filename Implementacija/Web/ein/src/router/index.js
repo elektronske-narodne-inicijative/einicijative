@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import AppLayout from '@/layout/AppLayout.vue';
 const routes = [
     {
@@ -30,6 +30,16 @@ const routes = [
                     breadcrumb: [{ parent: 'Подржи', label: 'Детаљи' }],
                 },
                 params: true,
+            },
+            {
+                path: '/oidcptp',
+                name: 'oidcptp',
+                component: () => import('@/views/glavne/PristupPoslePrijave.vue'),
+                meta: {
+                    breadcrumb: [{ parent: 'Подржи', label: 'Пријављен' }],
+                },
+                params: true,
+                query: true,
             },
             {
                 path: '/pokreni',
@@ -67,7 +77,7 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes,
     scrollBehavior() {
         return { left: 0, top: 0 };
