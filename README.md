@@ -1,6 +1,6 @@
 # Elektronske Narodne Inicijative
 ## Probajte demo aplikaciju!
-Radna verzija aplikacije može da se vidi/proba [ovde](https://test-einicijativa.one/#/). Više detalja o stanju implementacije planovima možete naći na dnu ove stranice.
+Radna verzija aplikacije koja pokriva funkcije potpisnika može da se vidi/proba [ovde](https://test-einicijativa.one/#/). Više detalja o stanju implementacije planovima možete naći na dnu ove stranice.
 
 Sve ideje i komentari su dobrodošli - pišite na elektronske.narodne.inicijative@gmail.com.
 ## Čemu sve ovo?
@@ -114,9 +114,9 @@ Sledeći poziv će kreirati nešto ispod milion građana i 10 hiljada inicijativ
 
 <code>call ni.NITestPunjenjeBaze(15,10);</code>
 ## Tekuće stanje implementacije rešenja, planovi
-##### Poslednji put ažurirano: 02.10.2023
+##### Poslednji put ažurirano: 05.10.2023
 ### Urađeno
-U ovom trenutku su  baza i nipub servis manje-više kompletni (do na defekte, koji se čiste kako budu uočeni), a web sajt je u fazi kostura koji pokazuje podatke generisane od strane nipub servisa. Servis niapi i dinamički deo sajta su trenutno u implementaciji. 
+U ovom trenutku su  baza i nipub servis manje-više kompletni (do na defekte, koji se čiste kako budu uočeni), a web sajt je u fazi kostura koji pokazuje podatke generisane od strane nipub servisa i implementira dinamičke funkcije koje se tiču akcija potpisnika (potpisivanje inicijative i gledanje liste potpisa. Servis niapi i dinamički deo sajta su trenutno u implementaciji. 
 
 Što se tiče niapi implementacije, stanje je ovakvo:
 - REST API je generisan iz OpenAPI specifikacije, prečišćen i integrisan
@@ -127,7 +127,7 @@ U ovom trenutku su  baza i nipub servis manje-više kompletni (do na defekte, ko
 - Implementirani su niapi metodi za potpisnike, uključujući i metod za potpisivanje inicijative koji vraća base64 filtriranu potvrdu o potpisivanju koja je digitalno potpisani PDF dokument ([primer](https://github.com/elektronske-narodne-inicijative/einicijative/blob/main/Dokumenti/primer-potvrde-o-potpisu.pdf)).
 
 ### Planovi
-Sledeći korak je integracija dinamičkih funkcija potpisnika u web sajt, koji će time biti kompletiran za funkcije potpisnika. Posle ovoga će funkcije za ovlašćena lica biti dodate u niapi, a onda i aplikaciju (njih je mnogo manje nego onih za inicijatore). Konačno će u niapi i aplikaciju biti dodate funkcije za inicijatore.
+Sada će funkcije za ovlašćena lica biti dodate u niapi, a onda i aplikaciju (njih je mnogo manje nego onih za inicijatore). Posle ovoga će u niapi i aplikaciju biti dodate funkcije za inicijatore.
 
 Testno okruženje postavljeno [ovde](https://test-einicijativa.one/#/) (link sa vrha ove stranice) više nije statička aplikacija, nego kompletna postavka rešenja, sa bazom napunjenom testnim sadržajem kao što je opisano iznad (900k građana, 10k inicijativa i 7.9M potpisa), nipub i niapi servisima i sajtom. Ovo okruženje će biti dopunjavano kako razvoj bude tekao.
 
