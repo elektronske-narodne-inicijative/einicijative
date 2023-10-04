@@ -74,8 +74,7 @@ export default {
             jwt.value = parsedParams['access_token'];
             if (parsedParams['state'].match(/P-.*/)) {
                 idTekuceInicijative.value = parsedParams['state'].substring(2);
-                console.log('idTekuceInicijative=' + idTekuceInicijative.value);
-            } else if (parsedParams['state'] === 'L') {
+            } else if (parsedParams['state'] === 'PL') {
                 lista.value = true;
             }
         });

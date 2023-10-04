@@ -19,7 +19,7 @@
                 </TabPanel>
                 <TabPanel>
                     <template #header>
-                        <i class="pi pi-folder"></i>
+                        <i class="pi pi-lock"></i>
                         <span>&nbsp;&nbsp;Моја листа потписа</span>
                     </template>
                     <PodrziMojaListaPotpisa :sifarnici="sifarnici" />

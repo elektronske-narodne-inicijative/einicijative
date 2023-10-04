@@ -8,14 +8,14 @@ export default class ApiService {
         return '/niapi/potpisnik';
     }
     ptpDajProfil(accessToken) {
-        return fetch(this.getPtpPrefix() + '/potpisi', this.getHeaders(accessToken))
+        return fetch(this.getPtpPrefix() + '/profil', this.getHeaders(accessToken))
             .then((res) => res.json())
             .then((d) => d)
             .catch((err) => console.error(err));
     }
 
     ptpDetaljiPotpisa(accessToken, idInicijative) {
-        return fetch(this.getPtpPrefix() + '/potpisi/' + idInicijative, this.getHeaders(accessToken))
+        return fetch(this.getPtpPrefix() + '/inicijativa/' + idInicijative, this.getHeaders(accessToken))
             .then((res) => res.json())
             .then((d) => d)
             .catch((err) => console.error(err));

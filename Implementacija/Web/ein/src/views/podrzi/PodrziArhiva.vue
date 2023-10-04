@@ -78,25 +78,34 @@ export default {
 
     mounted() {
         this.pubService.getNeaktivneInicijative().then((data) => {
-            for (let i in data) {
-                if (data[i].fazaObrade === 'Покренута (скупљено довољно потписа)') {
-                    this.pokrenuteInicijative.push(data[i]);
-                } else if (data[i].fazaObrade === 'Комплетирана (скупштина одлучивала)' && data[i].prihvacena) {
-                    this.usvojeneInicijative.push(data[i]);
-                } else if (data[i].fazaObrade === 'Комплетирана (скупштина одлучивала)') {
-                    this.odbijeneInicijative.push(data[i]);
-                } else if (data[i].fazaObrade === 'Неуспешна (није скупљено довољно потписа)') {
-                    this.neuspesneInicijative.push(data[i]);
-                } else {
-                    this.povuceneInicijative.push(data[i]);
+            if (data === undefined) {
+                this.brojPokrenutih = 0;
+                this.brojUsvojenih = 0;
+                this.brojOdbijenih = 0;
+                this.brojNeuspesnih = 0;
+                this.brojPovucenih = 0;
+                this.ucitavamInicijative = false;
+            } else {
+                for (let i in data) {
+                    if (data[i].fazaObrade === 'Покренута (скупљено довољно потписа)') {
+                        this.pokrenuteInicijative.push(data[i]);
+                    } else if (data[i].fazaObrade === 'Комплетирана (скупштина одлучивала)' && data[i].prihvacena) {
+                        this.usvojeneInicijative.push(data[i]);
+                    } else if (data[i].fazaObrade === 'Комплетирана (скупштина одлучивала)') {
+                        this.odbijeneInicijative.push(data[i]);
+                    } else if (data[i].fazaObrade === 'Неуспешна (није скупљено довољно потписа)') {
+                        this.neuspesneInicijative.push(data[i]);
+                    } else {
+                        this.povuceneInicijative.push(data[i]);
+                    }
                 }
+                this.brojPokrenutih = this.pokrenuteInicijative.length;
+                this.brojUsvojenih = this.usvojeneInicijative.length;
+                this.brojOdbijenih = this.odbijeneInicijative.length;
+                this.brojNeuspesnih = this.neuspesneInicijative.length;
+                this.brojPovucenih = this.povuceneInicijative.length;
+                this.ucitavamInicijative = false;
             }
-            this.brojPokrenutih = this.pokrenuteInicijative.length;
-            this.brojUsvojenih = this.usvojeneInicijative.length;
-            this.brojOdbijenih = this.odbijeneInicijative.length;
-            this.brojNeuspesnih = this.neuspesneInicijative.length;
-            this.brojPovucenih = this.povuceneInicijative.length;
-            this.ucitavamInicijative = false;
         });
     },
 

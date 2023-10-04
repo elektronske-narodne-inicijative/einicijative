@@ -4,7 +4,14 @@
             <div class="card">
                 <span style="float: initial">
                     <Button v-if="det.fazaObrade === 'Активна (прикупљање потписа у току)' && jwt === undefined" type="button" label="Пријави се да би потписала" @click="prijaviPotpisnika($event, det.idInicijative)" />
-                    <Button v-if="det.fazaObrade === 'Активна (прикупљање потписа у току)' && jwt !== undefined" :disabled="potpisano" type="button" :label="tekstNaDugmetuZaPotpis" @click="potpisiInicijativu($event, jwt, det.idInicijative)" />
+                    <Button
+                        v-if="det.fazaObrade === 'Активна (прикупљање потписа у току)' && jwt !== undefined && !det.potpisana"
+                        :disabled="potpisano"
+                        type="button"
+                        :label="tekstNaDugmetuZaPotpis"
+                        @click="potpisiInicijativu($event, jwt, det.idInicijative)"
+                    />
+                    <Button v-if="det.potpisana && jwt !== undefined" disabled="true" type="button" label="Већ потписана" />
                 </span>
                 <span style="float: right"
                     >Линк за директан приступ: <a :href="urlZaDirektniPristup">{{ urlZaDirektniPristup }}</a></span
@@ -194,6 +201,7 @@ import PubService from '@/service/PubService';
 import ApiService from '@/service/ApiService';
 import { ref, toRaw } from 'vue';
 import GlasoviNaMapi from '@/views/glavne/GlasoviNaMapi.vue';
+import OidcUrlService from '@/service/OidcUrlService';
 
 export default {
     components: { GlasoviNaMapi },
@@ -231,8 +239,9 @@ export default {
             mapaGeografije.value[idGrada].procenatPotpisalo = procenat4decimale(ukupnoPotpisa, ukupnoGlasaca);
         }
         const pubService = new PubService();
+        const apiService = new ApiService();
         const urlZaDirektniPristup = window.location.protocol + '//' + window.location.host + '/podrzi/' + props.idInicijative.toString() + '/detalji';
-        const det = ref({ idInicijative: '[Учитава се...]', ucitavaSe: true });
+        const det = ref({ idInicijative: '[Учитава се...]', ucitavaSe: true, potpisana: false });
         const naziviOpstina = ref({});
         const brGlasacaUOpstinama = ref({});
         const maxBrojPotpisa = ref(0);
@@ -347,6 +356,19 @@ export default {
                 }
             }
         });
+        if (props.jwt !== undefined) {
+            apiService.ptpDetaljiPotpisa(props.jwt, props.idInicijative).then((data) => {
+                if (data === undefined) {
+                    console.log('Nije uspeo upit potpisa za inicijativu:', props.idInicijative);
+                } else {
+                    if (data.potpis.idPotpisa !== null) {
+                        det.value.potpisana = true;
+                    } else {
+                        det.value.potpisana = false;
+                    }
+                }
+            });
+        }
         return { det, mapaGeografije, maxBrojPotpisa, maxProcenat, urlZaDirektniPristup };
     },
 
@@ -354,17 +376,11 @@ export default {
 
     methods: {
         prijaviPotpisnika(event, idInicijative) {
+            const oidcUrlService = new OidcUrlService();
             // redirekt za prijavu na eid.gov.rs - test varijanta sa Auth0
-            window.location.href =
-                'https://dev-3l2ntuj6cqt60dix.eu.auth0.com/authorize?response_type=token&client_id=FNqheDYYX8A0raqebQdm631vnwIuGre7&redirect_uri=' +
-                encodeURIComponent(window.location.protocol) +
-                '%2F%2F' +
-                encodeURIComponent(window.location.host) +
-                '%2Foidcptp' +
-                '&state=P-' +
-                idInicijative +
-                '&audience=https%3A%2F%2Ftest-einicijativa.one%2Fniapi';
+            window.location.href = oidcUrlService.dajOidcUrlZaPotpis(idInicijative);
         },
+
         b64toBlob(b64Data, contentType = '', sliceSize = 512) {
             const byteCharacters = atob(b64Data);
             const byteArrays = [];
