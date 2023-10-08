@@ -200,7 +200,7 @@
 import PubService from '@/service/PubService';
 import ApiService from '@/service/ApiService';
 import { ref, toRaw } from 'vue';
-import GlasoviNaMapi from '@/views/glavne/GlasoviNaMapi.vue';
+import GlasoviNaMapi from '@/views/podrzi/GlasoviNaMapi.vue';
 import OidcUrlService from '@/service/OidcUrlService';
 
 export default {

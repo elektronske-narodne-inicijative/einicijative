@@ -90,7 +90,7 @@
 
 <script>
 import { FilterOperator, FilterMatchMode } from 'primevue/api';
-import DetaljiJavneInicijative from '@/views/glavne/DetaljiJavneInicijative.vue';
+import DetaljiJavneInicijative from '@/views/podrzi/DetaljiJavneInicijative.vue';
 
 export default {
     components: { DetaljiJavneInicijative },

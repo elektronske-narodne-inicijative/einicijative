@@ -32,14 +32,19 @@ BEGIN
          WHERE IDNIKorisnik = idKorisnika;
     EXCEPTION
         WHEN no_data_found THEN
-            INSERT INTO ni.NIKorisnik (IDNIKorisnik, IDNITipKorisnika, TrnKreiranja, TrnPoslednjeSesije) VALUES (idKorisnika,'Г',trnSad,trnSad);
+            BEGIN
+                INSERT INTO ni.NIKorisnik (IDNIKorisnik, IDNITipKorisnika, TrnKreiranja, TrnPoslednjeSesije) VALUES (idKorisnika,'О',trnSad,trnSad);
+            EXCEPTION
+                WHEN unique_violation THEN
+                  null; 
+            END;
     END;
     BEGIN
         SELECT *
           INTO STRICT ovlice
           FROM ni.NIOvlascenoLice o
          where o.IDNIOvlascenoLice = idKorisnika;
-        IF ovlice.IDNINivoVlasti != idNivoaVlasti OR ovlice.IDNIOpstina != idOpstine OR ovlice.IDNIPokrajina != idPokrajine OR ovlice.ImePrezime != imePrezime OR ovlice.EmailAdresa != emailAdresa THEN
+        IF ovlice.IDNINivoVlasti != idNivoaVlasti OR ovlice.IDNIOpstina != idOpstine OR ovlice.IDNIPokrajina != idPokrajine OR ovlice.ImeiPrezime != imePrezime OR ovlice.EmailAdresa != emailAdresa THEN
             UPDATE ni.NIOvlascenoLice o 
                SET o.IDNINivoVlasti = idNivoaVLasti,
                    o.IDNIOpstina = idOpstine,
@@ -50,11 +55,21 @@ BEGIN
         END IF;
     EXCEPTION
         WHEN no_data_found THEN
-            INSERT INTO ni.NIOvlascenoLice (IDNIOvlascenoLice, IDNINivoVlasti, IDNIOpstina, IDNIPokrajina, ImeiPrezime, EmailAdresa) VALUES (idKorisnika, idNivoaVlasti, idOpstine, idPokrajine, imePrezime, emailAdresa);
+            BEGIN
+                INSERT INTO ni.NIOvlascenoLice (IDNIOvlascenoLice, IDNINivoVlasti, IDNIOpstina, IDNIPokrajina, ImeiPrezime, EmailAdresa) VALUES (idKorisnika, idNivoaVlasti, idOpstine, idPokrajine, imePrezime, emailAdresa);
+            EXCEPTION
+                WHEN unique_violation THEN
+                  null; 
+            END;
     END;
-    INSERT INTO ni.NISesija 
-      (IDNISesija, IDNITipSesije, IDNIKorisnik, JWT, TrnPocetka, TrnIstekaJWT, TrnIstekaSesije)
-    VALUES
-      (jwtHash, cast('О' as char), idKorisnika, jwtVrednost, trnSad, trnIstekaJWT, trnIstekaSesije);
+    BEGIN
+        INSERT INTO ni.NISesija 
+          (IDNISesija, IDNITipSesije, IDNIKorisnik, JWT, TrnPocetka, TrnIstekaJWT, TrnIstekaSesije)
+        VALUES
+          (jwtHash, cast('О' as char), idKorisnika, jwtVrednost, trnSad, trnIstekaJWT, trnIstekaSesije);
+    EXCEPTION
+        WHEN unique_violation THEN
+            null; 
+    END;
 END;
 $$;

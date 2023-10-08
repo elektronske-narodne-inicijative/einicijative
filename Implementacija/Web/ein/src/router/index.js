@@ -23,23 +23,34 @@ const routes = [
                 },
             },
             {
-                path: '/podrzi/:id/detalji',
-                name: 'detalji',
-                component: () => import('@/views/glavne/DetaljiDirektanPristup.vue'),
-                meta: {
-                    breadcrumb: [{ parent: 'Подржи', label: 'Детаљи' }],
-                },
-                params: true,
-            },
-            {
                 path: '/oidcptp',
                 name: 'oidcptp',
-                component: () => import('@/views/glavne/PristupPoslePrijave.vue'),
+                component: () => import('@/views/podrzi/PristupPoslePrijave.vue'),
                 meta: {
                     breadcrumb: [{ parent: 'Подржи', label: 'Пријављен' }],
                 },
                 params: true,
                 query: true,
+            },
+            {
+                path: '/oidcovl',
+                name: 'oidcovl',
+                component: () => import('@/views/skupstina/PristupPoslePrijave.vue'),
+                meta: {
+                    breadcrumb: [{ parent: 'Скупштина', label: 'Пријављен' }],
+                },
+                params: true,
+                query: true,
+            },
+
+            {
+                path: '/podrzi/:id/detalji',
+                name: 'detalji',
+                component: () => import('@/views/podrzi/DetaljiDirektanPristup.vue'),
+                meta: {
+                    breadcrumb: [{ parent: 'Подржи', label: 'Детаљи' }],
+                },
+                params: true,
             },
             {
                 path: '/pokreni',

@@ -12,5 +12,19 @@ export default defineConfig(() => {
                 '@': fileURLToPath(new URL('./src', import.meta.url)),
             },
         },
+		server: {
+			proxy: {
+				'/einicijativa': {
+					target: 'https://test-einicijativa.one/',
+					changeOrigin: true,
+					secure: true
+				},
+				'/niapi': {
+					target: 'https://test-einicijativa.one/',
+					changeOrigin: true,
+					secure: true
+				}
+			}
+		}
     };
 });

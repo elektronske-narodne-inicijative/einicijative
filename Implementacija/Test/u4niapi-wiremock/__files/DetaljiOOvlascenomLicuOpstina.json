@@ -1,7 +1,7 @@
 {
  "idKorisnika":"{{parameters.idKorisnika}}",
- "imePrezime":"{{parameters.imePrezime}}"
- "emailAdresa":"{{parameters.emailAdresa}}"
+ "imePrezime":"{{parameters.imePrezime}}",
+ "emailAdresa":"{{parameters.emailAdresa}}",
  "idNivoaUprave":"{{parameters.idNivoaUprave}}",
  "idOpstine":"{{parameters.idOpstine}}"
 }

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import JavnaListaInicijativa from '@/views/glavne/ListaAktivnihInicijativa.vue';
+import JavnaListaInicijativa from '@/views/podrzi/ListaAktivnihInicijativa.vue';
 import PubService from '@/service/PubService';
 
 export default {

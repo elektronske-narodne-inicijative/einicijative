@@ -71,8 +71,8 @@ export default {
                 if (data === undefined) {
                     console.log('Nije uspeo upit liste potpisa');
                 } else {
-                    ucitavaSe.value = false;
                     lista.value = data.potpisi;
+                    ucitavaSe.value = false;
                 }
             });
             return { lista, ucitavaSe };

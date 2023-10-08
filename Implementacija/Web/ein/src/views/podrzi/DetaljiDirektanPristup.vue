@@ -1,17 +1,15 @@
 <template>
-    <DetaljiJavneInicijative v-if="ucitavamSifarnike == 5 && parseInt(idTekuceInicijative) != 0" :jwt="jwt" :idInicijative="parseInt(idTekuceInicijative)" :sifarnici="sifarnici" />
-    <PodrziMojaListaPotpisa v-if="ucitavamSifarnike == 5 && lista" :jwt="jwt" :sifarnici="sifarnici" />
+    <DetaljiJavneInicijative v-if="ucitavamSifarnike == 5 && parseInt(idTekuceInicijative) != 0" :idInicijative="parseInt(idTekuceInicijative)" :sifarnici="sifarnici" />
 </template>
 
 <script>
 import { ref, onMounted } from 'vue';
 import PubService from '@/service/PubService';
-import DetaljiJavneInicijative from '@/views/glavne/DetaljiJavneInicijative.vue';
+import DetaljiJavneInicijative from '@/views/podrzi/DetaljiJavneInicijative.vue';
 import { useRoute, useRouter } from 'vue-router';
-import PodrziMojaListaPotpisa from '@/views/podrzi/PodrziMojaListaPotpisa.vue';
 
 export default {
-    components: { PodrziMojaListaPotpisa, DetaljiJavneInicijative },
+    components: { DetaljiJavneInicijative },
 
     data() {
         return {
@@ -57,28 +55,11 @@ export default {
 
     setup() {
         const idTekuceInicijative = ref(0);
-        const lista = ref(false);
-        const jwt = ref('');
-        const router = useRouter();
-        const route = useRoute();
         onMounted(async () => {
-            await router.isReady();
-            const parsedParams = {};
-            route.hash
-                .split('&')
-                .map((part) => part.replace(/^#/, ''))
-                .forEach((param) => {
-                    const parts = param.split('=');
-                    parsedParams[parts[0]] = parts[1];
-                });
-            jwt.value = parsedParams['access_token'];
-            if (parsedParams['state'].match(/P-.*/)) {
-                idTekuceInicijative.value = parsedParams['state'].substring(2);
-            } else if (parsedParams['state'] === 'PL') {
-                lista.value = true;
-            }
+            const route = useRoute();
+            idTekuceInicijative.value = route.params.id;
         });
-        return { jwt, idTekuceInicijative, lista };
+        return { idTekuceInicijative };
     },
     methods: {},
 };

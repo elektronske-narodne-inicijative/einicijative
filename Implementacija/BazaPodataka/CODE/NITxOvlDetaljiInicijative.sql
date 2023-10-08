@@ -1,7 +1,7 @@
 CREATE OR REPLACE PROCEDURE ni.NITxOvlDetaljiInicijative(
     IN  jwtHash Text,
     IN  idInicijative integer,
-    OUT detaljiInicijative JSON
+    OUT detaljiInicijative Text
 )
 LANGUAGE plpgsql SECURITY DEFINER
 AS $$
@@ -18,7 +18,7 @@ BEGIN
         'Истекао је период важења пријаве - молимо пријавите се поново!'
     );
     call ni.NITxIntDajOvlascenoLice(sesija, ovlice,'Недостају подаци о овлашћеном лицу за ИД корисника из сесије!');
-    SELECT JSONB_STRIP_NULLS(
+    SELECT cast(JSONB_STRIP_NULLS(
       JSONB_BUILD_OBJECT(
       'idInicijative',              i.IDNIInicijativa,
       'tipInicijative',             (SELECT Opis from ni.NITipInicijative s where s.IDNITipInicijative=i.IDNITipInicijative),
@@ -39,10 +39,7 @@ BEGIN
       'trnPodnosenja',              i.TrnPodnosenja,
       'datumPokretanja',            i.DatumPokretanja,
       'datumOdluke',                i.DatumOdluke,
-      'prihvacena',                 CASE
-                                        WHEN i.prihvacena = true THEN 'Да'
-                                        ELSE 'Не'
-                                    END,
+      'prihvacena',                 i.prihvacena,
       'beleskaSaSednice',           i.BeleskaSaSednice,
       'clanoviInicijativnogOdbora', (
           SELECT JSON_AGG(a)
@@ -75,7 +72,7 @@ BEGIN
                      WHERE p.IDNIInicijativa = i.IDNIInicijativa
                      ORDER BY p.TrnPromene desc
               ) c )
-      )) as detalji
+      )) as text) as detalji
   INTO detaljiInicijative
   FROM ni.NIInicijativa i
  WHERE i.IDNIInicijativa = idInicijative

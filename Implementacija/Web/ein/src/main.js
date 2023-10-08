@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, ref } from 'vue';
 import router from './router';
 import App from './App.vue';
 import PrimeVue from 'primevue/config';
@@ -94,6 +94,8 @@ import BlockViewer from '@/components/BlockViewer.vue';
 import '@/assets/styles.scss';
 
 const app = createApp(App);
+const jwt = ref('');
+app.provide('jwt', jwt);
 
 app.use(PrimeVue, { ripple: true });
 app.use(ConfirmationService);
