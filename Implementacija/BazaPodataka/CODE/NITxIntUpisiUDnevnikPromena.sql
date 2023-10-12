@@ -96,7 +96,7 @@ BEGIN
         ELSE detPromene = null;
     END CASE;
 
-    INSERT INTO NIDnevnikPromena (IDNIDnevnikPromena, TrnPromene, IDNIInicijativa, IDNIFazaObrade, IDNISesija, DetaljiPromene)
+    INSERT INTO ni.NIDnevnikPromena (IDNIDnevnikPromena, TrnPromene, IDNIInicijativa, IDNIFazaObrade, IDNISesija, DetaljiPromene)
     VALUES (nextval('ni.SIDNIDnevnikPromena'), current_timestamp, iPosle.IDNIInicijativa, iPosle.IDNIFazaObrade, jwtHash, detPromene);
 END;
 $$;

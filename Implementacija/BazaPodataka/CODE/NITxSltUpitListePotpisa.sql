@@ -1,6 +1,6 @@
 CREATE OR REPLACE PROCEDURE ni.NITxSltUpitListePotpisa(
     IN  idGradjanina uuid,
-    OUT listaPotpisa JSON
+    OUT listaPotpisa text
 )
 LANGUAGE plpgsql SECURITY DEFINER
 AS $$
@@ -10,7 +10,7 @@ DECLARE
     trnOd timestamp;
 BEGIN
     trnOd = now() - interval '1 day' * ni.NITxDajNumerickiParametar('ПериодЛистеПотписаЗаПотписника');
-    SELECT json_agg(a)
+    SELECT cast(json_agg(a) as text)
       INTO listaPotpisa
       FROM (SELECT i.IDNIInicijativa as "idInicijative", 
                    i.NazivInicijative as  "nazivInicijative", 

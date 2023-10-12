@@ -31,6 +31,7 @@
                         <InputText id="opisJediniceUprave" type="text" readOnly="true" disabled="true" v-model="profil.opisJediniceUprave" />
                     </div>
                 </div>
+                <span style="float: right"><Button v-if="ucitavamSifarnike >= 5" type="button" label="Освежи листе" @click="osveziObrasce($event)" /></span>
                 <h4>Народне иницијативе на чекању:</h4>
                 <TabView class="tabview-custom">
                     <TabPanel>
@@ -62,6 +63,7 @@ import PubService from '@/service/PubService';
 
 export default {
     components: { ListaInicijativa },
+
     data() {
         return {
             ucitavamSifarnike: 0,
@@ -106,11 +108,12 @@ export default {
 
     setup() {
         const apiService = new ApiService();
+        const oidcUrlService = new OidcUrlService();
         const profil = ref({ imePrezime: '[Учитава се...]', ucitavaSe: true });
         const jwt = inject('jwt');
-        const listaZaOdobrenje = ref({});
+        const listaZaOdobrenje = ref([]);
         const listaZaOdobrenjeSeUcitava = ref(true);
-        const listaZaIshod = ref({});
+        const listaZaIshod = ref([]);
         const listaZaIshodSeUcitava = ref(true);
         if (jwt.value !== undefined && jwt.value !== '') {
             apiService.ovlProfil(jwt.value).then((data) => {
@@ -124,6 +127,8 @@ export default {
             apiService.ovlListaZaOdobrenje(jwt.value).then((data) => {
                 if (data === undefined) {
                     console.log('Nije uspeo upit liste za odobrenje!');
+                    // pretpostavka: istekla sesija
+                    window.location.href = oidcUrlService.dajOidcProviderUrlPrefixOvl();
                 } else {
                     listaZaOdobrenje.value = data.inicijativeZaOdobrenje;
                     listaZaOdobrenjeSeUcitava.value = false;
@@ -132,6 +137,8 @@ export default {
             apiService.ovlListaZaIshod(jwt.value).then((data) => {
                 if (data === undefined) {
                     console.log('Nije uspeo upit liste za ishod!');
+                    // pretpostavka: istekla sesija
+                    window.location.href = oidcUrlService.dajOidcProviderUrlPrefixOvl();
                 } else {
                     listaZaIshod.value = data.inicijativeZaIshod;
                     listaZaIshodSeUcitava.value = false;
@@ -143,6 +150,11 @@ export default {
 
     methods: {
         prijaviOvlascenoLice(event) {
+            const oidcUrlService = new OidcUrlService();
+            // redirekt za login
+            window.location.href = oidcUrlService.dajOidcProviderUrlPrefixOvl();
+        },
+        osveziObrasce(event) {
             const oidcUrlService = new OidcUrlService();
             // redirekt za login
             window.location.href = oidcUrlService.dajOidcProviderUrlPrefixOvl();

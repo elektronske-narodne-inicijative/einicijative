@@ -12,11 +12,13 @@ public class NadzorniTrag {
 
     public static void sqlIzuzetak(DataAccessException e)
     {
-        if( e.getRootCause() instanceof SQLException) {
+        if( e.getRootCause() != null && e.getRootCause() instanceof SQLException) {
             SQLException sqlEx = (SQLException) e.getRootCause();
             greska(sqlEx.getSQLState(), sqlEx.getMessage());
-        } else {
+        } else if(e.getRootCause() != null) {
             greska(e.getRootCause().getClass().getSimpleName(),e.getMessage());
+        } else {
+            izuzetak(e);
         }
     }
 

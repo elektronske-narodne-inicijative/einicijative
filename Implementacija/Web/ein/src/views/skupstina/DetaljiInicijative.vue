@@ -42,9 +42,21 @@
                         </div>
                     </div>
                     <div class="field grid">
-                        <label for="datumAktiviranja" class="col-12 mb-2 md:col-2 md:mb-0">Активна од</label>
+                        <label for="trnZahteva" class="col-12 mb-2 md:col-2 md:mb-0">Унос започет</label>
                         <div class="col-12 md:col-10">
-                            <InputText id="datumAktiviranja" type="date" readOnly="true" v-model="det.datumAktiviranja" />
+                            <InputText id="trnZahteva" type="datetime" readOnly="true" v-model="det.trnZahteva" />
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="trnPodnosenja" class="col-12 mb-2 md:col-2 md:mb-0">Поднета</label>
+                        <div class="col-12 md:col-10">
+                            <InputText id="trnPodnosenja" type="datetime" readOnly="true" v-model="det.trnPodnosenja" />
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label for="datumPokretanja" class="col-12 mb-2 md:col-2 md:mb-0">Покренута</label>
+                        <div class="col-12 md:col-10">
+                            <InputText id="datumPokretanja" type="date" readOnly="true" v-model="det.datumPokretanja" />
                         </div>
                     </div>
                     <div class="field grid">
@@ -97,7 +109,35 @@
                             </Column>
                         </DataTable>
                     </div>
+                    <div class="card">
+                        <div class="card-title">Дневник промена</div>
+                        <DataTable :value="det.promene" class="p-datatable-gridlines" :rows="10" dataKey="trnPromene" :rowHover="true" :loading="det.ucitavaSe" responsiveLayout="scroll">
+                            <template #header>
+                                <div class="flex justify-content-between flex-column sm:flex-row"></div>
+                            </template>
+                            <template #empty> Нема промена</template>
+                            <template #loading> Подаци се учитавају, молимо сачекајте. </template>
+                            <Column field="trnPromene" header="Датум и време" style="min-width: 10rem">
+                                <template #body="{ data }">
+                                    {{ formatDateTime(data.trnPromene) }}
+                                </template>
+                            </Column>
+                            <Column field="fazaObrade" header="Фаза обраде" style="min-width: 25rem">
+                                <template #body="{ data }">
+                                    {{ data.fazaObrade }}
+                                </template>
+                            </Column>
+                            <Column field="detaljiPromene" header="Детаљи промене" style="min-width: 75rem">
+                                <template #body="{ data }">
+                                    {{ data.detaljiPromene }}
+                                </template>
+                            </Column>
+                        </DataTable>
+                    </div>
                 </div>
+            </div>
+            <div class="col-12">
+                <AkcijaNadInicijativom v-if="this.idInicijative" :idInicijative="this.idInicijative" :sifarnici="sifarnici" :jwt="jwt" :tipListe="tipListe" />
             </div>
         </div>
     </div>
@@ -106,12 +146,18 @@
 <script>
 import ApiService from '@/service/ApiService';
 import { ref } from 'vue';
+import AkcijaNadInicijativom from '@/views/skupstina/AkcijaNadInicijativom.vue';
 
 export default {
+    components: { AkcijaNadInicijativom },
     props: {
         idInicijative: {
             type: Number,
             required: true,
+        },
+        tipListe: {
+            type: String,
+            required: false,
         },
         jwt: {
             type: String,
@@ -150,6 +196,17 @@ export default {
                 month: '2-digit',
                 year: 'numeric',
             });
+        },
+        formatDateTime(value) {
+            return (
+                new Date(Date.parse(value, 'yyyy-mm-dd')).toLocaleDateString('sr-RS', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                }) +
+                ' ' +
+                new Date(Date.parse(value, 'yyyy-mm-dd')).toLocaleTimeString('sr-RS')
+            );
         },
     },
 };

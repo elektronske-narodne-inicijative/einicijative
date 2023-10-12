@@ -65,9 +65,9 @@ BEGIN
               ) b ),
         'promene', (
             SELECT JSON_AGG(c)
-              FROM (SELECT p.TrnPromene as "TrnPromene",
+              FROM (SELECT p.TrnPromene as "trnPromene",
                            (SELECT Opis from ni.NIFazaObrade s where s.IDNIFazaObrade=p.IDNIFazaObrade) as "fazaObrade",
-                           p.DetaljiPromene as "DetaljiPromene"
+                           p.DetaljiPromene as "detaljiPromene"
                       FROM ni.NIDnevnikPromena p
                      WHERE p.IDNIInicijativa = i.IDNIInicijativa
                      ORDER BY p.TrnPromene desc

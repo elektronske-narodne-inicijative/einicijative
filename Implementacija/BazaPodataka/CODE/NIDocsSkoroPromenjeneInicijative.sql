@@ -99,7 +99,11 @@ SELECT i.IDNIINicijativa as idInicijative, cast (JSONB_STRIP_NULLS(
  WHERE i.IDNIInicijativa in
   (SELECT DISTINCT p1.IDNIInicijativa
      FROM ni.NIPotpisInicijative p1
-    WHERE p1.trnPotpisa > current_timestamp - CAST(brojPoslednjihSekundi||' seconds' AS Interval) );
+    WHERE p1.trnPotpisa > current_timestamp - CAST(brojPoslednjihSekundi||' seconds' AS Interval)) 
+  UNION ALL
+  (SELECT DISTINCT p2.IDNIInicijativa
+     FROM ni.NIDnevnikPromena p2
+    WHERE p2.TrnPromene > current_timestamp - CAST(brojPoslednjihSekundi||' seconds' AS Interval));
 
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

@@ -1,7 +1,7 @@
 CREATE OR REPLACE PROCEDURE ni.NITxIncDetaljiInicijative(
     IN  jwtHash Text,
     IN  idInicijative integer,
-    OUT detaljiInicijative JSON
+    OUT detaljiInicijative text
 )
 LANGUAGE plpgsql SECURITY DEFINER
 AS $$
@@ -11,7 +11,7 @@ DECLARE
     inicijativa RECORD;
 BEGIN
     call ni.NITxIntPristupClanaOdbora(jwtHash, idInicijative, sesija, gradjanin, inicijativa);
-    SELECT JSONB_STRIP_NULLS(
+    SELECT cast (JSONB_STRIP_NULLS(
       JSONB_BUILD_OBJECT(
       'idInicijative',              i.IDNIInicijativa,
       'tipInicijative',             (SELECT Opis from ni.NITipInicijative s where s.IDNITipInicijative=i.IDNITipInicijative),
@@ -68,7 +68,7 @@ BEGIN
                      WHERE p.IDNIInicijativa = i.IDNIInicijativa
                      ORDER BY p.TrnPromene desc
               ) c )
-      )) as detalji
+      )) as text) as detalji
   INTO detaljiInicijative
   FROM ni.NIInicijativa i
  WHERE i.IDNIInicijativa = idInicijative;

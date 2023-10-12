@@ -662,7 +662,7 @@ public class NiDatabaseController implements NiDatabaseApi {
                     .addValue("jwtHash", jwtHash)
                     .addValue("idInicijative",idInicijative)
                     .addValue("obrazlozenje",obrazlozenje);
-            simpleJdbcCall.withSchemaName(Consts.DB_SCHEMA_NAME).withProcedureName("NITxIncOdbijInicijativu").execute(in);
+            simpleJdbcCall.withSchemaName(Consts.DB_SCHEMA_NAME).withProcedureName("NITxOvlOdbijInicijativu").execute(in);
         } catch (DataAccessException e) {
             NadzorniTrag.sqlIzuzetak(e);
             throw e;
@@ -679,7 +679,7 @@ public class NiDatabaseController implements NiDatabaseApi {
             SqlParameterSource in = new MapSqlParameterSource()
                     .addValue("jwtHash", jwtHash)
                     .addValue("idInicijative",idInicijative);
-            simpleJdbcCall.withSchemaName(Consts.DB_SCHEMA_NAME).withProcedureName("NITxIncOdobriInicijativu").execute(in);
+            simpleJdbcCall.withSchemaName(Consts.DB_SCHEMA_NAME).withProcedureName("NITxOvlOdobriInicijativu").execute(in);
         } catch (DataAccessException e) {
             NadzorniTrag.sqlIzuzetak(e);
             throw e;

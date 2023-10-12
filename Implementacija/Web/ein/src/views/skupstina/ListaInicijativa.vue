@@ -63,8 +63,8 @@
             </div>
         </div>
     </div>
-    <OverlayPanel ref="detaljiInicijative" appendTo="body" :showCloseIcon="true" id="detaljiInicijative" style="width: 100%; height: 100%">
-        <DetaljiInicijative v-if="this.idTekuceInicijative" :idInicijative="this.idTekuceInicijative" :sifarnici="sifarnici" :jwt="jwt" />
+    <OverlayPanel ref="detaljiInicijative" appendTo="body" :showCloseIcon="true" id="detaljiInicijative" style="width: 90%">
+        <DetaljiInicijative v-if="this.idTekuceInicijative" :tip-liste="tipListe" :idInicijative="this.idTekuceInicijative" :sifarnici="sifarnici" :jwt="jwt" />
     </OverlayPanel>
 </template>
 
@@ -99,15 +99,10 @@ export default {
     },
     data() {
         return {
-            inicijativa: {},
-            loading1: true,
-            filters1: null,
             idTekuceInicijative: 0,
         };
     },
-    mounted() {
-        this.loading1 = false;
-    },
+
     methods: {
         formatNumber(value) {
             return value.toLocaleString('sr-RS');

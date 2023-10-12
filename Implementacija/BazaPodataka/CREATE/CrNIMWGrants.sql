@@ -41,8 +41,8 @@ GRANT EXECUTE ON PROCEDURE ni.NITxIncNovaSesija(text, text, timestamp, uuid, tex
 GRANT EXECUTE ON PROCEDURE ni.NITxIncDajProfil(text, text, integer, text, text, text, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncPodesiBiografiju(text, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncPodesiEmail(text, text) TO niapi;
-GRANT EXECUTE ON PROCEDURE ni.NITxIncDetaljiInicijative(text, integer, json) TO niapi;
-GRANT EXECUTE ON PROCEDURE ni.NITxIncListaPoFaziObrade(text, text, json) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncDetaljiInicijative(text, integer, text) TO niapi;
+GRANT EXECUTE ON PROCEDURE ni.NITxIncListaPoFaziObrade(text, text, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncDodajInicijativu(text, text, text, text, text, text, text, integer) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncIzmeniInicijativu(text, integer, text, text, text, text, text, text) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxIncDodajPrilogInicijative(text, integer, text, text, integer, integer) TO niapi;
@@ -58,5 +58,4 @@ GRANT EXECUTE ON PROCEDURE ni.NITxIncPokreniInicijativu(text, integer) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxSltUpitInicijative(integer, text, text, text, date) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxSltPotpis(uuid, text, integer, text, integer, text, uuid, timestamp) TO niapi;
 GRANT EXECUTE ON PROCEDURE ni.NITxSltUpitPotpisa(uuid, integer, text, uuid, timestamp) TO niapi;
-GRANT EXECUTE ON PROCEDURE ni.NITxSltUpitListePotpisa(uuid, json) TO niapi;
-
+GRANT EXECUTE ON PROCEDURE ni.NITxSltUpitListePotpisa(uuid, text) TO niapi;
