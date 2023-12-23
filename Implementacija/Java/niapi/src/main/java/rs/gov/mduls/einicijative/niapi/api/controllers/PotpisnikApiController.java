@@ -161,8 +161,8 @@ public class PotpisnikApiController extends ApiControllerBase implements Potpisn
     @Override
     public ResponseEntity<PotpisnikUpitListePotpisaOdgovor> potpisnikPotpisiGet() throws Exception {
         long pocetak = System.currentTimeMillis();
-        final String imeMetoda = "ptpDetaljiPotpisa";
-        final String porukaOGresci = "Проблем са провером потписа иницијативе";
+        final String imeMetoda = "ptpListaPotpisa";
+        final String porukaOGresci = "Проблем са добављањем листе потписа";
         try {
             ptpDajUpisiSesiju();
             String potpisiJSON =

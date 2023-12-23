@@ -52,21 +52,9 @@ public interface InicijatorApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Uspeh> inicijatorBiografijaPut(
+    ResponseEntity<Uspeh> inicijatorBiografijaPut(
             @Valid @RequestBody InicijatorProfilBiografijaZahtev inicijatorProfilBiografijaZahtev
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"poruka\" : \"poruka\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    ) throws Exception;
 
 
     /**
@@ -85,21 +73,9 @@ public interface InicijatorApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Uspeh> inicijatorEmailPut(
+    ResponseEntity<Uspeh> inicijatorEmailPut(
             @Valid @RequestBody InicijatorProfilEmailZahtev inicijatorProfilEmailZahtev
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"poruka\" : \"poruka\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    ) throws Exception;
 
 
     /**
@@ -117,22 +93,9 @@ public interface InicijatorApi {
         value = "/inicijator/inicijativa/{idInicijative}",
         produces = { "application/json" }
     )
-    default ResponseEntity<InicijatorInicijativaOdgovor> inicijatorInicijativaIdInicijativeGet(
+    ResponseEntity<InicijatorInicijativaOdgovor> inicijatorInicijativaIdInicijativeGet(
             @PathVariable("idInicijative") Long idInicijative
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"detaljiInicijative\" : { \"idInicijative\" : 0, \"trnOdbijanjaZahteva\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"beleskaSaSednice\" : \"beleskaSaSednice\", \"trnZahteva\" : \"2000-01-23T04:56:07.000+00:00\", \"prilozi\" : [ { \"obrisan\" : true, \"urlPriloga\" : \"urlPriloga\", \"sortiranje\" : 1, \"nazivPriloga\" : \"nazivPriloga\" }, { \"obrisan\" : true, \"urlPriloga\" : \"urlPriloga\", \"sortiranje\" : 1, \"nazivPriloga\" : \"nazivPriloga\" } ], \"tekstInicijative\" : \"tekstInicijative\", \"razlogOdbijanjaZahteva\" : \"razlogOdbijanjaZahteva\", \"inicijator\" : \"inicijator\", \"promene\" : [ { \"trnPromene\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"detaljiPromene\" : \"detaljiPromene\" }, { \"trnPromene\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"detaljiPromene\" : \"detaljiPromene\" } ], \"nivoVlasti\" : \"nivoVlasti\", \"trnPodnosenja\" : \"2000-01-23T04:56:07.000+00:00\", \"tipInicijative\" : \"tipInicijative\", \"datumPokretanja\" : \"2000-01-23\", \"emailZaKontakt\" : \"emailZaKontakt\", \"datumOdluke\" : \"2000-01-23\", \"nazivInicijative\" : \"nazivInicijative\", \"jedinicaVlasti\" : \"jedinicaVlasti\", \"prihvacena\" : true, \"clanoviInicijativnogOdbora\" : [ { \"trnOdustajanjaOdClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"aktivan\" : true, \"imePrezime\" : \"imePrezime\", \"emailZaKontakt\" : \"emailZaKontakt\", \"biografija\" : \"biografija\", \"trnPrihvatanjaClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"godinaRodjenja\" : 6, \"pol\" : \"pol\" }, { \"trnOdustajanjaOdClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"aktivan\" : true, \"imePrezime\" : \"imePrezime\", \"emailZaKontakt\" : \"emailZaKontakt\", \"biografija\" : \"biografija\", \"trnPrihvatanjaClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"godinaRodjenja\" : 6, \"pol\" : \"pol\" } ] } }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
+    ) throws Exception;
 
     /**
      * PUT /inicijator/inicijativa/{idInicijative}/napusti
@@ -149,21 +112,9 @@ public interface InicijatorApi {
         value = "/inicijator/inicijativa/{idInicijative}/napusti",
         produces = { "application/json" }
     )
-    default ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativeNapustiPut(
+    ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativeNapustiPut(
             @PathVariable("idInicijative") Long idInicijative
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"poruka\" : \"poruka\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    );
 
 
     /**
@@ -181,21 +132,9 @@ public interface InicijatorApi {
         value = "/inicijator/inicijativa/{idInicijative}/podnesi",
         produces = { "application/json" }
     )
-    default ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePodnesiPut(
+    ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePodnesiPut(
             @PathVariable("idInicijative") Long idInicijative
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"poruka\" : \"poruka\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    );
 
 
     /**
@@ -213,21 +152,9 @@ public interface InicijatorApi {
         value = "/inicijator/inicijativa/{idInicijative}/pokreni",
         produces = { "application/json" }
     )
-    default ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePokreniPut(
+    ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePokreniPut(
             @PathVariable("idInicijative") Long idInicijative
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"poruka\" : \"poruka\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    );
 
 
     /**
@@ -245,21 +172,9 @@ public interface InicijatorApi {
         value = "/inicijator/inicijativa/{idInicijative}/pozivnica",
         produces = { "application/json" }
     )
-    default ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePozivnicaDelete(
+    ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePozivnicaDelete(
             @PathVariable("idInicijative") Long idInicijative
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"poruka\" : \"poruka\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    );
 
 
     /**
@@ -277,21 +192,9 @@ public interface InicijatorApi {
         value = "/inicijator/inicijativa/{idInicijative}/pozivnica",
         produces = { "application/json" }
     )
-    default ResponseEntity<InicijatorPozivnicaOdgovor> inicijatorInicijativaIdInicijativePozivnicaPost(
+    ResponseEntity<InicijatorPozivnicaOdgovor> inicijatorInicijativaIdInicijativePozivnicaPost(
             @PathVariable("idInicijative") Long idInicijative
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"url\" : \"url\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    );
 
 
     /**
@@ -311,22 +214,10 @@ public interface InicijatorApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePozivnicaPut(
+    ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePozivnicaPut(
             @PathVariable("idInicijative") Long idInicijative,
             @Valid @RequestBody InicijatorPozivnicaZahtev inicijatorPozivnicaZahtev
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"poruka\" : \"poruka\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    );
 
 
     /**
@@ -345,22 +236,10 @@ public interface InicijatorApi {
         value = "/inicijator/inicijativa/{idInicijative}/prilog/{idPriloga}",
         produces = { "application/json" }
     )
-    default ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePrilogIdPrilogaDelete(
+    ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePrilogIdPrilogaDelete(
             @PathVariable("idInicijative") Long idInicijative,
             @PathVariable("idPriloga") Long idPriloga
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"poruka\" : \"poruka\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    ) throws Exception;
 
 
     /**
@@ -381,23 +260,11 @@ public interface InicijatorApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<InicijatorPrilogInicijativeOdgovor> inicijatorInicijativaIdInicijativePrilogIdPrilogaPut(
+    ResponseEntity<InicijatorPrilogInicijativeOdgovor> inicijatorInicijativaIdInicijativePrilogIdPrilogaPut(
             @PathVariable("idInicijative") Long idInicijative,
             @PathVariable("idPriloga") Long idPriloga,
             @Valid @RequestBody InicijatorPrilogInicijativeZahtev inicijatorPrilogInicijativeZahtev
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"detaljiInicijative\" : { \"idInicijative\" : 0, \"trnOdbijanjaZahteva\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"beleskaSaSednice\" : \"beleskaSaSednice\", \"trnZahteva\" : \"2000-01-23T04:56:07.000+00:00\", \"prilozi\" : [ { \"obrisan\" : true, \"urlPriloga\" : \"urlPriloga\", \"sortiranje\" : 1, \"nazivPriloga\" : \"nazivPriloga\" }, { \"obrisan\" : true, \"urlPriloga\" : \"urlPriloga\", \"sortiranje\" : 1, \"nazivPriloga\" : \"nazivPriloga\" } ], \"tekstInicijative\" : \"tekstInicijative\", \"razlogOdbijanjaZahteva\" : \"razlogOdbijanjaZahteva\", \"inicijator\" : \"inicijator\", \"promene\" : [ { \"trnPromene\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"detaljiPromene\" : \"detaljiPromene\" }, { \"trnPromene\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"detaljiPromene\" : \"detaljiPromene\" } ], \"nivoVlasti\" : \"nivoVlasti\", \"trnPodnosenja\" : \"2000-01-23T04:56:07.000+00:00\", \"tipInicijative\" : \"tipInicijative\", \"datumPokretanja\" : \"2000-01-23\", \"emailZaKontakt\" : \"emailZaKontakt\", \"datumOdluke\" : \"2000-01-23\", \"nazivInicijative\" : \"nazivInicijative\", \"jedinicaVlasti\" : \"jedinicaVlasti\", \"prihvacena\" : true, \"clanoviInicijativnogOdbora\" : [ { \"trnOdustajanjaOdClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"aktivan\" : true, \"imePrezime\" : \"imePrezime\", \"emailZaKontakt\" : \"emailZaKontakt\", \"biografija\" : \"biografija\", \"trnPrihvatanjaClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"godinaRodjenja\" : 6, \"pol\" : \"pol\" }, { \"trnOdustajanjaOdClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"aktivan\" : true, \"imePrezime\" : \"imePrezime\", \"emailZaKontakt\" : \"emailZaKontakt\", \"biografija\" : \"biografija\", \"trnPrihvatanjaClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"godinaRodjenja\" : 6, \"pol\" : \"pol\" } ] } }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    ) throws Exception;
 
 
     /**
@@ -417,22 +284,10 @@ public interface InicijatorApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<InicijatorPrilogInicijativeOdgovor> inicijatorInicijativaIdInicijativePrilogPost(
+    ResponseEntity<InicijatorPrilogInicijativeOdgovor> inicijatorInicijativaIdInicijativePrilogPost(
             @PathVariable("idInicijative") Long idInicijative,
             @Valid @RequestBody InicijatorPrilogInicijativeZahtev inicijatorPrilogInicijativeZahtev
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"detaljiInicijative\" : { \"idInicijative\" : 0, \"trnOdbijanjaZahteva\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"beleskaSaSednice\" : \"beleskaSaSednice\", \"trnZahteva\" : \"2000-01-23T04:56:07.000+00:00\", \"prilozi\" : [ { \"obrisan\" : true, \"urlPriloga\" : \"urlPriloga\", \"sortiranje\" : 1, \"nazivPriloga\" : \"nazivPriloga\" }, { \"obrisan\" : true, \"urlPriloga\" : \"urlPriloga\", \"sortiranje\" : 1, \"nazivPriloga\" : \"nazivPriloga\" } ], \"tekstInicijative\" : \"tekstInicijative\", \"razlogOdbijanjaZahteva\" : \"razlogOdbijanjaZahteva\", \"inicijator\" : \"inicijator\", \"promene\" : [ { \"trnPromene\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"detaljiPromene\" : \"detaljiPromene\" }, { \"trnPromene\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"detaljiPromene\" : \"detaljiPromene\" } ], \"nivoVlasti\" : \"nivoVlasti\", \"trnPodnosenja\" : \"2000-01-23T04:56:07.000+00:00\", \"tipInicijative\" : \"tipInicijative\", \"datumPokretanja\" : \"2000-01-23\", \"emailZaKontakt\" : \"emailZaKontakt\", \"datumOdluke\" : \"2000-01-23\", \"nazivInicijative\" : \"nazivInicijative\", \"jedinicaVlasti\" : \"jedinicaVlasti\", \"prihvacena\" : true, \"clanoviInicijativnogOdbora\" : [ { \"trnOdustajanjaOdClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"aktivan\" : true, \"imePrezime\" : \"imePrezime\", \"emailZaKontakt\" : \"emailZaKontakt\", \"biografija\" : \"biografija\", \"trnPrihvatanjaClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"godinaRodjenja\" : 6, \"pol\" : \"pol\" }, { \"trnOdustajanjaOdClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"aktivan\" : true, \"imePrezime\" : \"imePrezime\", \"emailZaKontakt\" : \"emailZaKontakt\", \"biografija\" : \"biografija\", \"trnPrihvatanjaClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"godinaRodjenja\" : 6, \"pol\" : \"pol\" } ] } }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    ) throws Exception;
 
 
     /**
@@ -452,22 +307,10 @@ public interface InicijatorApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePut(
+    ResponseEntity<Uspeh> inicijatorInicijativaIdInicijativePut(
             @PathVariable("idInicijative") Long idInicijative,
             @Valid @RequestBody InicijatorInicijativaZahtev inicijatorInicijativaZahtev
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"poruka\" : \"poruka\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    ) throws Exception;
 
 
     /**
@@ -485,21 +328,9 @@ public interface InicijatorApi {
         value = "/inicijator/inicijativa/pofaziobrade/{idFazeObrade}",
         produces = { "application/json" }
     )
-    default ResponseEntity<InicijatorListaInicijativaOdgovor> inicijatorInicijativaPofaziobradeIdFazeObradeGet(
+    ResponseEntity<InicijatorListaInicijativaOdgovor> inicijatorInicijativaPofaziobradeIdFazeObradeGet(
             @PathVariable("idFazeObrade") String idFazeObrade
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"inicijativeZaFazuObrade\" : [ { \"idInicijative\" : 0, \"brPotpisa\" : 1, \"trnPodnosenja\" : \"2000-01-23T04:56:07.000+00:00\", \"tipInicijative\" : \"tipInicijative\", \"datumPokretanja\" : \"2000-01-23\", \"trnZahteva\" : \"2000-01-23T04:56:07.000+00:00\", \"brInicijatora\" : 6, \"nazivInicijative\" : \"nazivInicijative\" }, { \"idInicijative\" : 0, \"brPotpisa\" : 1, \"trnPodnosenja\" : \"2000-01-23T04:56:07.000+00:00\", \"tipInicijative\" : \"tipInicijative\", \"datumPokretanja\" : \"2000-01-23\", \"trnZahteva\" : \"2000-01-23T04:56:07.000+00:00\", \"brInicijatora\" : 6, \"nazivInicijative\" : \"nazivInicijative\" } ] }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    ) throws Exception;
 
 
     /**
@@ -518,21 +349,9 @@ public interface InicijatorApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<InicijatorNovaInicijativaOdgovor> inicijatorInicijativaPost(
+    ResponseEntity<InicijatorNovaInicijativaOdgovor> inicijatorInicijativaPost(
             @Valid @RequestBody InicijatorInicijativaZahtev inicijatorInicijativaZahtev
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"detaljiInicijative\" : { \"idInicijative\" : 0, \"trnOdbijanjaZahteva\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"beleskaSaSednice\" : \"beleskaSaSednice\", \"trnZahteva\" : \"2000-01-23T04:56:07.000+00:00\", \"prilozi\" : [ { \"obrisan\" : true, \"urlPriloga\" : \"urlPriloga\", \"sortiranje\" : 1, \"nazivPriloga\" : \"nazivPriloga\" }, { \"obrisan\" : true, \"urlPriloga\" : \"urlPriloga\", \"sortiranje\" : 1, \"nazivPriloga\" : \"nazivPriloga\" } ], \"tekstInicijative\" : \"tekstInicijative\", \"razlogOdbijanjaZahteva\" : \"razlogOdbijanjaZahteva\", \"inicijator\" : \"inicijator\", \"promene\" : [ { \"trnPromene\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"detaljiPromene\" : \"detaljiPromene\" }, { \"trnPromene\" : \"2000-01-23T04:56:07.000+00:00\", \"fazaObrade\" : \"fazaObrade\", \"detaljiPromene\" : \"detaljiPromene\" } ], \"nivoVlasti\" : \"nivoVlasti\", \"trnPodnosenja\" : \"2000-01-23T04:56:07.000+00:00\", \"tipInicijative\" : \"tipInicijative\", \"datumPokretanja\" : \"2000-01-23\", \"emailZaKontakt\" : \"emailZaKontakt\", \"datumOdluke\" : \"2000-01-23\", \"nazivInicijative\" : \"nazivInicijative\", \"jedinicaVlasti\" : \"jedinicaVlasti\", \"prihvacena\" : true, \"clanoviInicijativnogOdbora\" : [ { \"trnOdustajanjaOdClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"aktivan\" : true, \"imePrezime\" : \"imePrezime\", \"emailZaKontakt\" : \"emailZaKontakt\", \"biografija\" : \"biografija\", \"trnPrihvatanjaClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"godinaRodjenja\" : 6, \"pol\" : \"pol\" }, { \"trnOdustajanjaOdClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"aktivan\" : true, \"imePrezime\" : \"imePrezime\", \"emailZaKontakt\" : \"emailZaKontakt\", \"biografija\" : \"biografija\", \"trnPrihvatanjaClanstva\" : \"2000-01-23T04:56:07.000+00:00\", \"godinaRodjenja\" : 6, \"pol\" : \"pol\" } ] } }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    ) throws Exception;
 
 
     /**
@@ -549,19 +368,7 @@ public interface InicijatorApi {
         value = "/inicijator/profil",
         produces = { "application/json" }
     )
-    default ResponseEntity<InicijatorProfilOdgovor> inicijatorProfilGet(
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"nazivOpstine\" : \"nazivOpstine\", \"imePrezime\" : \"imePrezime\", \"biografija\" : \"biografija\", \"idPola\" : \"М\", \"godinaRodjenja\" : 0, \"emailAdresa\" : \"emailAdresa\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
+    ResponseEntity<InicijatorProfilOdgovor> inicijatorProfilGet(
+    ) throws Exception;
 
 }
